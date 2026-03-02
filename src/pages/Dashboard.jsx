@@ -8,7 +8,9 @@ import {
     ArrowUpRight,
     ArrowDownRight,
     MoreVertical,
-    Loader2
+    Loader2,
+    ShieldAlert,
+    Bell
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
@@ -112,6 +114,12 @@ const Dashboard = () => {
                         <span className="text-emerald-500 text-[10px] font-black tracking-widest uppercase">Live Link Active</span>
                     </div>
                     <button
+                        onClick={() => navigate('/dashboard/alerts')}
+                        className="bg-rose-600/10 border border-rose-500/20 text-rose-500 px-6 py-2.5 rounded-2xl font-bold text-sm transition-all hover:bg-rose-600/20 flex items-center gap-2"
+                    >
+                        <ShieldAlert size={18} /> View Alerts
+                    </button>
+                    <button
                         onClick={handleExportPDF}
                         className="bg-primary-600 hover:bg-primary-500 text-white px-6 py-2.5 rounded-2xl font-bold text-sm transition-all active:scale-95 shadow-lg shadow-primary-900/40"
                     >
@@ -131,28 +139,28 @@ const Dashboard = () => {
                     type="blue"
                 />
                 <StatCard
-                    title="Currently Clocked-In"
+                    title="Clocked-In Today"
                     value={stats?.clocked_in_today || 0}
-                    subValue="Active in office"
+                    subValue="Total check-ins"
                     icon={UserCheck}
                     trend={5}
                     type="emerald"
                 />
                 <StatCard
-                    title="Late Arrivals Today"
-                    value={stats?.late_arrivals_today || 0}
-                    subValue="Delayed clock-ins"
-                    icon={Clock}
-                    trend={-2}
-                    type="amber"
+                    title="Security Anomalies"
+                    value={stats?.alerts_today || 0}
+                    subValue={`${stats?.critical_alerts || 0} critical issues`}
+                    icon={ShieldAlert}
+                    trend={stats?.alerts_today > 0 ? -10 : 0}
+                    type="rose"
                 />
                 <StatCard
-                    title="Avg. Working Hours"
-                    value={stats?.avg_hours || 0}
-                    subValue="Shift performance"
-                    icon={Clock}
-                    trend={2}
-                    type="rose"
+                    title="Pending Guards"
+                    value={stats?.pending_alerts || 0}
+                    subValue="Actions required"
+                    icon={Bell}
+                    trend={0}
+                    type="amber"
                 />
             </div>
 

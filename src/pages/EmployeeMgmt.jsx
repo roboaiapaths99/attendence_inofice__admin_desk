@@ -13,41 +13,105 @@ import {
     Trash2,
     ExternalLink,
     Loader2,
-    AlertCircle
+    AlertCircle,
+    Shield,
+    MoreVertical,
+    CheckSquare,
+    Square,
+    UserCircle2,
+    Network,
+    ArrowRight
 } from 'lucide-react';
 import api from '../utils/api';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const EmployeeMgmt = () => {
     const [employees, setEmployees] = useState([]);
+    const [managers, setManagers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
     const [selectedDepartment, setSelectedDepartment] = useState('All Teams');
+    const [selectedIds, setSelectedIds] = useState([]);
+    const [isBulkAssigning, setIsBulkAssigning] = useState(false);
+    const [selectedManager, setSelectedManager] = useState('');
+
     const [newEmployee, setNewEmployee] = useState({
         full_name: '',
         email: '',
         employee_id: '',
         password: '',
         designation: 'Staff',
-        department: 'General'
+        department: 'General',
+        employee_type: 'desk'
     });
 
     useEffect(() => {
-        fetchEmployees();
+        fetchInitialData();
     }, []);
 
-    const fetchEmployees = async () => {
+    const fetchInitialData = async () => {
         try {
             setLoading(true);
-            const res = await api.get('/admin/employees');
-            setEmployees(res.data);
+            const [empRes, adminRes] = await Promise.all([
+                api.get('/admin/employees'),
+                api.get('/admin/sub-admins')
+            ]);
+            setEmployees(empRes.data);
+            setManagers(adminRes.data.filter(a => a.role === 'manager' || a.role === 'owner'));
         } catch (err) {
-            setError('Failed to fetch employee records.');
+            setError('Failed to fetch data.');
             console.error(err);
         } finally {
             setLoading(false);
         }
+    };
+
+    const fetchEmployees = async () => {
+        try {
+            const res = await api.get('/admin/employees');
+            setEmployees(res.data);
+            setSelectedIds([]);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const handleBulkAssign = async () => {
+        if (!selectedManager) {
+            alert("Please select a manager first.");
+            return;
+        }
+        try {
+            setIsBulkAssigning(true);
+            await api.post('/admin/employees/bulk-assign-manager', {
+                employee_emails: selectedIds,
+                manager_id: selectedManager
+            });
+            alert('Employees assigned successfully.');
+            setSelectedIds([]);
+            setSelectedManager('');
+            fetchEmployees();
+        } catch (err) {
+            alert('Assignment failed: ' + (err.response?.data?.detail || err.message));
+        } finally {
+            setIsBulkAssigning(false);
+        }
+    };
+
+    const toggleSelectAll = () => {
+        if (selectedIds.length === filteredEmployees.length) {
+            setSelectedIds([]);
+        } else {
+            setSelectedIds(filteredEmployees.map(e => e.email));
+        }
+    };
+
+    const toggleSelect = (email) => {
+        setSelectedIds(prev =>
+            prev.includes(email) ? prev.filter(id => id !== email) : [...prev, email]
+        );
     };
 
     const resetPassword = async (email) => {
@@ -127,9 +191,9 @@ const EmployeeMgmt = () => {
 
     const filteredEmployees = employees.filter(emp => {
         const matchesSearch = searchTerm === '' ||
-            emp.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            emp.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            emp.employee_id.toLowerCase().includes(searchTerm.toLowerCase());
+            emp.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            emp.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            emp.employee_id?.toLowerCase().includes(searchTerm.toLowerCase());
 
         const matchesDepartment = selectedDepartment === 'All Teams' ||
             (emp.department && emp.department.toLowerCase() === selectedDepartment.toLowerCase());
@@ -138,7 +202,55 @@ const EmployeeMgmt = () => {
     });
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 relative">
+            {/* Bulk Action Bar */}
+            <AnimatePresence>
+                {selectedIds.length > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 50, scale: 0.95 }}
+                        className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 backdrop-blur-2xl border border-primary-500/30 px-6 py-4 rounded-[2.5rem] shadow-2xl flex items-center gap-6 min-w-[500px]"
+                    >
+                        <div className="flex items-center gap-3 pr-6 border-r border-slate-700">
+                            <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center font-bold text-white">
+                                {selectedIds.length}
+                            </div>
+                            <div className="text-sm font-bold text-white">Selected</div>
+                        </div>
+
+                        <div className="flex items-center gap-4 flex-1">
+                            <Network className="text-slate-400" size={20} />
+                            <select
+                                className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white outline-none focus:border-primary-500"
+                                value={selectedManager}
+                                onChange={(e) => setSelectedManager(e.target.value)}
+                            >
+                                <option value="">Select Manager to Assign...</option>
+                                {managers.map(m => (
+                                    <option key={m.email} value={m.email}>{m.full_name} ({m.role})</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <button
+                            onClick={handleBulkAssign}
+                            disabled={isBulkAssigning || !selectedManager}
+                            className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white px-6 py-3 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
+                        >
+                            {isBulkAssigning ? <Loader2 className="animate-spin" size={20} /> : <><CheckSquare size={18} /> Assign Manager</>}
+                        </button>
+
+                        <button
+                            onClick={() => setSelectedIds([])}
+                            className="p-3 text-slate-500 hover:text-white transition-colors"
+                        >
+                            Cancel
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Registration Modal */}
             {showAddModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
@@ -186,7 +298,7 @@ const EmployeeMgmt = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Employee Directory</h1>
-                    <p className="text-slate-400">Total registered members: <span className="text-primary-400 font-bold">{employees.length}</span></p>
+                    <p className="text-slate-400">Manage organizational members and team assignments</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <input
@@ -225,15 +337,6 @@ const EmployeeMgmt = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="flex items-center gap-2 w-full md:w-auto">
-                    <button className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-slate-800/50 border border-slate-800 hover:bg-slate-800 px-5 py-3 rounded-2xl text-slate-300 text-xs font-bold uppercase tracking-widest transition-all">
-                        <Filter size={16} />
-                        Filter
-                    </button>
-                    <button onClick={fetchEmployees} className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-slate-800/50 border border-slate-800 hover:bg-slate-800 px-5 py-3 rounded-2xl text-slate-300 text-xs font-bold uppercase tracking-widest transition-all">
-                        Refresh
-                    </button>
-                </div>
             </div>
 
             {loading ? (
@@ -247,94 +350,95 @@ const EmployeeMgmt = () => {
                     <p className="text-sm font-bold uppercase tracking-widest">{error}</p>
                 </div>
             ) : (
-                <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded-[2rem] overflow-hidden">
+                <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded-[2rem] overflow-hidden shadow-2xl">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="border-b border-slate-800/50">
+                                    <th className="px-6 py-5 w-10">
+                                        <button onClick={toggleSelectAll} className="text-slate-500 hover:text-primary-500 transition-colors">
+                                            {selectedIds.length === filteredEmployees.length && filteredEmployees.length > 0 ? <CheckSquare size={20} className="text-primary-500" /> : <Square size={20} />}
+                                        </button>
+                                    </th>
                                     <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Member Profile</th>
-                                    <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Designation</th>
-                                    <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Account Info</th>
+                                    <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Designation & Team</th>
+                                    <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Reporting Manager</th>
                                     <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-800/50">
-                                {filteredEmployees.map((emp) => (
-                                    <tr key={emp._id} className="group hover:bg-slate-800/30 transition-colors">
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center border border-slate-700/50 overflow-hidden group-hover:border-primary-500/30 transition-all">
-                                                    {emp.profile_image ? (
-                                                        <img src={`data:image/jpeg;base64,${emp.profile_image}`} alt="" className="w-full h-full object-cover" />
-                                                    ) : (
-                                                        <span className="text-sm font-bold text-slate-500 group-hover:text-primary-400 transition-colors">{emp.full_name?.charAt(0)}</span>
-                                                    )}
-                                                </div>
-                                                <div>
-                                                    <p className="text-sm font-bold text-white group-hover:text-primary-400 transition-colors">{emp.full_name}</p>
-                                                    <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
-                                                        <IdCard size={12} className="text-slate-600" />
-                                                        {emp.employee_id}
+                                {filteredEmployees.map((emp) => {
+                                    const isSelected = selectedIds.includes(emp.email);
+                                    const reportingManager = managers.find(m => m.email === emp.manager_id);
+
+                                    return (
+                                        <tr key={emp._id} className={`group transition-colors ${isSelected ? 'bg-primary-600/5' : 'hover:bg-slate-800/30'}`}>
+                                            <td className="px-6 py-4">
+                                                <button onClick={() => toggleSelect(emp.email)} className={`${isSelected ? 'text-primary-500' : 'text-slate-700'}`}>
+                                                    {isSelected ? <CheckSquare size={20} /> : <Square size={20} />}
+                                                </button>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center border border-slate-700/50 overflow-hidden group-hover:border-primary-500/30 transition-all">
+                                                        {emp.profile_image ? (
+                                                            <img src={`data:image/jpeg;base64,${emp.profile_image}`} alt="" className="w-full h-full object-cover" />
+                                                        ) : (
+                                                            <span className="text-sm font-bold text-slate-500 group-hover:text-primary-400 transition-colors uppercase">{emp.full_name?.charAt(0)}</span>
+                                                        )}
+                                                    </div>
+                                                    <div className="min-w-0">
+                                                        <p className="text-sm font-bold text-white group-hover:text-primary-400 transition-all truncate">{emp.full_name}</p>
+                                                        <p className="text-[10px] text-slate-500 font-medium truncate">{emp.email}</p>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div>
-                                                <p className="text-sm font-bold text-slate-300 tracking-tight">{emp.dept || emp.department}</p>
-                                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{emp.designation}</p>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="space-y-1">
-                                                <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                                                    <Mail size={12} className="text-slate-600" />
-                                                    {emp.email}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div>
+                                                    <p className="text-sm font-bold text-slate-300 tracking-tight">{emp.dept || emp.department || 'General'}</p>
+                                                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{emp.designation}</p>
                                                 </div>
-                                                <div className="flex items-center gap-1.5 text-[10px] text-slate-600 font-bold uppercase tracking-tighter">
-                                                    Joined: {new Date(emp.created_at).toLocaleDateString()}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {reportingManager ? (
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-6 h-6 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/30">
+                                                            <UserCircle2 size={12} className="text-indigo-400" />
+                                                        </div>
+                                                        <span className="text-xs font-semibold text-white">{reportingManager.full_name}</span>
+                                                    </div>
+                                                ) : (
+                                                    <span className="text-[10px] bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded uppercase font-black tracking-widest italic">
+                                                        Not Assigned
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                <div className="flex items-center justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <button
+                                                        onClick={() => resetPassword(emp.email)}
+                                                        title="Security Reset"
+                                                        className="p-2 hover:bg-amber-400/10 rounded-xl text-slate-500 hover:text-amber-400 transition-all"
+                                                    >
+                                                        <Shield size={16} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => clearBinding(emp.email)}
+                                                        title="Binding Release"
+                                                        className="p-2 hover:bg-primary-400/10 rounded-xl text-slate-500 hover:text-primary-400 transition-all"
+                                                    >
+                                                        <MoreVertical size={16} />
+                                                    </button>
+                                                    <button onClick={() => deleteEmployee(emp.email)} className="p-2 hover:bg-rose-500/10 rounded-xl text-slate-500 hover:text-rose-500 transition-all">
+                                                        <Trash2 size={16} />
+                                                    </button>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 text-right">
-                                            <div className="flex items-center justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button
-                                                    onClick={() => resetPassword(emp.email)}
-                                                    title="Reset Password"
-                                                    className="p-2 hover:bg-slate-800 rounded-xl text-slate-500 hover:text-amber-400 hover:bg-amber-400/10 transition-all border border-transparent hover:border-amber-400/20"
-                                                >
-                                                    <Shield size={16} />
-                                                </button>
-                                                <button
-                                                    onClick={() => clearBinding(emp.email)}
-                                                    title="Clear Hardware Binding"
-                                                    className="p-2 hover:bg-slate-800 rounded-xl text-slate-500 hover:text-primary-400 hover:bg-primary-400/10 transition-all border border-transparent hover:border-primary-400/20"
-                                                >
-                                                    <MoreVertical size={16} />
-                                                </button>
-                                                <button className="p-2 hover:bg-slate-800 rounded-xl text-slate-500 hover:text-primary-500 transition-all border border-transparent hover:border-slate-700">
-                                                    <Edit2 size={16} />
-                                                </button>
-                                                <button onClick={() => deleteEmployee(emp.email)} className="p-2 hover:bg-rose-500/10 rounded-xl text-slate-500 hover:text-rose-500 transition-all border border-transparent hover:border-rose-500/20">
-                                                    <Trash2 size={16} />
-                                                </button>
-                                                <button className="p-2 hover:bg-slate-800 rounded-xl text-slate-500 hover:text-white transition-all border border-transparent hover:border-slate-700">
-                                                    <ExternalLink size={16} />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
-                    </div>
-
-                    {/* Status Indicator */}
-                    <div className="px-8 py-4 border-t border-slate-800/50 bg-slate-900/20">
-                        <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.3em] flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
-                            Live Records Terminal
-                        </p>
                     </div>
                 </div>
             )}

@@ -8,10 +8,18 @@ import EmployeeMgmt from './pages/EmployeeMgmt';
 import AttendanceLogs from './pages/AttendanceLogs';
 import Settings from './pages/Settings';
 import AdminMgmt from './pages/AdminMgmt';
+import FieldWarRoom from './pages/FieldWarRoom';
+import TerritoryManager from './pages/TerritoryManager';
+import PlanApproval from './pages/PlanApproval';
+import Reports from './pages/Reports';
+import ExpenseApproval from './pages/ExpenseApproval';
+import AlertsCenter from './pages/AlertsCenter';
+import LeaveRequests from './pages/LeaveRequests';
+import OrgStructure from './pages/OrgStructure';
+import FraudDashboard from './pages/FraudDashboard';
+import NudgeCenter from './pages/NudgeCenter';
+import TeamLeaderboard from './pages/TeamLeaderboard';
 import Layout from './components/Layout';
-
-// Other placeholders for now (coming soon)
-const Reports = () => <div className="text-white bg-slate-900/50 p-8 rounded-3xl border border-slate-800">Advanced Reports & Analytics Coming Soon</div>;
 
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAuth();
@@ -65,6 +73,14 @@ function App() {
           }
         />
         <Route
+          path="/dashboard/org"
+          element={
+            <ProtectedRoute>
+              <OrgStructure />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/dashboard/logs"
           element={
             <ProtectedRoute>
@@ -81,10 +97,84 @@ function App() {
           }
         />
         <Route
+          path="/dashboard/war-room"
+          element={
+            <ProtectedRoute>
+              <FieldWarRoom />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/territories"
+          element={
+            <ProtectedRoute>
+              <TerritoryManager />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/approvals"
+          element={
+            <ProtectedRoute>
+              <PlanApproval />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/expenses"
+          element={
+            <ProtectedRoute>
+              <ExpenseApproval />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/alerts"
+          element={
+            <ProtectedRoute>
+              <AlertsCenter />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/leave"
+          element={
+            <ProtectedRoute>
+              <LeaveRequests />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/dashboard/settings"
           element={
             <ProtectedRoute>
               <Settings />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard/fraud"
+          element={
+            <ProtectedRoute>
+              <FraudDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard/nudge"
+          element={
+            <ProtectedRoute>
+              <NudgeCenter />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/leaderboard"
+          element={
+            <ProtectedRoute>
+              <TeamLeaderboard />
             </ProtectedRoute>
           }
         />

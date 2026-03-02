@@ -8,7 +8,17 @@ import {
     Settings,
     LogOut,
     Shield,
-    ChevronRight
+    ChevronRight,
+    Navigation,
+    Target,
+    ClipboardCheck,
+    Receipt,
+    AlertTriangle,
+    PlaneTakeoff,
+    Network,
+    ShieldX,
+    Zap,
+    Trophy
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { clsx } from 'clsx';
@@ -28,7 +38,17 @@ const Sidebar = () => {
         ...(admin?.role === 'owner' || admin?.role === 'superadmin' ? [
             { icon: Shield, label: 'Team Management', path: '/dashboard/admins' }
         ] : []),
+        { icon: Network, label: 'Org Structure', path: '/dashboard/org' },
         { icon: CalendarCheck, label: 'Attendance Logs', path: '/dashboard/logs' },
+        { icon: Navigation, label: 'Field War Room', path: '/dashboard/war-room' },
+        { icon: Target, label: 'Territory Manager', path: '/dashboard/territories' },
+        { icon: ClipboardCheck, label: 'Visit Approvals', path: '/dashboard/approvals' },
+        { icon: AlertTriangle, label: 'Alerts Center', path: '/dashboard/alerts' },
+        { icon: ShieldX, label: 'Fraud Dashboard', path: '/dashboard/fraud' },
+        { icon: PlaneTakeoff, label: 'Leave Management', path: '/dashboard/leave' },
+        { icon: Receipt, label: 'Expense Approvals', path: '/dashboard/expenses' },
+        { icon: Zap, label: 'Nudge Center', path: '/dashboard/nudge' },
+        { icon: Trophy, label: 'Team Leaderboard', path: '/dashboard/leaderboard' },
         { icon: FileText, label: 'Reports', path: '/dashboard/reports' },
         { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
     ];

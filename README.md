@@ -1,16 +1,53 @@
-# React + Vite
+# OfficeFlow Command Center (Admin Panel)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The Command Center is a premium React 19 application built with Vite and Tailwind CSS 4.0. It provides administrators with real-time visibility into employee attendance, field operations, and system health.
 
-Currently, two official plugins are available:
+## 🚀 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Live Operational Map**: Real-time tracking of field staff check-ins using Leaflet.
+- **Advanced Analytics**: Interactive charts (Recharts) for attendance trends and work hour distribution.
+- **Organization Management**: Multi-tenant configuration for different office branches/departments.
+- **Approval Queue**: Manage and approve field visit plans and expense reimbursements.
+- **Security Audit**: View and manage flags for mock location attempts and device binding violations.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **React 19** with Vite
+- **Tailwind CSS 4.0** (Liquid/Glassmorphism design)
+- **Framer Motion** for micro-animations
+- **Lucide Icons**
+- **Recharts** (Data Visualization)
+- **Leaflet** (Mapping)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ⚙️ Installation
+
+```bash
+cd admin
+npm install
+```
+
+## 🏃 Running Locally
+
+```bash
+# Development mode
+npm run dev
+
+# Production build
+npm run build
+```
+
+## 📝 Environment Variables
+
+Create a `.env` file in the `admin` folder:
+```env
+VITE_API_URL=http://localhost:8001
+```
+
+---
+
+## 🎨 Design Language
+The UI follows a **Glassmorphic Cyber-Enterprise** aesthetic, utilizing deep navy backgrounds, semi-transparent overlays, and vibrant gradient accents.

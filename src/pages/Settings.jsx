@@ -170,14 +170,40 @@ const Settings = () => {
                             />
                             <p className="text-[10px] text-slate-600 mt-2">Minutes from UTC. (e.g., 330 for India GMT+5:30)</p>
                         </div>
+                    </div>
+                </div>
 
-                        <div className="pt-4 border-t border-slate-800/50">
-                            <div className="flex items-center gap-3 p-4 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-                                <Shield className="text-slate-500" size={24} />
+                {/* Branding Section */}
+                <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-8 rounded-[2rem] space-y-6 md:col-span-2">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2.5 rounded-xl bg-rose-600/10 border border-rose-500/20 text-rose-500">
+                            <Shield size={20} />
+                        </div>
+                        <h2 className="text-lg font-bold text-white">Custom Branding</h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Primary Ecosystem Color</label>
+                            <div className="flex items-center gap-4">
+                                <input
+                                    type="color"
+                                    className="w-16 h-16 bg-transparent border-none outline-none cursor-pointer"
+                                    value={settings.primary_color || '#6366f1'}
+                                    onChange={(e) => setSettings({ ...settings, primary_color: e.target.value })}
+                                />
                                 <div>
-                                    <p className="text-xs font-bold text-slate-300 mb-0.5">Global Audit Policy</p>
-                                    <p className="text-[10px] text-slate-500 leading-relaxed">All changes to these settings are logged for security audits. Employees will receive a notification if office timings are adjusted.</p>
+                                    <p className="text-sm text-slate-200 font-mono uppercase">{settings.primary_color || '#6366f1'}</p>
+                                    <p className="text-[10px] text-slate-600 mt-1">This color will be used across Admin and Field Apps.</p>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Organization Logo</label>
+                            <div className="p-4 rounded-xl border-2 border-dashed border-slate-800 hover:border-slate-700 transition-colors flex flex-col items-center justify-center cursor-pointer bg-slate-950/50">
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Click to Upload Logo</p>
+                                <p className="text-[9px] text-slate-600 mt-1">(PNG, SVG or JPG - Max 5MB)</p>
                             </div>
                         </div>
                     </div>
