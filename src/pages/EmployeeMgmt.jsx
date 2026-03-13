@@ -246,367 +246,366 @@ const EmployeeMgmt = () => {
     });
 
     return (
-
-        {/* Registration Modal */ }
-            {
-        showAddModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-                <div className="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-200">
-                    <h2 className="text-xl font-bold text-white mb-6">Register New Member</h2>
-                    <form onSubmit={handleManualAdd} className="space-y-4">
-                        <input
-                            placeholder="Full Name"
-                            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
-                            required
-                            value={newEmployee.full_name}
-                            onChange={e => setNewEmployee({ ...newEmployee, full_name: e.target.value })}
-                        />
-                        <input
-                            type="email"
-                            placeholder="Email Address"
-                            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
-                            required
-                            value={newEmployee.email}
-                            onChange={e => setNewEmployee({ ...newEmployee, email: e.target.value })}
-                        />
-                        <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-8 relative">
+            {/* Registration Modal */}
+            {showAddModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+                    <div className="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+                        <h2 className="text-xl font-bold text-white mb-6">Register New Member</h2>
+                        <form onSubmit={handleManualAdd} className="space-y-4">
                             <input
-                                placeholder="Employee ID"
+                                placeholder="Full Name"
                                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
                                 required
-                                value={newEmployee.employee_id}
-                                onChange={e => setNewEmployee({ ...newEmployee, employee_id: e.target.value })}
+                                value={newEmployee.full_name}
+                                onChange={e => setNewEmployee({ ...newEmployee, full_name: e.target.value })}
                             />
                             <input
-                                type="password"
-                                placeholder="Set Password"
+                                type="email"
+                                placeholder="Email Address"
                                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
                                 required
-                                value={newEmployee.password || ''}
-                                onChange={e => setNewEmployee({ ...newEmployee, password: e.target.value })}
+                                value={newEmployee.email}
+                                onChange={e => setNewEmployee({ ...newEmployee, email: e.target.value })}
                             />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <input
-                                placeholder="Designation"
-                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
-                                value={newEmployee.designation}
-                                onChange={e => setNewEmployee({ ...newEmployee, designation: e.target.value })}
-                            />
-                            <input
-                                placeholder="Department"
-                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
-                                value={newEmployee.department}
-                                onChange={e => setNewEmployee({ ...newEmployee, department: e.target.value })}
-                            />
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            {['desk', 'field', 'office'].map(type => (
-                                <button
-                                    key={type}
-                                    type="button"
-                                    onClick={() => setNewEmployee({ ...newEmployee, employee_type: type })}
-                                    className={`py-2 px-4 rounded-xl text-xs font-bold border transition-all uppercase tracking-widest ${newEmployee.employee_type === type
-                                        ? 'bg-primary-500/10 border-primary-500 text-primary-500'
-                                        : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'}`}
-                                >
-                                    {type}
-                                </button>
-                            ))}
-                        </div>
-                        <div className="flex gap-4">
-                            <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 rounded-xl border border-slate-800 text-slate-400 font-bold text-sm">Cancel</button>
-                            <button type="submit" className="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold text-sm">Register</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        )
-    }
-
-    {/* Header */ }
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Employee Directory</h1>
-            <p className="text-slate-400">Manage organizational members and team assignments</p>
-        </div>
-        <div className="flex items-center gap-3">
-            <input
-                type="file"
-                id="excel-import"
-                className="hidden"
-                accept=".xlsx,.xls,.csv"
-                onChange={handleImport}
-            />
-            <button
-                onClick={downloadTemplate}
-                className="bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 border border-slate-700"
-            >
-                <Download size={16} /> Template
-            </button>
-            <button
-                onClick={() => document.getElementById('excel-import').click()}
-                className="bg-slate-800 hover:bg-slate-700 text-white px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 border border-slate-700"
-            >
-                <Download size={18} className="rotate-180" />
-                Import CSV/Excel
-            </button>
-            <button
-                onClick={() => setShowAddModal(true)}
-                className="bg-primary-600 hover:bg-primary-500 text-white px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
-            >
-                <Plus size={20} />
-                Register Member
-            </button>
-        </div>
-    </div>
-
-    {/* Filters & Search */ }
-    <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-4 rounded-3xl flex flex-col md:flex-row gap-4 items-center">
-        <div className="relative flex-1 group w-full">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary-500 transition-colors" size={20} />
-            <input
-                type="text"
-                placeholder="Search by name, email or ID..."
-                className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl py-3 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-200 placeholder:text-slate-600 font-medium"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
-        </div>
-    </div>
-
-    {
-        loading ? (
-            <div className="py-24 flex flex-col items-center justify-center bg-slate-900/20 rounded-[2rem] border border-slate-800/50">
-                <Loader2 className="animate-spin text-primary-500 mb-4" size={40} />
-                <p className="text-slate-500 text-sm font-medium">Synchronizing employee database...</p>
-            </div>
-        ) : error ? (
-            <div className="py-24 flex flex-col items-center justify-center bg-rose-500/5 rounded-[2rem] border border-rose-500/20 text-rose-400">
-                <AlertCircle size={40} className="mb-4" />
-                <p className="text-sm font-bold uppercase tracking-widest">{error}</p>
-            </div>
-        ) : (
-            <>
-                {/* Bulk Actions Bar */}
-                <AnimatePresence>
-                    {selectedIds.length > 0 && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 50 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 50 }}
-                            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-slate-900/90 backdrop-blur-2xl border border-slate-700 shadow-2xl rounded-[2.5rem] px-8 py-4 flex items-center gap-6 shadow-primary-900/20"
-                        >
-                            <div className="flex items-center gap-3 pr-6 border-r border-slate-800">
-                                <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary-900/40">
-                                    {selectedIds.length}
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-white font-bold text-sm leading-none">Selected</span>
-                                    <span className="text-slate-500 text-[10px] font-medium uppercase tracking-wider">Members</span>
-                                </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <input
+                                    placeholder="Employee ID"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                    required
+                                    value={newEmployee.employee_id}
+                                    onChange={e => setNewEmployee({ ...newEmployee, employee_id: e.target.value })}
+                                />
+                                <input
+                                    type="password"
+                                    placeholder="Set Password"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                    required
+                                    value={newEmployee.password || ''}
+                                    onChange={e => setNewEmployee({ ...newEmployee, password: e.target.value })}
+                                />
                             </div>
-
-                            {!showBulkAssign ? (
-                                <div className="flex items-center gap-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <input
+                                    placeholder="Designation"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                    value={newEmployee.designation}
+                                    onChange={e => setNewEmployee({ ...newEmployee, designation: e.target.value })}
+                                />
+                                <input
+                                    placeholder="Department"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                    value={newEmployee.department}
+                                    onChange={e => setNewEmployee({ ...newEmployee, department: e.target.value })}
+                                />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                {['desk', 'field', 'office'].map(type => (
                                     <button
-                                        onClick={() => setShowBulkAssign(true)}
-                                        className="flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-xl text-slate-200 text-sm font-bold transition-all border border-slate-700/50"
+                                        key={type}
+                                        type="button"
+                                        onClick={() => setNewEmployee({ ...newEmployee, employee_type: type })}
+                                        className={`py-2 px-4 rounded-xl text-xs font-bold border transition-all uppercase tracking-widest ${newEmployee.employee_type === type
+                                            ? 'bg-primary-500/10 border-primary-500 text-primary-500'
+                                            : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'}`}
                                     >
-                                        <UserPlus size={18} className="text-primary-400" /> Assign Manager
+                                        {type}
                                     </button>
-
-                                    <div className="flex items-center gap-1.5 px-4 border-l border-slate-800">
-                                        {['desk', 'field', 'office'].map(type => (
-                                            <button
-                                                key={type}
-                                                onClick={() => handleBulkTypeChange(type)}
-                                                className="text-[10px] font-black uppercase tracking-widest px-3 py-2 rounded-lg border border-slate-800 hover:border-primary-500/50 text-slate-400 hover:text-white transition-all bg-slate-950/50"
-                                            >
-                                                Set {type}
-                                            </button>
-                                        ))}
-                                    </div>
-
-                                    <button
-                                        onClick={() => {
-                                            if (window.confirm(`Delete ${selectedIds.length} employees? This cannot be undone.`)) {
-                                                alert("Bulk delete coming soon. Currently using individual revoke.");
-                                            }
-                                        }}
-                                        className="flex items-center gap-2 px-5 py-2.5 hover:bg-rose-500/10 rounded-xl text-rose-400 text-sm font-bold transition-all border-l border-slate-800 ml-2"
-                                    >
-                                        <Trash2 size={18} /> Delete
-                                    </button>
-                                </div>
-                            ) : (
-                                <div className="flex items-center gap-4 animate-in slide-in-from-right-4 duration-300">
-                                    <div className="flex items-center gap-3 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2">
-                                        <Network className="text-primary-500" size={18} />
-                                        <select
-                                            className="bg-transparent text-sm text-white outline-none min-w-[200px]"
-                                            value={selectedManager}
-                                            onChange={(e) => setSelectedManager(e.target.value)}
-                                        >
-                                            <option value="">Select Manager...</option>
-                                            {managers.map(m => (
-                                                <option key={m.email} value={m.email}>{m.full_name}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <button
-                                        onClick={handleBulkAssign}
-                                        disabled={isBulkAssigning || !selectedManager}
-                                        className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary-900/40"
-                                    >
-                                        {isBulkAssigning ? <Loader2 className="animate-spin" size={18} /> : 'Confirm Assignment'}
-                                    </button>
-                                    <button
-                                        onClick={() => setShowBulkAssign(false)}
-                                        className="p-2.5 hover:bg-slate-800 rounded-xl text-slate-500 hover:text-white transition-all"
-                                    >
-                                        <X size={20} />
-                                    </button>
-                                </div>
-                            )}
-
-                            {!showBulkAssign && (
-                                <button
-                                    onClick={() => setSelectedIds([])}
-                                    className="p-3 hover:bg-slate-800 rounded-xl text-slate-500 hover:text-white transition-all ml-4"
-                                >
-                                    <X size={22} />
-                                </button>
-                            )}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded-[2rem] overflow-hidden shadow-2xl">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
-                            <thead>
-                                <tr className="border-b border-slate-800/50">
-                                    <th className="px-6 py-5 w-10">
-                                        <button onClick={toggleSelectAll} className="text-slate-500 hover:text-primary-500 transition-colors">
-                                            {selectedIds.length === filteredEmployees.length && filteredEmployees.length > 0 ? <CheckSquare size={20} className="text-primary-500" /> : <Square size={20} />}
-                                        </button>
-                                    </th>
-                                    <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Member Profile</th>
-                                    <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Type</th>
-                                    <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Designation & Team</th>
-                                    <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Reporting Manager</th>
-                                    <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-800/50">
-                                {filteredEmployees.map((emp) => {
-                                    const isSelected = selectedIds.includes(emp.email);
-                                    const reportingManager = managers.find(m => m.email === emp.manager_id);
-
-                                    return (
-                                        <tr key={emp._id} className={`group transition-colors ${isSelected ? 'bg-primary-600/5' : 'hover:bg-slate-800/30'}`}>
-                                            <td className="px-6 py-4">
-                                                <button onClick={() => toggleSelect(emp.email)} className={`${isSelected ? 'text-primary-500' : 'text-slate-700'}`}>
-                                                    {isSelected ? <CheckSquare size={20} /> : <Square size={20} />}
-                                                </button>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center border border-slate-700/50 overflow-hidden group-hover:border-primary-500/30 transition-all">
-                                                        {emp.profile_image ? (
-                                                            <img src={`data:image/jpeg;base64,${emp.profile_image}`} alt="" className="w-full h-full object-cover" />
-                                                        ) : (
-                                                            <span className="text-sm font-bold text-slate-500 group-hover:text-primary-400 transition-colors uppercase">{emp.full_name?.charAt(0)}</span>
-                                                        )}
-                                                    </div>
-                                                    <div className="min-w-0">
-                                                        <p className="text-sm font-bold text-white group-hover:text-primary-400 transition-all truncate">{emp.full_name}</p>
-                                                        <p className="text-[10px] text-slate-500 font-medium truncate">{emp.email}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className={`text-[10px] font-black px-2 py-1 rounded border uppercase tracking-widest ${emp.employee_type === 'field' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
-                                                    emp.employee_type === 'office' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                                                        'bg-slate-500/10 text-slate-400 border-slate-500/20'
-                                                    }`}>
-                                                    {emp.employee_type || 'desk'}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div>
-                                                    <p className="text-sm font-bold text-slate-300 tracking-tight">{emp.department || 'General'}</p>
-                                                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{emp.designation}</p>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                {reportingManager ? (
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="w-6 h-6 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/30">
-                                                            <UserCircle2 size={12} className="text-indigo-400" />
-                                                        </div>
-                                                        <span className="text-xs font-semibold text-white">{reportingManager.full_name}</span>
-                                                    </div>
-                                                ) : (
-                                                    <span className="text-[10px] bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded uppercase font-black tracking-widest italic">
-                                                        Not Assigned
-                                                    </span>
-                                                )}
-                                            </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <div className="flex items-center justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <button
-                                                        onClick={() => {
-                                                            setSelectedReportEmployee(emp);
-                                                            setIsReportModalOpen(true);
-                                                        }}
-                                                        title="Activity Report"
-                                                        className="p-2 hover:bg-blue-400/10 rounded-xl text-slate-500 hover:text-blue-400 transition-all font-bold"
-                                                        style={{ fontWeight: 'bold' }}
-                                                    >
-                                                        <FileText size={16} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => resetPassword(emp.email)}
-                                                        title="Security Reset"
-                                                        className="p-2 hover:bg-amber-400/10 rounded-xl text-slate-500 hover:text-amber-400 transition-all"
-                                                    >
-                                                        <Shield size={16} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => clearBinding(emp.email)}
-                                                        title="Binding Release"
-                                                        className="p-2 hover:bg-primary-400/10 rounded-xl text-slate-500 hover:text-primary-400 transition-all"
-                                                    >
-                                                        <MoreVertical size={16} />
-                                                    </button>
-                                                    <button onClick={() => deleteEmployee(emp.email)} className="p-2 hover:bg-rose-500/10 rounded-xl text-slate-500 hover:text-rose-500 transition-all">
-                                                        <Trash2 size={16} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                                ))}
+                            </div>
+                            <div className="flex gap-4">
+                                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 rounded-xl border border-slate-800 text-slate-400 font-bold text-sm">Cancel</button>
+                                <button type="submit" className="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold text-sm">Register</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </>
-        )
-    }
+            )
+            }
 
-    {/* Import Results Modal */ }
-    <ImportResultModal result={importResult} onClose={() => setImportResult(null)} />
+            {/* Header */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Employee Directory</h1>
+                    <p className="text-slate-400">Manage organizational members and team assignments</p>
+                </div>
+                <div className="flex items-center gap-3">
+                    <input
+                        type="file"
+                        id="excel-import"
+                        className="hidden"
+                        accept=".xlsx,.xls,.csv"
+                        onChange={handleImport}
+                    />
+                    <button
+                        onClick={downloadTemplate}
+                        className="bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 border border-slate-700"
+                    >
+                        <Download size={16} /> Template
+                    </button>
+                    <button
+                        onClick={() => document.getElementById('excel-import').click()}
+                        className="bg-slate-800 hover:bg-slate-700 text-white px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 border border-slate-700"
+                    >
+                        <Download size={18} className="rotate-180" />
+                        Import CSV/Excel
+                    </button>
+                    <button
+                        onClick={() => setShowAddModal(true)}
+                        className="bg-primary-600 hover:bg-primary-500 text-white px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
+                    >
+                        <Plus size={20} />
+                        Register Member
+                    </button>
+                </div>
+            </div>
 
-    {/* Individual Report Modal */ }
-    <EmployeeReportModal
-        isOpen={isReportModalOpen}
-        onClose={() => setIsReportModalOpen(false)}
-        employee={selectedReportEmployee}
-    />
-        </div >
+            {/* Filters & Search */}
+            <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-4 rounded-3xl flex flex-col md:flex-row gap-4 items-center">
+                <div className="relative flex-1 group w-full">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary-500 transition-colors" size={20} />
+                    <input
+                        type="text"
+                        placeholder="Search by name, email or ID..."
+                        className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl py-3 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-200 placeholder:text-slate-600 font-medium"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+            </div>
+
+            {
+                loading ? (
+                    <div className="py-24 flex flex-col items-center justify-center bg-slate-900/20 rounded-[2rem] border border-slate-800/50">
+                        <Loader2 className="animate-spin text-primary-500 mb-4" size={40} />
+                        <p className="text-slate-500 text-sm font-medium">Synchronizing employee database...</p>
+                    </div>
+                ) : error ? (
+                    <div className="py-24 flex flex-col items-center justify-center bg-rose-500/5 rounded-[2rem] border border-rose-500/20 text-rose-400">
+                        <AlertCircle size={40} className="mb-4" />
+                        <p className="text-sm font-bold uppercase tracking-widest">{error}</p>
+                    </div>
+                ) : (
+                    <>
+                        {/* Bulk Actions Bar */}
+                        <AnimatePresence>
+                            {selectedIds.length > 0 && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 50 }}
+                                    className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-slate-900/90 backdrop-blur-2xl border border-slate-700 shadow-2xl rounded-[2.5rem] px-8 py-4 flex items-center gap-6 shadow-primary-900/20"
+                                >
+                                    <div className="flex items-center gap-3 pr-6 border-r border-slate-800">
+                                        <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary-900/40">
+                                            {selectedIds.length}
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-white font-bold text-sm leading-none">Selected</span>
+                                            <span className="text-slate-500 text-[10px] font-medium uppercase tracking-wider">Members</span>
+                                        </div>
+                                    </div>
+
+                                    {!showBulkAssign ? (
+                                        <div className="flex items-center gap-4">
+                                            <button
+                                                onClick={() => setShowBulkAssign(true)}
+                                                className="flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-xl text-slate-200 text-sm font-bold transition-all border border-slate-700/50"
+                                            >
+                                                <UserPlus size={18} className="text-primary-400" /> Assign Manager
+                                            </button>
+
+                                            <div className="flex items-center gap-1.5 px-4 border-l border-slate-800">
+                                                {['desk', 'field', 'office'].map(type => (
+                                                    <button
+                                                        key={type}
+                                                        onClick={() => handleBulkTypeChange(type)}
+                                                        className="text-[10px] font-black uppercase tracking-widest px-3 py-2 rounded-lg border border-slate-800 hover:border-primary-500/50 text-slate-400 hover:text-white transition-all bg-slate-950/50"
+                                                    >
+                                                        Set {type}
+                                                    </button>
+                                                ))}
+                                            </div>
+
+                                            <button
+                                                onClick={() => {
+                                                    if (window.confirm(`Delete ${selectedIds.length} employees? This cannot be undone.`)) {
+                                                        alert("Bulk delete coming soon. Currently using individual revoke.");
+                                                    }
+                                                }}
+                                                className="flex items-center gap-2 px-5 py-2.5 hover:bg-rose-500/10 rounded-xl text-rose-400 text-sm font-bold transition-all border-l border-slate-800 ml-2"
+                                            >
+                                                <Trash2 size={18} /> Delete
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center gap-4 animate-in slide-in-from-right-4 duration-300">
+                                            <div className="flex items-center gap-3 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2">
+                                                <Network className="text-primary-500" size={18} />
+                                                <select
+                                                    className="bg-transparent text-sm text-white outline-none min-w-[200px]"
+                                                    value={selectedManager}
+                                                    onChange={(e) => setSelectedManager(e.target.value)}
+                                                >
+                                                    <option value="">Select Manager...</option>
+                                                    {managers.map(m => (
+                                                        <option key={m.email} value={m.email}>{m.full_name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <button
+                                                onClick={handleBulkAssign}
+                                                disabled={isBulkAssigning || !selectedManager}
+                                                className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary-900/40"
+                                            >
+                                                {isBulkAssigning ? <Loader2 className="animate-spin" size={18} /> : 'Confirm Assignment'}
+                                            </button>
+                                            <button
+                                                onClick={() => setShowBulkAssign(false)}
+                                                className="p-2.5 hover:bg-slate-800 rounded-xl text-slate-500 hover:text-white transition-all"
+                                            >
+                                                <X size={20} />
+                                            </button>
+                                        </div>
+                                    )}
+
+                                    {!showBulkAssign && (
+                                        <button
+                                            onClick={() => setSelectedIds([])}
+                                            className="p-3 hover:bg-slate-800 rounded-xl text-slate-500 hover:text-white transition-all ml-4"
+                                        >
+                                            <X size={22} />
+                                        </button>
+                                    )}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded-[2rem] overflow-hidden shadow-2xl">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="border-b border-slate-800/50">
+                                            <th className="px-6 py-5 w-10">
+                                                <button onClick={toggleSelectAll} className="text-slate-500 hover:text-primary-500 transition-colors">
+                                                    {selectedIds.length === filteredEmployees.length && filteredEmployees.length > 0 ? <CheckSquare size={20} className="text-primary-500" /> : <Square size={20} />}
+                                                </button>
+                                            </th>
+                                            <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Member Profile</th>
+                                            <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Type</th>
+                                            <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Designation & Team</th>
+                                            <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Reporting Manager</th>
+                                            <th className="px-6 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-800/50">
+                                        {filteredEmployees.map((emp) => {
+                                            const isSelected = selectedIds.includes(emp.email);
+                                            const reportingManager = managers.find(m => m.email === emp.manager_id);
+
+                                            return (
+                                                <tr key={emp._id} className={`group transition-colors ${isSelected ? 'bg-primary-600/5' : 'hover:bg-slate-800/30'}`}>
+                                                    <td className="px-6 py-4">
+                                                        <button onClick={() => toggleSelect(emp.email)} className={`${isSelected ? 'text-primary-500' : 'text-slate-700'}`}>
+                                                            {isSelected ? <CheckSquare size={20} /> : <Square size={20} />}
+                                                        </button>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center gap-4">
+                                                            <div className="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center border border-slate-700/50 overflow-hidden group-hover:border-primary-500/30 transition-all">
+                                                                {emp.profile_image ? (
+                                                                    <img src={`data:image/jpeg;base64,${emp.profile_image}`} alt="" className="w-full h-full object-cover" />
+                                                                ) : (
+                                                                    <span className="text-sm font-bold text-slate-500 group-hover:text-primary-400 transition-colors uppercase">{emp.full_name?.charAt(0)}</span>
+                                                                )}
+                                                            </div>
+                                                            <div className="min-w-0">
+                                                                <p className="text-sm font-bold text-white group-hover:text-primary-400 transition-all truncate">{emp.full_name}</p>
+                                                                <p className="text-[10px] text-slate-500 font-medium truncate">{emp.email}</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <span className={`text-[10px] font-black px-2 py-1 rounded border uppercase tracking-widest ${emp.employee_type === 'field' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
+                                                            emp.employee_type === 'office' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                                                                'bg-slate-500/10 text-slate-400 border-slate-500/20'
+                                                            }`}>
+                                                            {emp.employee_type || 'desk'}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <div>
+                                                            <p className="text-sm font-bold text-slate-300 tracking-tight">{emp.department || 'General'}</p>
+                                                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{emp.designation}</p>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {reportingManager ? (
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="w-6 h-6 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/30">
+                                                                    <UserCircle2 size={12} className="text-indigo-400" />
+                                                                </div>
+                                                                <span className="text-xs font-semibold text-white">{reportingManager.full_name}</span>
+                                                            </div>
+                                                        ) : (
+                                                            <span className="text-[10px] bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded uppercase font-black tracking-widest italic">
+                                                                Not Assigned
+                                                            </span>
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-right">
+                                                        <div className="flex items-center justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            <button
+                                                                onClick={() => {
+                                                                    setSelectedReportEmployee(emp);
+                                                                    setIsReportModalOpen(true);
+                                                                }}
+                                                                title="Activity Report"
+                                                                className="p-2 hover:bg-blue-400/10 rounded-xl text-slate-500 hover:text-blue-400 transition-all font-bold"
+                                                                style={{ fontWeight: 'bold' }}
+                                                            >
+                                                                <FileText size={16} />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => resetPassword(emp.email)}
+                                                                title="Security Reset"
+                                                                className="p-2 hover:bg-amber-400/10 rounded-xl text-slate-500 hover:text-amber-400 transition-all"
+                                                            >
+                                                                <Shield size={16} />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => clearBinding(emp.email)}
+                                                                title="Binding Release"
+                                                                className="p-2 hover:bg-primary-400/10 rounded-xl text-slate-500 hover:text-primary-400 transition-all"
+                                                            >
+                                                                <MoreVertical size={16} />
+                                                            </button>
+                                                            <button onClick={() => deleteEmployee(emp.email)} className="p-2 hover:bg-rose-500/10 rounded-xl text-slate-500 hover:text-rose-500 transition-all">
+                                                                <Trash2 size={16} />
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </>
+                )
+            }
+
+            {/* Import Results Modal */}
+            <ImportResultModal result={importResult} onClose={() => setImportResult(null)} />
+
+            {/* Individual Report Modal */}
+            <EmployeeReportModal
+                isOpen={isReportModalOpen}
+                onClose={() => setIsReportModalOpen(false)}
+                employee={selectedReportEmployee}
+            />
+        </div>
     );
 }
 
