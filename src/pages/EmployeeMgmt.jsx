@@ -23,7 +23,9 @@ import {
     ArrowRight,
     FileText,
     UserPlus,
-    X
+    X,
+    Key,
+    RotateCcw
 } from 'lucide-react';
 import api from '../utils/api';
 import { getFriendlyErrorMessage } from '../utils/errorMapper';
@@ -568,19 +570,23 @@ const EmployeeMgmt = () => {
                                                             </button>
                                                             <button
                                                                 onClick={() => resetPassword(emp.email)}
-                                                                title="Security Reset"
+                                                                title="Change Password"
                                                                 className="p-2 hover:bg-amber-400/10 rounded-xl text-slate-500 hover:text-amber-400 transition-all"
                                                             >
-                                                                <Shield size={16} />
+                                                                <Key size={16} />
                                                             </button>
                                                             <button
                                                                 onClick={() => clearBinding(emp.email)}
-                                                                title="Binding Release"
+                                                                title="Release Device Binding"
                                                                 className="p-2 hover:bg-primary-400/10 rounded-xl text-slate-500 hover:text-primary-400 transition-all"
                                                             >
-                                                                <MoreVertical size={16} />
+                                                                <RotateCcw size={16} />
                                                             </button>
-                                                            <button onClick={() => deleteEmployee(emp.email)} className="p-2 hover:bg-rose-500/10 rounded-xl text-slate-500 hover:text-rose-500 transition-all">
+                                                            <button
+                                                                onClick={() => deleteEmployee(emp.email)}
+                                                                title="Delete Employee"
+                                                                className="p-2 hover:bg-rose-500/10 rounded-xl text-slate-500 hover:text-rose-500 transition-all"
+                                                            >
                                                                 <Trash2 size={16} />
                                                             </button>
                                                         </div>
