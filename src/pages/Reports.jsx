@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { FileText, Download, Filter, Calendar, Users, TrendingUp, Clock, CheckCircle, XCircle, DollarSign, BarChart3, PieChart, Activity } from 'lucide-react';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
     AreaChart, Area, PieChart as RePieChart, Pie, Cell
 } from 'recharts';
 import client from '../utils/api';
+import EmployeeReportModal from '../components/EmployeeReportModal';
+import { Search, ChevronRight } from 'lucide-react';
 
 const Reports = () => {
     const [activeTab, setActiveTab] = useState('analytics');
@@ -20,6 +20,12 @@ const Reports = () => {
         endDate: new Date().toISOString().slice(0, 10),
         employeeType: ''
     });
+
+    // Employee search states
+    const [employees, setEmployees] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
     const fetchAttendanceReport = async () => {
         setLoading(true);
@@ -110,6 +116,23 @@ const Reports = () => {
         }
     }, [activeTab]);
 
+    useEffect(() => {
+        const loadEmployees = async () => {
+            try {
+                const res = await client.get('/admin/employees');
+                setEmployees(res.data);
+            } catch (err) {
+                console.error('Failed to load employees for reports', err);
+            }
+        };
+        loadEmployees();
+    }, []);
+
+    const filteredEmployees = employees.filter(emp =>
+        emp.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        emp.email?.toLowerCase().includes(searchQuery.toLowerCase())
+    ).slice(0, 10); // Show top 10 results for performance
+
     const exportCSV = () => {
         if (!attendanceData.records?.length) return;
         const headers = ['Name', 'Email', 'Type', 'Action', 'Timestamp', 'Method'];
@@ -177,7 +200,7 @@ const Reports = () => {
             </div>
 
             <div className="flex gap-2 bg-slate-900/50 p-1 rounded-xl border border-slate-800 w-fit">
-                {['analytics', 'attendance', 'leaves', 'expenses'].map(tab => (
+                {['analytics', 'attendance', 'leaves', 'expenses', 'individual'].map(tab => (
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
@@ -186,7 +209,7 @@ const Reports = () => {
                             : 'text-slate-400 hover:text-white'
                             }`}
                     >
-                        {tab}
+                        {tab === 'individual' ? 'Individual Report' : tab}
                     </button>
                 ))}
             </div>
@@ -428,6 +451,79 @@ const Reports = () => {
                     </div>
                 </div>
             )}
+            {activeTab === 'individual' && (
+                <div className="space-y-6 max-w-2xl mx-auto py-10">
+                    <div className="text-center space-y-2 mb-8">
+                        <div className="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center text-primary-400 mx-auto">
+                            <Users size={32} />
+                        </div>
+                        <h2 className="text-xl font-bold text-white">Find Employee Report</h2>
+                        <p className="text-slate-400">Search by name or email to view detailed monthly activity</p>
+                    </div>
+
+                    <div className="relative group">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-primary-400 transition-colors">
+                            <Search size={20} />
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Type employee name or email..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full bg-slate-900 border border-slate-700 rounded-2xl py-4 pl-12 pr-4 text-white focus:border-primary-500 outline-none transition-all shadow-xl group-hover:border-slate-600"
+                        />
+                    </div>
+
+                    <div className="space-y-2 mt-4">
+                        {searchQuery && filteredEmployees.length > 0 ? (
+                            filteredEmployees.map((emp) => (
+                                <button
+                                    key={emp._id}
+                                    onClick={() => {
+                                        setSelectedEmployee(emp);
+                                        setIsReportModalOpen(true);
+                                    }}
+                                    className="w-full flex items-center justify-between p-4 bg-slate-900/50 border border-slate-800 rounded-xl hover:bg-slate-800/50 hover:border-slate-700 transition-all group"
+                                >
+                                    <div className="flex items-center gap-4 text-left">
+                                        <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold">
+                                            {emp.full_name?.[0]}
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-white group-hover:text-primary-400 transition-colors">{emp.full_name}</p>
+                                            <p className="text-xs text-slate-500">{emp.email}</p>
+                                        </div>
+                                    </div>
+                                    <ChevronRight size={20} className="text-slate-600 group-hover:text-primary-400 group-hover:translate-x-1 transition-all" />
+                                </button>
+                            ))
+                        ) : searchQuery ? (
+                            <div className="text-center py-10 bg-slate-900/30 rounded-2xl border border-dashed border-slate-800">
+                                <p className="text-slate-500">No employees found matching "{searchQuery}"</p>
+                            </div>
+                        ) : null}
+                    </div>
+
+                    {!searchQuery && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12 opacity-50">
+                            <div className="p-4 border border-slate-800 rounded-xl bg-slate-900/20">
+                                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">Tip</p>
+                                <p className="text-sm text-slate-400">Works for both Field and Desk staff automatically.</p>
+                            </div>
+                            <div className="p-4 border border-slate-800 rounded-xl bg-slate-900/20">
+                                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">Real-time</p>
+                                <p className="text-sm text-slate-400">Data reflects instant check-ins and check-outs.</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            <EmployeeReportModal
+                isOpen={isReportModalOpen}
+                onClose={() => setIsReportModalOpen(false)}
+                employee={selectedEmployee}
+            />
         </div>
     );
 };

@@ -20,11 +20,13 @@ import {
     Square,
     UserCircle2,
     Network,
-    ArrowRight
+    ArrowRight,
+    FileText
 } from 'lucide-react';
 import api from '../utils/api';
 import { getFriendlyErrorMessage } from '../utils/errorMapper';
 import { motion, AnimatePresence } from 'framer-motion';
+import EmployeeReportModal from '../components/EmployeeReportModal';
 
 const EmployeeMgmt = () => {
     const [employees, setEmployees] = useState([]);
@@ -38,6 +40,8 @@ const EmployeeMgmt = () => {
     const [isBulkAssigning, setIsBulkAssigning] = useState(false);
     const [selectedManager, setSelectedManager] = useState('');
     const [importResult, setImportResult] = useState(null);
+    const [selectedReportEmployee, setSelectedReportEmployee] = useState(null);
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
     const [newEmployee, setNewEmployee] = useState({
         full_name: '',
@@ -543,6 +547,17 @@ const EmployeeMgmt = () => {
                                                     <td className="px-6 py-4 text-right">
                                                         <div className="flex items-center justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
                                                             <button
+                                                                onClick={() => {
+                                                                    setSelectedReportEmployee(emp);
+                                                                    setIsReportModalOpen(true);
+                                                                }}
+                                                                title="Activity Report"
+                                                                className="p-2 hover:bg-blue-400/10 rounded-xl text-slate-500 hover:text-blue-400 transition-all font-bold"
+                                                                style={{ fontWeight: 'bold' }}
+                                                            >
+                                                                <FileText size={16} />
+                                                            </button>
+                                                            <button
                                                                 onClick={() => resetPassword(emp.email)}
                                                                 title="Security Reset"
                                                                 className="p-2 hover:bg-amber-400/10 rounded-xl text-slate-500 hover:text-amber-400 transition-all"
@@ -574,6 +589,13 @@ const EmployeeMgmt = () => {
 
             {/* Import Results Modal */}
             <ImportResultModal result={importResult} onClose={() => setImportResult(null)} />
+
+            {/* Individual Report Modal */}
+            <EmployeeReportModal
+                isOpen={isReportModalOpen}
+                onClose={() => setIsReportModalOpen(false)}
+                employee={selectedReportEmployee}
+            />
         </div>
     );
 }
