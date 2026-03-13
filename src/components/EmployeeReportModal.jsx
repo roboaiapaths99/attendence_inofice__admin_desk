@@ -103,7 +103,7 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                                 />
                                 <SummaryCard
                                     label="Avg Daily Hours"
-                                    value={`${data.summary.avg_hours_per_day}h`}
+                                    value={`${data.summary.average_daily_hours}h`}
                                     icon={<AlertCircle className="text-purple-500" />}
                                     color="purple"
                                 />
@@ -123,7 +123,7 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                                        {data.days.map((day) => (
+                                        {(data.daily_breakdown || []).map((day) => (
                                             <tr
                                                 key={day.date}
                                                 className={`hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors group cursor-pointer ${selectedDay?.date === day.date ? 'bg-blue-50/50' : ''}`}
@@ -131,10 +131,10 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                                             >
                                                 <td className="px-6 py-4 text-sm font-medium">{day.date}</td>
                                                 <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                                                    {day.first_check_in ? new Date(day.first_check_in).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--'}
+                                                    {day.first_in ? new Date(day.first_in).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--'}
                                                 </td>
                                                 <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                                                    {day.last_check_out ? new Date(day.last_check_out).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--'}
+                                                    {day.last_out ? new Date(day.last_out).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--'}
                                                 </td>
                                                 <td className="px-6 py-4 text-sm font-semibold text-blue-600">
                                                     {day.duration_hours > 0 ? `${day.duration_hours}h` : '-'}

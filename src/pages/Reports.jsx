@@ -1,10 +1,15 @@
+import React, { useState, useEffect } from 'react';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
     AreaChart, Area, PieChart as RePieChart, Pie, Cell
 } from 'recharts';
 import client from '../utils/api';
 import EmployeeReportModal from '../components/EmployeeReportModal';
-import { Search, ChevronRight } from 'lucide-react';
+import {
+    Search, ChevronRight, Activity, Download, CheckCircle,
+    Users, TrendingUp, BarChart3, PieChart, FileText,
+    XCircle, Clock, DollarSign
+} from 'lucide-react';
 
 const Reports = () => {
     const [activeTab, setActiveTab] = useState('analytics');
