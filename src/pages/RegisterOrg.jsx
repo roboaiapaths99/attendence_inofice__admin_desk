@@ -100,7 +100,7 @@ const RegisterOrg = () => {
                         <h1 className="text-3xl font-bold bg-linear-to-r from-white to-slate-400 bg-clip-text text-transparent text-center">
                             Register Organization
                         </h1>
-                        <p className="text-slate-400 mt-2 text-center">Start your journey with OfficeFlow Enterprise</p>
+                        <p className="text-slate-400 mt-2 text-center">Start your journey with Log Day Enterprise</p>
                     </div>
 
                     {success ? (
@@ -240,7 +240,7 @@ const RegisterOrg = () => {
                         </form>
                     )}
                     <p className="text-center text-slate-500 text-xs mt-6 pt-4 border-t border-slate-800/50">
-                        Powered by OfficeFlow
+                        Powered by Log Day
                     </p>
                 </div>
             </motion.div>

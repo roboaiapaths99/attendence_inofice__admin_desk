@@ -82,7 +82,7 @@ const Sidebar = () => {
                 )}
                 <div>
                     <h2 className="text-lg font-bold text-white tracking-tight leading-none truncate max-w-[160px]" title={organization?.name}>
-                        {organization?.name || 'OfficeFlow'}
+                        {organization?.name || 'Log Day'}
                     </h2>
                     <span className="text-[10px] text-primary-500 font-bold uppercase tracking-widest" style={{ color: organization?.primary_color }}>
                         {organization ? 'Enterprise' : 'Admin Portal'}
@@ -142,7 +142,7 @@ const Sidebar = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-white truncate">{admin?.full_name}</p>
-                            <p className="text-[10px] text-slate-500 truncate">{admin?.email || 'admin@officeflow.ai'}</p>
+                            <p className="text-[10px] text-slate-500 truncate">{admin?.email || 'admin@logday.ai'}</p>
                         </div>
                     </div>
                 </div>

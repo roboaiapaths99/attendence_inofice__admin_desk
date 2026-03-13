@@ -47,7 +47,7 @@ const LoginPage = () => {
                             <Shield className="text-primary-500" size={32} />
                         </div>
                         <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-                            OfficeFlow Admin
+                            Log Day Admin
                         </h1>
                         <p className="text-slate-400 mt-2">Secure Management Portal</p>
                     </div>
@@ -107,12 +107,12 @@ const LoginPage = () => {
 
                     <div className="mt-8 pt-8 border-t border-slate-800/50 text-center">
                         <p className="text-sm text-slate-500 mb-4">
-                            Only authorized OfficeFlow administrators can access this terminal.
+                            Only authorized Log Day administrators can access this terminal.
                         </p>
                         <Link to="/register-org" className="text-primary-400 hover:text-primary-300 text-sm font-medium transition-colors">
                             Need a workspace for your company? Register Organization
                         </Link>
-                        <p className="text-slate-600 text-xs mt-6">Powered by OfficeFlow</p>
+                        <p className="text-slate-600 text-xs mt-6">Powered by Log Day</p>
                     </div>
                 </div>
             </motion.div>
