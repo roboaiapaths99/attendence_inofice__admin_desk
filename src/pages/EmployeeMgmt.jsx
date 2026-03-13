@@ -21,7 +21,9 @@ import {
     UserCircle2,
     Network,
     ArrowRight,
-    FileText
+    FileText,
+    UserPlus,
+    X
 } from 'lucide-react';
 import api from '../utils/api';
 import { getFriendlyErrorMessage } from '../utils/errorMapper';
@@ -42,6 +44,7 @@ const EmployeeMgmt = () => {
     const [importResult, setImportResult] = useState(null);
     const [selectedReportEmployee, setSelectedReportEmployee] = useState(null);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+    const [showBulkAssign, setShowBulkAssign] = useState(false);
 
     const [newEmployee, setNewEmployee] = useState({
         full_name: '',
@@ -98,11 +101,29 @@ const EmployeeMgmt = () => {
             alert('Employees assigned successfully.');
             setSelectedIds([]);
             setSelectedManager('');
+            setShowBulkAssign(false);
             fetchEmployees();
         } catch (err) {
             alert(getFriendlyErrorMessage(err, 'Assignment failed.'));
         } finally {
             setIsBulkAssigning(false);
+        }
+    };
+
+    const handleBulkTypeChange = async (type) => {
+        try {
+            setLoading(true);
+            await api.post('/admin/employees/bulk-update-type', {
+                employee_emails: selectedIds,
+                employee_type: type
+            });
+            alert(`Updated ${selectedIds.length} employees to ${type} type.`);
+            setSelectedIds([]);
+            fetchEmployees();
+        } catch (err) {
+            alert(getFriendlyErrorMessage(err, 'Update failed.'));
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -226,49 +247,73 @@ const EmployeeMgmt = () => {
 
     return (
         <div className="space-y-8 relative">
-            {/* Bulk Action Bar */}
+            {/* Bulk Actions Bar */}
             <AnimatePresence>
                 {selectedIds.length > 0 && (
                     <motion.div
                         initial={{ opacity: 0, y: 50, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 50, scale: 0.95 }}
-                        className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 backdrop-blur-2xl border border-primary-500/30 px-6 py-4 rounded-[2.5rem] shadow-2xl flex items-center gap-6 min-w-[500px]"
+                        className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-slate-900/90 backdrop-blur-2xl border border-slate-700 px-6 py-4 rounded-[2.5rem] shadow-2xl flex items-center gap-6 min-w-[600px]"
                     >
-                        <div className="flex items-center gap-3 pr-6 border-r border-slate-700">
-                            <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center font-bold text-white">
+                        <div className="flex items-center gap-3 pr-6 border-r border-slate-800">
+                            <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center font-bold text-white shadow-lg shadow-primary-900/40">
                                 {selectedIds.length}
                             </div>
                             <div className="text-sm font-bold text-white">Selected</div>
                         </div>
 
-                        <div className="flex items-center gap-4 flex-1">
-                            <Network className="text-slate-400" size={20} />
-                            <select
-                                className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white outline-none focus:border-primary-500"
-                                value={selectedManager}
-                                onChange={(e) => setSelectedManager(e.target.value)}
-                            >
-                                <option value="">Select Manager to Assign...</option>
-                                {managers.map(m => (
-                                    <option key={m.email} value={m.email}>{m.full_name} ({m.role})</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <button
-                            onClick={handleBulkAssign}
-                            disabled={isBulkAssigning || !selectedManager}
-                            className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white px-6 py-3 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
-                        >
-                            {isBulkAssigning ? <Loader2 className="animate-spin" size={20} /> : <><CheckSquare size={18} /> Assign Manager</>}
-                        </button>
+                        {!showBulkAssign ? (
+                            <div className="flex items-center gap-4 flex-1">
+                                <button
+                                    onClick={() => setShowBulkAssign(true)}
+                                    className="flex items-center gap-2 px-4 py-2 hover:bg-white/5 rounded-xl text-slate-300 text-sm font-bold transition-all"
+                                >
+                                    <UserPlus size={18} /> Assign Manager
+                                </button>
+                                <div className="flex items-center gap-1.5 px-3 border-l border-slate-800">
+                                    {['desk', 'field', 'office'].map(type => (
+                                        <button
+                                            key={type}
+                                            onClick={() => handleBulkTypeChange(type)}
+                                            className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1.5 rounded-lg border border-slate-800 hover:border-slate-600 text-slate-400 hover:text-white transition-all bg-slate-950"
+                                        >
+                                            {type}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-4 flex-1">
+                                <Network className="text-slate-400" size={20} />
+                                <select
+                                    className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white outline-none focus:border-primary-500 flex-1"
+                                    value={selectedManager}
+                                    onChange={(e) => setSelectedManager(e.target.value)}
+                                >
+                                    <option value="">Select Manager...</option>
+                                    {managers.map(m => (
+                                        <option key={m.email} value={m.email}>{m.full_name}</option>
+                                    ))}
+                                </select>
+                                <button
+                                    onClick={handleBulkAssign}
+                                    disabled={isBulkAssigning || !selectedManager}
+                                    className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white px-4 py-2 rounded-xl font-bold text-sm transition-all"
+                                >
+                                    {isBulkAssigning ? <Loader2 size={18} className="animate-spin" /> : 'Assign'}
+                                </button>
+                                <button onClick={() => setShowBulkAssign(false)} className="p-2 text-slate-500">
+                                    <X size={18} />
+                                </button>
+                            </div>
+                        )}
 
                         <button
                             onClick={() => setSelectedIds([])}
                             className="p-3 text-slate-500 hover:text-white transition-colors"
                         >
-                            Cancel
+                            <X size={20} />
                         </button>
                     </motion.div>
                 )}
@@ -413,64 +458,6 @@ const EmployeeMgmt = () => {
                     </div>
                 ) : (
                     <>
-                        {/* Bulk Actions Bar */}
-                        <AnimatePresence>
-                            {selectedIds.length > 0 && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 50 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: 50 }}
-                                    className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 border border-slate-700 shadow-2xl rounded-2xl px-6 py-4 flex items-center gap-6 backdrop-blur-xl"
-                                >
-                                    <div className="flex items-center gap-3 pr-6 border-r border-slate-800">
-                                        <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-primary-900/40">
-                                            {selectedIds.length}
-                                        </div>
-                                        <span className="text-white font-bold text-sm">Selected</span>
-                                    </div>
-
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={() => setShowBulkAssign(true)}
-                                            className="flex items-center gap-2 px-4 py-2 hover:bg-white/5 rounded-xl text-slate-300 text-sm font-bold transition-all"
-                                        >
-                                            <UserPlus size={16} /> Assign Manager
-                                        </button>
-
-                                        <div className="flex items-center gap-1.5 px-3 border-l border-slate-800">
-                                            {['desk', 'field', 'office'].map(type => (
-                                                <button
-                                                    key={type}
-                                                    onClick={() => handleBulkTypeChange(type)}
-                                                    className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1.5 rounded-lg border border-slate-800 hover:border-slate-600 text-slate-400 hover:text-white transition-all"
-                                                >
-                                                    Set {type}
-                                                </button>
-                                            ))}
-                                        </div>
-
-                                        <button
-                                            onClick={() => {
-                                                if (window.confirm(`Delete ${selectedIds.length} employees? This cannot be undone.`)) {
-                                                    // TODO: Implement bulk delete if backend supports it, or loop through deletes
-                                                    alert("Bulk delete coming soon. Currently using individual revoke.");
-                                                }
-                                            }}
-                                            className="flex items-center gap-2 px-4 py-2 hover:bg-rose-500/10 rounded-xl text-rose-400 text-sm font-bold transition-all border-l border-slate-800 ml-2"
-                                        >
-                                            <Trash2 size={16} /> Delete
-                                        </button>
-                                    </div>
-
-                                    <button
-                                        onClick={() => setSelectedIds([])}
-                                        className="p-2 hover:bg-slate-800 rounded-lg text-slate-500 transition-all ml-4"
-                                    >
-                                        <X size={20} />
-                                    </button>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
 
                         <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded-[2rem] overflow-hidden shadow-2xl">
                             <div className="overflow-x-auto">
