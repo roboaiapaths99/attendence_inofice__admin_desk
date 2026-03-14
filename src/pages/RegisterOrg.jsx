@@ -18,6 +18,7 @@ const RegisterOrg = () => {
     const [logoBase64, setLogoBase64] = useState(null);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
+    const [successData, setSuccessData] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const generateSlug = (name) => {
@@ -69,11 +70,12 @@ const RegisterOrg = () => {
                 logo_url: logoBase64 || 'https://via.placeholder.com/150'
             };
 
-            await api.post('/admin/register-organization', payload);
+            const response = await api.post('/admin/register-organization', payload);
+            setSuccessData(response.data);
             setSuccess(true);
             setTimeout(() => {
                 navigate('/login');
-            }, 3000);
+            }, 6000);
         } catch (err) {
             setError(err.response?.data?.detail || 'Registration failed. Please try again.');
         } finally {
@@ -113,6 +115,11 @@ const RegisterOrg = () => {
                                 <CheckCircle className="text-green-500" size={40} />
                             </div>
                             <h3 className="text-2xl font-bold text-white mb-2">Registration Successful!</h3>
+                            <div className="bg-slate-950/50 border border-slate-800 rounded-2xl p-6 mb-6">
+                                <p className="text-slate-400 text-sm mb-2 uppercase tracking-wider font-semibold">Your Organization Code</p>
+                                <p className="text-3xl font-mono font-bold text-purple-400 select-all">{successData?.org_slug}</p>
+                                <p className="text-slate-500 text-xs mt-2 italic">Copy this code to use in the Field App</p>
+                            </div>
                             <p className="text-slate-400">Account created for {formData.org_name}.<br />Redirecting to login...</p>
                         </motion.div>
                     ) : (
