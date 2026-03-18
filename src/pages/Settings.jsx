@@ -203,6 +203,87 @@ const Settings = () => {
                     </div>
                 </div>
 
+                {/* Office Location & Security Section */}
+                <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-8 rounded-[2rem] space-y-6 md:col-span-2">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2.5 rounded-xl bg-emerald-600/10 border border-emerald-500/20 text-emerald-500">
+                            <MapPin size={20} />
+                        </div>
+                        <h2 className="text-lg font-bold text-white">Office Location & Security</h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-4">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Office Geofence Center (GPS)</label>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p className="text-[10px] text-slate-500 mb-1 font-bold">Latitude</p>
+                                    <input
+                                        type="number"
+                                        step="0.000001"
+                                        placeholder="e.g. 28.6139"
+                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                        value={settings.office_lat || ''}
+                                        onChange={(e) => setSettings({ ...settings, office_lat: parseFloat(e.target.value) })}
+                                    />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] text-slate-500 mb-1 font-bold">Longitude</p>
+                                    <input
+                                        type="number"
+                                        step="0.000001"
+                                        placeholder="e.g. 77.2090"
+                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                        value={settings.office_long || ''}
+                                        onChange={(e) => setSettings({ ...settings, office_long: parseFloat(e.target.value) })}
+                                    />
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => {
+                                    if (navigator.geolocation) {
+                                        navigator.geolocation.getCurrentPosition((pos) => {
+                                            setSettings({
+                                                ...settings,
+                                                office_lat: pos.coords.latitude,
+                                                office_long: pos.coords.longitude
+                                            });
+                                            setSuccess("Captured current coordinates successfully!");
+                                            setTimeout(() => setSuccess(''), 3000);
+                                        });
+                                    }
+                                }}
+                                className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-lg border border-slate-700 transition-colors uppercase tracking-widest"
+                            >
+                                Use My Current Location
+                            </button>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Restricted Office WiFi (SSID)</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. MyOffice_WiFi"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                    value={settings.office_wifi_ssid || ''}
+                                    onChange={(e) => setSettings({ ...settings, office_wifi_ssid: e.target.value })}
+                                />
+                                <p className="text-[10px] text-slate-600 mt-2">Leave blank to allow any network. Desk app will check for this SSID.</p>
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Geofence Radius (Meters)</label>
+                                <input
+                                    type="number"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                    value={settings.geofence_radius || 40}
+                                    onChange={(e) => setSettings({ ...settings, geofence_radius: parseFloat(e.target.value) })}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Branding Section */}
                 <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-8 rounded-[2rem] space-y-6 md:col-span-2">
                     <div className="flex items-center gap-3 mb-2">

@@ -25,7 +25,9 @@ import {
     UserPlus,
     X,
     Key,
-    RotateCcw
+    RotateCcw,
+    Monitor,
+    Building2
 } from 'lucide-react';
 import api from '../utils/api';
 import { getFriendlyErrorMessage } from '../utils/errorMapper';
@@ -47,6 +49,9 @@ const EmployeeMgmt = () => {
     const [selectedReportEmployee, setSelectedReportEmployee] = useState(null);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
     const [showBulkAssign, setShowBulkAssign] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editingEmployee, setEditingEmployee] = useState(null);
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const [newEmployee, setNewEmployee] = useState({
         full_name: '',
@@ -225,6 +230,15 @@ const EmployeeMgmt = () => {
             await api.post('/admin/employees', newEmployee);
             alert('Employee registered successfully.');
             setShowAddModal(false);
+            setNewEmployee({
+                full_name: '',
+                email: '',
+                employee_id: '',
+                password: '',
+                designation: 'Staff',
+                department: 'General',
+                employee_type: 'desk'
+            });
             fetchEmployees();
         } catch (err) {
             const errorMsg = err.response?.data?.detail;
@@ -232,6 +246,24 @@ const EmployeeMgmt = () => {
             alert('Registration failed: ' + (detailedError || err.message));
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        setIsUpdating(true);
+        try {
+            await api.put(`/admin/employees/${editingEmployee.email}`, editingEmployee);
+            alert('Employee updated successfully.');
+            setShowEditModal(false);
+            setEditingEmployee(null);
+            fetchEmployees();
+        } catch (err) {
+            const errorMsg = err.response?.data?.detail;
+            const detailedError = typeof errorMsg === 'string' ? errorMsg : JSON.stringify(errorMsg);
+            alert('Update failed: ' + (detailedError || err.message));
+        } finally {
+            setIsUpdating(false);
         }
     };
 
@@ -301,19 +333,28 @@ const EmployeeMgmt = () => {
                                     onChange={e => setNewEmployee({ ...newEmployee, department: e.target.value })}
                                 />
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                {['desk', 'field', 'office'].map(type => (
-                                    <button
-                                        key={type}
-                                        type="button"
-                                        onClick={() => setNewEmployee({ ...newEmployee, employee_type: type })}
-                                        className={`py-2 px-4 rounded-xl text-xs font-bold border transition-all uppercase tracking-widest ${newEmployee.employee_type === type
-                                            ? 'bg-primary-500/10 border-primary-500 text-primary-500'
-                                            : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'}`}
-                                    >
-                                        {type}
-                                    </button>
-                                ))}
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1 block">Work Mode / Type</label>
+                                <div className="grid grid-cols-3 gap-3">
+                                    {[
+                                        { id: 'desk', label: 'Desk', icon: Monitor },
+                                        { id: 'field', label: 'Field', icon: MapPin },
+                                        { id: 'office', label: 'Office', icon: Building2 }
+                                    ].map(item => (
+                                        <button
+                                            key={item.id}
+                                            type="button"
+                                            onClick={() => setNewEmployee({ ...newEmployee, employee_type: item.id })}
+                                            className={`flex flex-col items-center gap-2 py-3 px-2 rounded-xl text-[10px] font-bold border transition-all uppercase tracking-tighter ${newEmployee.employee_type === item.id
+                                                ? 'bg-primary-500/10 border-primary-500 text-primary-500'
+                                                : 'bg-slate-950 border-slate-800 text-slate-500 hover:border-slate-700'}`}
+                                        >
+                                            <item.icon size={16} />
+                                            {item.label}
+                                        </button>
+                                    ))}
+                                </div>
+                                <p className="text-[10px] text-slate-600">Field employees can check-in from anywhere. Desk/Office require location validation.</p>
                             </div>
                             <div className="flex gap-4">
                                 <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 rounded-xl border border-slate-800 text-slate-400 font-bold text-sm">Cancel</button>
@@ -563,10 +604,18 @@ const EmployeeMgmt = () => {
                                                                     setIsReportModalOpen(true);
                                                                 }}
                                                                 title="Activity Report"
-                                                                className="p-2 hover:bg-blue-400/10 rounded-xl text-slate-500 hover:text-blue-400 transition-all font-bold"
-                                                                style={{ fontWeight: 'bold' }}
                                                             >
                                                                 <FileText size={16} />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => {
+                                                                    setEditingEmployee({ ...emp });
+                                                                    setShowEditModal(true);
+                                                                }}
+                                                                title="Edit Details"
+                                                                className="p-2 hover:bg-primary-400/10 rounded-xl text-slate-500 hover:text-primary-400 transition-all font-bold"
+                                                            >
+                                                                <Edit2 size={16} />
                                                             </button>
                                                             <button
                                                                 onClick={() => resetPassword(emp.email)}
@@ -604,6 +653,151 @@ const EmployeeMgmt = () => {
 
             {/* Import Results Modal */}
             <ImportResultModal result={importResult} onClose={() => setImportResult(null)} />
+
+            {/* Edit Employee Modal */}
+            {showEditModal && editingEmployee && (
+                <div className="fixed inset-0 z-[101] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-[2rem] p-8 shadow-2xl relative overflow-hidden"
+                    >
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 via-indigo-500 to-primary-500" />
+
+                        <div className="flex justify-between items-center mb-6">
+                            <div>
+                                <h2 className="text-xl font-bold text-white">Edit Member Details</h2>
+                                <p className="text-xs text-slate-500 mt-1">Update profile and custom territory settings</p>
+                            </div>
+                            <button onClick={() => setShowEditModal(false)} className="p-2 hover:bg-slate-800 rounded-xl text-slate-500 transition-all">
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleEditSubmit} className="space-y-6">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Full Name</label>
+                                    <input
+                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white transition-all"
+                                        required
+                                        value={editingEmployee.full_name}
+                                        onChange={e => setEditingEmployee({ ...editingEmployee, full_name: e.target.value })}
+                                    />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Employee ID</label>
+                                    <input
+                                        className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-500 cursor-not-allowed outline-none"
+                                        disabled
+                                        value={editingEmployee.employee_id}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Designation</label>
+                                    <input
+                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                        value={editingEmployee.designation}
+                                        onChange={e => setEditingEmployee({ ...editingEmployee, designation: e.target.value })}
+                                    />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Department</label>
+                                    <input
+                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                        value={editingEmployee.department}
+                                        onChange={e => setEditingEmployee({ ...editingEmployee, department: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-3 p-4 bg-slate-950/50 rounded-2xl border border-slate-800/50">
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1 block">Work Settings & Mode</label>
+                                <div className="grid grid-cols-3 gap-3">
+                                    {[
+                                        { id: 'desk', label: 'Desk', icon: Monitor },
+                                        { id: 'field', label: 'Field', icon: MapPin },
+                                        { id: 'office', label: 'Office', icon: Building2 }
+                                    ].map(item => (
+                                        <button
+                                            key={item.id}
+                                            type="button"
+                                            onClick={() => setEditingEmployee({ ...editingEmployee, employee_type: item.id })}
+                                            className={`flex flex-col items-center gap-2 py-3 px-2 rounded-xl text-[10px] font-bold border transition-all uppercase tracking-tighter ${editingEmployee.employee_type === item.id
+                                                ? 'bg-primary-500/10 border-primary-500 text-primary-500'
+                                                : 'bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700'}`}
+                                        >
+                                            <item.icon size={16} />
+                                            {item.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {editingEmployee.employee_type === 'field' && (
+                                <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    className="space-y-3 p-4 bg-indigo-500/5 rounded-2xl border border-indigo-500/20"
+                                >
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <MapPin size={14} className="text-indigo-400" />
+                                        <label className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Field Territory (GPS)</label>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-1">
+                                            <span className="text-[9px] text-slate-500 font-bold ml-1 uppercase">Center Lat</span>
+                                            <input
+                                                type="number"
+                                                step="any"
+                                                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white"
+                                                value={editingEmployee.territory_center_lat || ''}
+                                                onChange={e => setEditingEmployee({ ...editingEmployee, territory_center_lat: parseFloat(e.target.value) })}
+                                                placeholder="0.000000"
+                                            />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span className="text-[9px] text-slate-500 font-bold ml-1 uppercase">Center Lng</span>
+                                            <input
+                                                type="number"
+                                                step="any"
+                                                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white"
+                                                value={editingEmployee.territory_center_lng || ''}
+                                                onChange={e => setEditingEmployee({ ...editingEmployee, territory_center_lng: parseFloat(e.target.value) })}
+                                                placeholder="0.000000"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <span className="text-[9px] text-slate-500 font-bold ml-1 uppercase">Radius (Meters)</span>
+                                        <input
+                                            type="number"
+                                            className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white"
+                                            value={editingEmployee.territory_radius_meters || 500}
+                                            onChange={e => setEditingEmployee({ ...editingEmployee, territory_radius_meters: parseInt(e.target.value) })}
+                                        />
+                                    </div>
+                                    <p className="text-[9px] text-indigo-400/60 font-medium leading-relaxed">Agent will trigger alerts if check-in occurs beyond this radius from the center center.</p>
+                                </motion.div>
+                            )}
+
+                            <div className="flex gap-4 pt-4">
+                                <button type="button" onClick={() => setShowEditModal(false)} className="flex-1 py-3 rounded-xl border border-slate-800 text-slate-400 font-bold text-sm hover:bg-slate-800 transition-all">Cancel</button>
+                                <button
+                                    type="submit"
+                                    disabled={isUpdating}
+                                    className="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold text-sm hover:bg-primary-500 transition-all shadow-lg shadow-primary-900/40 flex items-center justify-center gap-2"
+                                >
+                                    {isUpdating ? <Loader2 size={18} className="animate-spin" /> : 'Save Changes'}
+                                </button>
+                            </div>
+                        </form>
+                    </motion.div>
+                </div>
+            )}
 
             {/* Individual Report Modal */}
             <EmployeeReportModal
