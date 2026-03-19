@@ -6,6 +6,7 @@ import {
     Globe,
     Save,
     Shield,
+    MapPin,
     Loader2,
     CheckCircle2,
     AlertCircle
@@ -135,7 +136,7 @@ const Settings = () => {
                         <div className="p-2.5 rounded-xl bg-primary-600/10 border border-primary-500/20 text-primary-500">
                             <Clock size={20} />
                         </div>
-                        <h2 className="text-lg font-bold text-white">Attendance Policy</h2>
+                        <h2 className="text-lg font-bold text-white">Desk App Policy</h2>
                     </div>
 
                     <div className="space-y-4">
@@ -147,34 +148,91 @@ const Settings = () => {
                                 value={settings.office_start_time}
                                 onChange={(e) => setSettings({ ...settings, office_start_time: e.target.value })}
                             />
-                            <p className="text-[10px] text-slate-600 mt-2">Standard clock-in time for all employees.</p>
                         </div>
 
                         <div>
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Late Threshold (Minutes)</label>
-                            <div className="relative">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Late Threshold (Mins)</label>
+                            <input
+                                type="number"
+                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-primary-500 text-slate-200"
+                                value={settings.late_threshold_mins}
+                                onChange={(e) => setSettings({ ...settings, late_threshold_mins: parseInt(e.target.value) })}
+                            />
+                        </div>
+
+                        <div>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Required Hours</label>
+                            <input
+                                type="number"
+                                step="0.5"
+                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-primary-500 text-slate-200"
+                                value={settings.required_hours}
+                                onChange={(e) => setSettings({ ...settings, required_hours: parseFloat(e.target.value) })}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Field Force Settings Section */}
+                <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-8 rounded-[2rem] space-y-6">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2.5 rounded-xl bg-amber-600/10 border border-amber-500/20 text-amber-500">
+                            <Globe size={20} />
+                        </div>
+                        <h2 className="text-lg font-bold text-white">Field App Policy</h2>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Daily Start Time</label>
+                            <input
+                                type="time"
+                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-primary-500 text-slate-200"
+                                value={settings.field_office_start_time || '10:00'}
+                                onChange={(e) => setSettings({ ...settings, field_office_start_time: e.target.value })}
+                            />
+                        </div>
+
+                        <div>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Late Threshold (Mins)</label>
+                            <input
+                                type="number"
+                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-primary-500 text-slate-200"
+                                value={settings.field_late_threshold_mins || 30}
+                                onChange={(e) => setSettings({ ...settings, field_late_threshold_mins: parseInt(e.target.value) })}
+                            />
+                        </div>
+
+                        <div>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Goal Working Hours</label>
+                            <input
+                                type="number"
+                                step="0.5"
+                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-primary-500 text-slate-200"
+                                value={settings.field_required_hours || 9.0}
+                                onChange={(e) => setSettings({ ...settings, field_required_hours: parseFloat(e.target.value) })}
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Visits Goal</label>
                                 <input
                                     type="number"
                                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-primary-500 text-slate-200"
-                                    value={settings.late_threshold_mins}
-                                    onChange={(e) => setSettings({ ...settings, late_threshold_mins: parseInt(e.target.value) })}
+                                    value={settings.field_visits_goal || 10}
+                                    onChange={(e) => setSettings({ ...settings, field_visits_goal: parseInt(e.target.value) })}
                                 />
-                                <Timer className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600" size={18} />
                             </div>
-                            <p className="text-[10px] text-slate-600 mt-2">Maximum grace period before marking as "Late".</p>
-                        </div>
-
-                        <div>
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Required Working Hours</label>
-                            <div className="relative">
+                            <div>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Distance Goal (KM)</label>
                                 <input
                                     type="number"
-                                    step="0.5"
+                                    step="1"
                                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-primary-500 text-slate-200"
-                                    value={settings.required_hours}
-                                    onChange={(e) => setSettings({ ...settings, required_hours: parseFloat(e.target.value) })}
+                                    value={settings.field_km_goal || 20}
+                                    onChange={(e) => setSettings({ ...settings, field_km_goal: parseFloat(e.target.value) })}
                                 />
-                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 text-xs font-bold">HOURS</span>
                             </div>
                         </div>
                     </div>
