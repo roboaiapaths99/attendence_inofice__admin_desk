@@ -153,7 +153,8 @@ const EmployeeMgmt = () => {
         if (!newPw) return;
         try {
             setLoading(true);
-            await api.post(`/admin/employees/${email}/reset-password`, { password: newPw });
+            const cleanEmail = email.trim().toLowerCase();
+            await api.post(`/admin/employees/${cleanEmail}/reset-password`, { password: newPw });
             alert('Password reset successful.');
         } catch (err) {
             alert('Reset failed: ' + (err.response?.data?.detail || err.message));
@@ -166,7 +167,8 @@ const EmployeeMgmt = () => {
         if (!window.confirm(`Clear hardware binding for ${email}? This will allow the user to log in from a new device.`)) return;
         try {
             setLoading(true);
-            await api.post(`/admin/employees/${email}/clear-binding`);
+            const cleanEmail = email.trim().toLowerCase();
+            await api.post(`/admin/employees/${cleanEmail}/clear-binding`);
             alert('Device binding cleared.');
             fetchEmployees();
         } catch (err) {
@@ -227,7 +229,11 @@ const EmployeeMgmt = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            await api.post('/admin/employees', newEmployee);
+            const normalizedData = {
+                ...newEmployee,
+                email: newEmployee.email.trim().toLowerCase()
+            };
+            await api.post('/admin/employees', normalizedData);
             alert('Employee registered successfully.');
             setShowAddModal(false);
             setNewEmployee({

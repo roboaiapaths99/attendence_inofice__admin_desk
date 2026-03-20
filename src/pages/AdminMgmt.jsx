@@ -84,7 +84,11 @@ const AdminMgmt = () => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            await api.post('/admin/sub-admins', formData);
+            const normalizedData = {
+                ...formData,
+                email: formData.email.trim().toLowerCase()
+            };
+            await api.post('/admin/sub-admins', normalizedData);
             setActionMessage({ type: 'success', text: 'Admin added successfully!' });
             setShowAddModal(false);
             setFormData({ full_name: '', email: '', password: '', role: 'hr' });
