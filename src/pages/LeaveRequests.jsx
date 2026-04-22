@@ -13,6 +13,7 @@ import {
     ShieldAlert
 } from 'lucide-react';
 import api from '../utils/api';
+import { formatToIST } from '../utils/dateUtils';
 import { useAuth } from '../context/AuthContext';
 
 const LeaveRequests = () => {
@@ -226,7 +227,7 @@ const LeaveRequests = () => {
                                                 {msg.message}
                                             </div>
                                             <span className="text-[10px] text-slate-600 mt-1 font-bold">
-                                                {msg.sender_id === admin.email ? 'You' : msg.sender_name} • {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                {msg.sender_id === admin.email ? 'You' : msg.sender_name} • {formatToIST(msg.timestamp, { hour: '2-digit', minute: '2-digit' })}
                                             </span>
                                         </div>
                                     ))

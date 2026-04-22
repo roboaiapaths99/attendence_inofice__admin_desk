@@ -15,6 +15,7 @@ import {
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
+import { formatToIST } from '../utils/dateUtils';
 
 const StatCard = ({ title, value, subValue, icon: Icon, trend, type = 'blue' }) => {
     const colors = {
@@ -217,7 +218,7 @@ const Dashboard = () => {
                                     <p className="text-sm font-bold text-slate-200 truncate">{activity.employee_name || activity.email}</p>
                                     <div className="flex items-center gap-2">
                                         <p className="text-[10px] text-slate-500 font-medium uppercase tracking-tighter">
-                                            {activity.type === 'check-in' ? 'Clocked In' : 'Clocked Out'} • {new Date(activity.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            {activity.type === 'check-in' ? 'Clocked In' : 'Clocked Out'} • {formatToIST(activity.timestamp, { hour: '2-digit', minute: '2-digit' })}
                                         </p>
                                     </div>
                                 </div>

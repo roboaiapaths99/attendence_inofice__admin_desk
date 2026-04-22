@@ -17,6 +17,7 @@ import {
     ExternalLink
 } from 'lucide-react';
 import api from '../utils/api';
+import { formatToIST, formatDateToIST } from '../utils/dateUtils';
 
 const AttendanceLogs = () => {
     const [logs, setLogs] = useState([]);
@@ -183,8 +184,8 @@ const AttendanceLogs = () => {
                                                     <Clock size={16} className="text-slate-400 group-hover:text-primary-500" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-bold text-white tracking-tight">{new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</p>
-                                                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">{new Date(log.timestamp).toLocaleDateString()}</p>
+                                                    <p className="text-sm font-bold text-white tracking-tight">{formatToIST(log.timestamp)}</p>
+                                                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">{formatDateToIST(log.timestamp)}</p>
                                                 </div>
                                             </div>
                                         </td>

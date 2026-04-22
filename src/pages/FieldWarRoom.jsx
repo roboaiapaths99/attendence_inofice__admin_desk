@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle, Polygon, useMap, LayersControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import client from '../utils/api';
+import { formatToIST } from '../utils/dateUtils';
 import { Users, MapPin, Navigation, AlertTriangle, Clock, Route, ShieldCheck, EyeOff } from 'lucide-react';
 import L from 'leaflet';
 import 'leaflet.heat'; // Add this for heatmap support
@@ -178,7 +179,7 @@ const FieldWarRoom = () => {
                                     <div className="flex items-center gap-1.5">
                                         <Navigation size={12} className="text-primary-500" /> {agent.km_today || 0} km
                                     </div>
-                                    <span className="opacity-40 text-[9px]">{agent.last_ping ? new Date(agent.last_ping).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</span>
+                                    <span className="opacity-40 text-[9px]">{formatToIST(agent.last_ping, { hour: '2-digit', minute: '2-digit' })}</span>
                                 </div>
                             </button>
                         ))}
@@ -263,7 +264,7 @@ const FieldWarRoom = () => {
                                             </div>
                                             <div>
                                                 <p className="text-[8px] text-slate-500 uppercase font-bold">Last Active</p>
-                                                <p className="text-sm font-bold text-white">{agent.last_ping ? new Date(agent.last_ping).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</p>
+                                                <p className="text-sm font-bold text-white">{formatToIST(agent.last_ping, { hour: '2-digit', minute: '2-digit' })}</p>
                                             </div>
                                         </div>
 
