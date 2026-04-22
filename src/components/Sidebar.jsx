@@ -90,7 +90,7 @@ const Sidebar = () => {
                 </div>
             </div>
 
-            <nav className="flex-1 px-3 space-y-1">
+            <nav className="flex-1 px-3 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 hover:scrollbar-thumb-slate-600 scrollbar-track-transparent">
                 {menuItems.map((item) => (
                     <NavLink
                         key={item.path}

@@ -186,7 +186,7 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                                             </div>
                                             <div>
                                                 <p className="font-bold capitalize text-slate-900 dark:text-white">{log.type.replace('-', ' ')}</p>
-                                                <p className="text-xs text-slate-500">{new Date(log.timestamp).toLocaleTimeString()}</p>
+                                                <p className="text-xs text-slate-500">{new Date(log.time).toLocaleTimeString()}</p>
                                             </div>
                                         </div>
                                         <StatusBadge status={log.status} />
@@ -195,14 +195,14 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                                     {log.location && (
                                         <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-between group">
                                             <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                                                <MapPin size={16} className="text-blue-500" />
-                                                <span>{log.location.lat.toFixed(4)}, {log.location.long.toFixed(4)}</span>
+                                                <MapPin size={16} className="text-blue-500 mt-0.5 shrink-0" />
+                                                <LocationDisplay lat={log.location.lat} lon={log.location.long} />
                                             </div>
                                             <a
                                                 href={`https://www.google.com/maps?q=${log.location.lat},${log.location.long}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="text-xs font-bold text-blue-600 hover:text-blue-700 uppercase tracking-wider"
+                                                className="text-xs font-bold text-blue-600 hover:text-blue-700 uppercase tracking-wider shrink-0 ml-2"
                                             >
                                                 Open Map
                                             </a>
@@ -210,10 +210,12 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                                     )}
 
                                     <div className="flex items-center gap-6 pt-2 border-t border-slate-50 dark:border-slate-700/50">
-                                        <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                                            <Wifi size={14} className="text-slate-400" />
-                                            <span className="font-medium text-slate-700 dark:text-slate-300">{log.wifi_confidence || 0}% WiFi</span>
-                                        </div>
+                                        {log.wifi_confidence > 0 && (
+                                            <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                                                <Wifi size={14} className="text-slate-400" />
+                                                <span className="font-medium text-slate-700 dark:text-slate-300">{log.wifi_confidence}% WiFi</span>
+                                            </div>
+                                        )}
                                         <div className="flex items-center gap-1.5 text-xs text-slate-500">
                                             <Clock size={14} className="text-slate-400" />
                                             <span className="font-medium text-slate-700 dark:text-slate-300">{log.check_in_method || 'Manual'}</span>
@@ -260,6 +262,8 @@ const SummaryCard = ({ label, value, icon, color }) => {
 const StatusBadge = ({ status }) => {
     const styles = {
         Present: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+        Late: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400",
+        "Early Leave": "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-400",
         Leave: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400",
         Weekend: "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300",
         Absent: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
@@ -272,3 +276,36 @@ const StatusBadge = ({ status }) => {
 };
 
 export default EmployeeReportModal;
+
+// Utility hook to reverse-geocode lat/long
+const LocationDisplay = ({ lat, lon }) => {
+    const [address, setAddress] = useState(`${lat.toFixed(4)}, ${lon.toFixed(4)}`);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        let isMounted = true;
+        const fetchAddress = async () => {
+            try {
+                const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+                const data = await res.json();
+                if (isMounted && data.display_name) {
+                    // Extract a simplified address, like suburb + city
+                    const parts = [];
+                    if (data.address.suburb || data.address.neighbourhood) parts.push(data.address.suburb || data.address.neighbourhood);
+                    if (data.address.city || data.address.town) parts.push(data.address.city || data.address.town);
+                    if (parts.length === 0) setAddress(data.display_name.split(',').slice(0, 2).join(', '));
+                    else setAddress(parts.join(', '));
+                }
+            } catch (err) {
+                console.error("Geocoding failed", err);
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+        fetchAddress();
+        return () => { isMounted = false; };
+    }, [lat, lon]);
+
+    if (loading) return <span className="animate-pulse bg-slate-200 dark:bg-slate-700 h-4 w-32 rounded"></span>;
+    return <span className="truncate">{address}</span>;
+};

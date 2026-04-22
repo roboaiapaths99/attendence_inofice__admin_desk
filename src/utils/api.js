@@ -29,10 +29,14 @@ api.interceptors.response.use(
 
         // Auto-logout on 401
         if (response && response.status === 401) {
-            localStorage.removeItem('admin_token');
-            localStorage.removeItem('admin_user');
-            localStorage.removeItem('admin_org');
-            window.location.href = '/login';
+            const isAuthCheck = config.url.includes('/admin/me') || config.url.includes('/admin/login');
+
+            if (!isAuthCheck) {
+                localStorage.removeItem('admin_token');
+                localStorage.removeItem('admin_user');
+                localStorage.removeItem('admin_org');
+                window.location.href = '/login';
+            }
             return Promise.reject(error);
         }
 

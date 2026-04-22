@@ -25,14 +25,16 @@ const AttendanceLogs = () => {
     const [error, setError] = useState('');
     const [filterType, setFilterType] = useState('all');
 
-    useEffect(() => {
-        fetchLogs();
-    }, []);
+    const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7)); // yyyy-mm
 
-    const fetchLogs = async () => {
+    useEffect(() => {
+        fetchLogs(selectedMonth);
+    }, [selectedMonth]);
+
+    const fetchLogs = async (monthStr) => {
         try {
             setLoading(true);
-            const res = await api.get('/admin/logs?limit=100');
+            const res = await api.get(`/admin/logs?limit=5000&month=${monthStr}`);
             setLogs(res.data);
         } catch (err) {
             setError('Unable to retrieve attendance audit trail.');
@@ -95,9 +97,14 @@ const AttendanceLogs = () => {
                     <p className="text-slate-400">Review and export comprehensive attendance history.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="bg-slate-800/50 border border-slate-700 rounded-2xl px-4 py-2 flex items-center gap-2 shadow-lg shadow-black/20">
+                    <div className="bg-slate-800/50 border border-slate-700 rounded-2xl px-4 py-2 flex items-center gap-2 shadow-lg shadow-black/20 focus-within:border-primary-500/50 transition-colors">
                         <Calendar size={18} className="text-primary-500" />
-                        <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        <input
+                            type="month"
+                            className="bg-transparent text-xs font-bold text-slate-300 uppercase tracking-widest outline-none [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute cursor-pointer w-28"
+                            value={selectedMonth}
+                            onChange={(e) => setSelectedMonth(e.target.value)}
+                        />
                     </div>
                     <button
                         onClick={handleExportExcel}
@@ -199,11 +206,15 @@ const AttendanceLogs = () => {
                                             <div className="space-y-1">
                                                 <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
                                                     <ShieldCheck size={12} className="text-slate-600" />
-                                                    Face ID Verified
+                                                    {log.check_in_method || 'Face ID Verified'}
                                                 </div>
-                                                <div className="flex items-center gap-1.5 text-[10px] text-slate-600 font-bold uppercase tracking-tight">
-                                                    <MapPin size={10} />
-                                                    {log.address || 'Office Core Zone'}
+                                                <div className="flex items-center gap-1.5 text-[10px] text-slate-600 font-bold tracking-tight">
+                                                    <MapPin size={10} className="shrink-0" />
+                                                    {log.location ? (
+                                                        <LocationDisplay lat={log.location.lat} lon={log.location.long} />
+                                                    ) : (
+                                                        <span className="uppercase">{log.address || 'Office Core Zone'}</span>
+                                                    )}
                                                 </div>
                                             </div>
                                         </td>
@@ -241,3 +252,35 @@ const AttendanceLogs = () => {
 };
 
 export default AttendanceLogs;
+
+// Utility hook to reverse-geocode lat/long
+const LocationDisplay = ({ lat, lon }) => {
+    const [address, setAddress] = useState(`${lat.toFixed(4)}, ${lon.toFixed(4)}`);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        let isMounted = true;
+        const fetchAddress = async () => {
+            try {
+                const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+                const data = await res.json();
+                if (isMounted && data.display_name) {
+                    const parts = [];
+                    if (data.address.suburb || data.address.neighbourhood) parts.push(data.address.suburb || data.address.neighbourhood);
+                    if (data.address.city || data.address.town) parts.push(data.address.city || data.address.town);
+                    if (parts.length === 0) setAddress(data.display_name.split(',').slice(0, 2).join(', '));
+                    else setAddress(parts.join(', '));
+                }
+            } catch (err) {
+                console.error("Geocoding failed", err);
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+        fetchAddress();
+        return () => { isMounted = false; };
+    }, [lat, lon]);
+
+    if (loading) return <span className="animate-pulse bg-slate-800/50 h-3 w-24 rounded"></span>;
+    return <span className="truncate max-w-[150px] inline-block align-bottom">{address}</span>;
+};

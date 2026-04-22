@@ -79,17 +79,20 @@ const Dashboard = () => {
             try {
                 const [statsRes, logsRes] = await Promise.all([
                     api.get('/admin/stats'),
-                    api.get('/admin/logs?limit=5')
+                    api.get('/admin/live-feed?limit=8')
                 ]);
                 setStats(statsRes.data);
-                setActivities(logsRes.data);
+                setActivities(logsRes.data.logs || []);
             } catch (err) {
                 console.error('Error fetching dashboard data:', err);
             } finally {
                 setLoading(false);
             }
         };
+
         fetchData();
+        const interval = setInterval(fetchData, 30000); // 30s real-time sync
+        return () => clearInterval(interval);
     }, []);
 
     if (loading) {
@@ -202,25 +205,35 @@ const Dashboard = () => {
                     <h2 className="text-xl font-bold text-white mb-6 tracking-tight">Recent Activity</h2>
                     <div className="space-y-6">
                         {activities.length > 0 ? activities.map((activity, i) => (
-                            <div key={i} className="flex items-center gap-4 group">
-                                <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-400 group-hover:bg-primary-600/20 group-hover:text-primary-400 transition-colors border border-slate-700/50">
-                                    {(activity.full_name || activity.email).charAt(0)}
+                            <div key={activity._id || i} className="flex items-center gap-4 group">
+                                <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-400 group-hover:bg-primary-600/20 group-hover:text-primary-400 transition-colors border border-slate-700/50 overflow-hidden">
+                                    {activity.profile_image ? (
+                                        <img src={`data:image/jpeg;base64,${activity.profile_image}`} alt="" className="w-full h-full object-cover" />
+                                    ) : (
+                                        (activity.employee_name || activity.email).charAt(0)
+                                    )}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-bold text-slate-200 truncate">{activity.full_name || activity.email}</p>
-                                    <p className="text-[10px] text-slate-500 font-medium uppercase tracking-tighter">
-                                        {activity.type === 'check-in' ? 'Clocked In' : 'Clocked Out'} • {new Date(activity.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    </p>
+                                    <p className="text-sm font-bold text-slate-200 truncate">{activity.employee_name || activity.email}</p>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-[10px] text-slate-500 font-medium uppercase tracking-tighter">
+                                            {activity.type === 'check-in' ? 'Clocked In' : 'Clocked Out'} • {new Date(activity.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </p>
+                                    </div>
                                 </div>
-                                <span className="text-[10px] font-black tracking-widest px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-500 border border-emerald-500/10 shadow-sm shadow-emerald-950/20">
-                                    {activity.status?.toUpperCase() || 'OK'}
+                                <span className={`text-[10px] font-black tracking-widest px-2 py-1 rounded-md border ${activity.type === 'check-in' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/10' : 'bg-rose-500/10 text-rose-500 border-rose-500/10'
+                                    } shadow-sm shadow-emerald-950/20`}>
+                                    {activity.type?.replace('-', ' ').toUpperCase()}
                                 </span>
                             </div>
                         )) : (
                             <p className="text-slate-600 text-sm text-center py-12">No activity recorded today.</p>
                         )}
                     </div>
-                    <button className="w-full mt-8 py-3 rounded-xl border border-slate-800 text-slate-400 text-xs font-bold uppercase tracking-widest hover:bg-slate-800/50 transition-all active:scale-95">
+                    <button
+                        onClick={() => navigate('/dashboard/logs')}
+                        className="w-full mt-8 py-3 rounded-xl border border-slate-800 text-slate-400 text-xs font-bold uppercase tracking-widest hover:bg-slate-800/50 transition-all active:scale-95"
+                    >
                         Full Audit Log
                     </button>
                 </div>
