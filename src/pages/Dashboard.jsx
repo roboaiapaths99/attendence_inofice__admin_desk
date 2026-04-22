@@ -15,7 +15,8 @@ import {
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
-import { formatToIST } from '../utils/dateUtils';
+import { formatToIST, getRelativeDateLabel } from '../utils/dateUtils';
+import { RefreshCw } from 'lucide-react';
 
 const StatCard = ({ title, value, subValue, icon: Icon, trend, type = 'blue' }) => {
     const colors = {
@@ -58,6 +59,8 @@ const Dashboard = () => {
     const [stats, setStats] = useState(null);
     const [activities, setActivities] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+    const [lastUpdated, setLastUpdated] = useState(new Date());
 
     const handleExportPDF = async () => {
         try {
@@ -76,7 +79,8 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchDataInternal = async (isManual = false) => {
+            if (isManual) setRefreshing(true);
             try {
                 const [statsRes, logsRes] = await Promise.all([
                     api.get('/admin/stats'),
@@ -84,17 +88,36 @@ const Dashboard = () => {
                 ]);
                 setStats(statsRes.data);
                 setActivities(logsRes.data.logs || []);
+                setLastUpdated(new Date());
             } catch (err) {
                 console.error('Error fetching dashboard data:', err);
             } finally {
                 setLoading(false);
+                if (isManual) setRefreshing(false);
             }
         };
 
-        fetchData();
-        const interval = setInterval(fetchData, 30000); // 30s real-time sync
+        fetchDataInternal();
+        const interval = setInterval(() => fetchDataInternal(false), 20000); // 20s real-time sync
         return () => clearInterval(interval);
     }, []);
+
+    const handleManualRefresh = async () => {
+        setRefreshing(true);
+        try {
+            const [statsRes, logsRes] = await Promise.all([
+                api.get('/admin/stats'),
+                api.get('/admin/live-feed?limit=8')
+            ]);
+            setStats(statsRes.data);
+            setActivities(logsRes.data.logs || []);
+            setLastUpdated(new Date());
+        } catch (err) {
+            console.error('Error fetching dashboard data:', err);
+        } finally {
+            setRefreshing(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -110,7 +133,12 @@ const Dashboard = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">System Overview</h1>
-                    <p className="text-slate-400">Welcome back, Admin. Real-time metrics are synced.</p>
+                    <p className="text-slate-400 flex items-center gap-2">
+                        Welcome back, Admin. 
+                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter bg-slate-800/50 px-2 py-0.5 rounded-md">
+                            Last Refreshed: {formatToIST(lastUpdated, { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                    </p>
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full flex items-center gap-2 shadow-lg shadow-emerald-950/20">
@@ -203,7 +231,16 @@ const Dashboard = () => {
 
                 {/* Live Activity Feed */}
                 <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-8 rounded-[2rem]">
-                    <h2 className="text-xl font-bold text-white mb-6 tracking-tight">Recent Activity</h2>
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-xl font-bold text-white tracking-tight">Recent Activity</h2>
+                        <button 
+                            onClick={handleManualRefresh}
+                            className={`p-2 rounded-xl border border-slate-800 text-slate-500 hover:text-white transition-all active:scale-95 ${refreshing ? 'animate-spin-once' : ''}`}
+                            title="Force Sync"
+                        >
+                            <RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} />
+                        </button>
+                    </div>
                     <div className="space-y-6">
                         {activities.length > 0 ? activities.map((activity, i) => (
                             <div key={activity._id || i} className="flex items-center gap-4 group">
@@ -219,6 +256,7 @@ const Dashboard = () => {
                                     <div className="flex items-center gap-2">
                                         <p className="text-[10px] text-slate-500 font-medium uppercase tracking-tighter">
                                             {activity.type === 'check-in' ? 'Clocked In' : 'Clocked Out'} • {formatToIST(activity.timestamp, { hour: '2-digit', minute: '2-digit' })}
+                                            <span className="ml-1 text-primary-400">({getRelativeDateLabel(activity.timestamp)})</span>
                                         </p>
                                     </div>
                                 </div>

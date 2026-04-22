@@ -39,3 +39,46 @@ export const formatDateToIST = (timestamp) => {
         return 'Invalid Date';
     }
 };
+
+/**
+ * Returns a relative date label (Today, Yesterday, or Date) in IST
+ * @param {string|Date} timestamp - The UTC timestamp or Date object
+ * @returns {string} "Today", "Yesterday", or formatted date (e.g., "22 Apr")
+ */
+export const getRelativeDateLabel = (timestamp) => {
+    if (!timestamp) return 'N/A';
+    try {
+        const date = new Date(timestamp);
+        
+        // Get IST current date components
+        const now = new Date();
+        const istNowStr = new Intl.DateTimeFormat('en-IN', {
+            year: 'numeric', month: 'numeric', day: 'numeric', timeZone: 'Asia/Kolkata'
+        }).format(now);
+        
+        const istDateStr = new Intl.DateTimeFormat('en-IN', {
+            year: 'numeric', month: 'numeric', day: 'numeric', timeZone: 'Asia/Kolkata'
+        }).format(date);
+
+        if (istNowStr === istDateStr) return 'Today';
+
+        // Check for Yesterday
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const istYesterdayStr = new Intl.DateTimeFormat('en-IN', {
+            year: 'numeric', month: 'numeric', day: 'numeric', timeZone: 'Asia/Kolkata'
+        }).format(yesterday);
+
+        if (istYesterdayStr === istDateStr) return 'Yesterday';
+
+        // Older than yesterday
+        return new Intl.DateTimeFormat('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            timeZone: 'Asia/Kolkata'
+        }).format(date);
+    } catch (err) {
+        console.error('Error getting relative date label:', err);
+        return '';
+    }
+};
