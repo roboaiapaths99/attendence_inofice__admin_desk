@@ -66,20 +66,24 @@ const LoginPage = () => {
                         <div className="space-y-4">
                             <div className="relative group">
                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary-500 transition-colors" size={20} />
-                                <input
-                                    type="email"
-                                    placeholder="Admin Email"
-                                    className="w-full bg-slate-950/50 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-200 placeholder:text-slate-600"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        placeholder="Admin Email"
+                                        className="w-full bg-slate-950/50 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-200 placeholder:text-slate-600"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
                             </div>
 
                             <div className="relative group">
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary-500 transition-colors" size={20} />
                                 <input
                                     type="password"
+                                    id="password"
+                                    name="password"
                                     placeholder="Password"
                                     className="w-full bg-slate-950/50 border border-slate-800 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-200 placeholder:text-slate-600"
                                     value={password}

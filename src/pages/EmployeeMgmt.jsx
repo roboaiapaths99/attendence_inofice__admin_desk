@@ -294,6 +294,8 @@ const EmployeeMgmt = () => {
                         <h2 className="text-xl font-bold text-white mb-6">Register New Member</h2>
                         <form onSubmit={handleManualAdd} className="space-y-4">
                             <input
+                                id="reg_full_name"
+                                name="full_name"
                                 placeholder="Full Name"
                                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
                                 required
@@ -302,6 +304,8 @@ const EmployeeMgmt = () => {
                             />
                             <input
                                 type="email"
+                                id="reg_email"
+                                name="email"
                                 placeholder="Email Address"
                                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
                                 required
@@ -310,6 +314,8 @@ const EmployeeMgmt = () => {
                             />
                             <div className="grid grid-cols-2 gap-4">
                                 <input
+                                    id="reg_employee_id"
+                                    name="employee_id"
                                     placeholder="Employee ID"
                                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
                                     required
@@ -318,6 +324,8 @@ const EmployeeMgmt = () => {
                                 />
                                 <input
                                     type="password"
+                                    id="reg_password"
+                                    name="password"
                                     placeholder="Set Password"
                                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
                                     required
@@ -327,12 +335,16 @@ const EmployeeMgmt = () => {
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <input
+                                    id="reg_designation"
+                                    name="designation"
                                     placeholder="Designation"
                                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
                                     value={newEmployee.designation}
                                     onChange={e => setNewEmployee({ ...newEmployee, designation: e.target.value })}
                                 />
                                 <input
+                                    id="reg_department"
+                                    name="department"
                                     placeholder="Department"
                                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
                                     value={newEmployee.department}
@@ -415,6 +427,8 @@ const EmployeeMgmt = () => {
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary-500 transition-colors" size={20} />
                     <input
                         type="text"
+                        id="employee_search"
+                        name="search"
                         placeholder="Search by name, email or ID..."
                         className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl py-3 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-200 placeholder:text-slate-600 font-medium"
                         value={searchTerm}
@@ -492,6 +506,8 @@ const EmployeeMgmt = () => {
                                             <div className="flex items-center gap-3 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2">
                                                 <Network className="text-primary-500" size={18} />
                                                 <select
+                                                    id="bulk_manager_select"
+                                                    name="manager_email"
                                                     className="bg-transparent text-sm text-white outline-none min-w-[200px]"
                                                     value={selectedManager}
                                                     onChange={(e) => setSelectedManager(e.target.value)}
@@ -685,6 +701,8 @@ const EmployeeMgmt = () => {
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Full Name</label>
                                     <input
+                                        id="edit_full_name"
+                                        name="full_name"
                                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white transition-all"
                                         required
                                         value={editingEmployee.full_name}
@@ -705,6 +723,8 @@ const EmployeeMgmt = () => {
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Designation</label>
                                     <input
+                                        id="edit_designation"
+                                        name="designation"
                                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
                                         value={editingEmployee.designation}
                                         onChange={e => setEditingEmployee({ ...editingEmployee, designation: e.target.value })}
@@ -713,6 +733,8 @@ const EmployeeMgmt = () => {
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Department</label>
                                     <input
+                                        id="edit_department"
+                                        name="department"
                                         className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
                                         value={editingEmployee.department}
                                         onChange={e => setEditingEmployee({ ...editingEmployee, department: e.target.value })}
