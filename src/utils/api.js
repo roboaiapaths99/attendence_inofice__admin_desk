@@ -15,6 +15,12 @@ api.interceptors.request.use(
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
+        
+        // Prevent caching to ensure real-time sync across devices
+        config.headers['Cache-Control'] = 'no-cache';
+        config.headers['Pragma'] = 'no-cache';
+        config.headers['Expires'] = '0';
+
         config._retryCount = config._retryCount || 0;
         return config;
     },

@@ -98,7 +98,7 @@ const Dashboard = () => {
         };
 
         fetchDataInternal();
-        const interval = setInterval(() => fetchDataInternal(false), 20000); // 20s real-time sync
+        const interval = setInterval(() => fetchDataInternal(false), 10000); // 10s real-time sync
         return () => clearInterval(interval);
     }, []);
 
@@ -135,8 +135,8 @@ const Dashboard = () => {
                     <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">System Overview</h1>
                     <p className="text-slate-400 flex items-center gap-2">
                         Welcome back, Admin. 
-                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter bg-slate-800/50 px-2 py-0.5 rounded-md">
-                            Last Refreshed: {formatToIST(lastUpdated, { hour: '2-digit', minute: '2-digit' })}
+                        <span className={`text-[10px] font-bold uppercase tracking-tighter px-2 py-0.5 rounded-md transition-all duration-500 ${refreshing ? 'bg-blue-500/20 text-blue-400 animate-pulse' : 'bg-slate-800/50 text-slate-500'}`}>
+                            {refreshing ? 'Syncing...' : `Last Refreshed: ${formatToIST(lastUpdated, { hour: '2-digit', minute: '2-digit' })}`}
                         </span>
                     </p>
                 </div>

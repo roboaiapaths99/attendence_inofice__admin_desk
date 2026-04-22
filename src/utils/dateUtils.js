@@ -7,15 +7,23 @@
 export const formatToIST = (timestamp, options = { hour: '2-digit', minute: '2-digit', second: '2-digit' }) => {
     if (!timestamp) return 'N/A';
     try {
-        const date = new Date(timestamp);
+        // Ensure string timestamps are treated as UTC if they lack timezone info
+        let dateStr = timestamp;
+        if (typeof timestamp === 'string' && !timestamp.endsWith('Z') && !timestamp.includes('+')) {
+            dateStr = timestamp.includes('T') ? `${timestamp}Z` : `${timestamp.replace(' ', 'T')}Z`;
+        }
+        
+        const date = new Date(dateStr);
+        
+        // Use Intl with explicit IST target
         return new Intl.DateTimeFormat('en-IN', {
             ...options,
             timeZone: 'Asia/Kolkata',
             hour12: true
         }).format(date);
-    } catch (err) {
-        console.error('Error formatting IST time:', err);
-        return 'Invalid Time';
+    } catch (e) {
+        console.error('Date formatting error:', e);
+        return 'Invalid Date';
     }
 };
 
