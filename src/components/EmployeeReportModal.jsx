@@ -4,8 +4,8 @@ import {
     AlertCircle, Coffee, Download,
     ChevronRight, User, Fingerprint, Wifi
 } from 'lucide-react';
-import api from '../utils/api';
 import { motion, AnimatePresence } from 'framer-motion';
+import { formatToIST } from '../utils/dateUtils';
 
 const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
     const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
@@ -131,10 +131,10 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                                             >
                                                 <td className="px-6 py-4 text-sm font-medium">{day.date}</td>
                                                 <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                                                    {day.first_in ? new Date(day.first_in).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--'}
+                                                    {day.first_in ? formatToIST(day.first_in, { hour: '2-digit', minute: '2-digit' }) : '--:--'}
                                                 </td>
                                                 <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
-                                                    {day.last_out ? new Date(day.last_out).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--'}
+                                                    {day.last_out ? formatToIST(day.last_out, { hour: '2-digit', minute: '2-digit' }) : '--:--'}
                                                 </td>
                                                 <td className="px-6 py-4 text-sm font-semibold text-blue-600">
                                                     {day.duration_hours > 0 ? `${day.duration_hours}h` : '-'}
@@ -186,7 +186,7 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                                             </div>
                                             <div>
                                                 <p className="font-bold capitalize text-slate-900 dark:text-white">{log.type.replace('-', ' ')}</p>
-                                                <p className="text-xs text-slate-500">{new Date(log.time).toLocaleTimeString()}</p>
+                                                <p className="text-xs text-slate-500">{formatToIST(log.time)}</p>
                                             </div>
                                         </div>
                                         <StatusBadge status={log.status} />
