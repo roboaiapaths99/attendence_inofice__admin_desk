@@ -83,7 +83,7 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                     ) : data ? (
                         <>
                             {/* Summary Cards */}
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                                 <SummaryCard
                                     label="Working Days"
                                     value={data.summary.present_days}
@@ -101,6 +101,12 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                                     value={data.summary.leaves_taken}
                                     icon={<Coffee className="text-orange-500" />}
                                     color="orange"
+                                />
+                                <SummaryCard
+                                    label="Absent Days"
+                                    value={data.summary.absent_days}
+                                    icon={<AlertCircle className="text-red-500" />}
+                                    color="red"
                                 />
                                 <SummaryCard
                                     label="Avg Daily Hours"
@@ -245,6 +251,7 @@ const SummaryCard = ({ label, value, icon, color }) => {
         blue: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400",
         orange: "bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400",
         purple: "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400",
+        red: "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400",
     };
 
     return (
@@ -261,6 +268,7 @@ const SummaryCard = ({ label, value, icon, color }) => {
 };
 
 const StatusBadge = ({ status }) => {
+    const baseStatus = status.split(' ')[0];
     const styles = {
         Present: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
         Late: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400",
@@ -270,7 +278,7 @@ const StatusBadge = ({ status }) => {
         Absent: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
     };
     return (
-        <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${styles[status] || styles.Absent}`}>
+        <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${styles[baseStatus] || styles[status] || styles.Absent}`}>
             {status}
         </span>
     );

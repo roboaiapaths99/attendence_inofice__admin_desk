@@ -58,6 +58,7 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [stats, setStats] = useState(null);
     const [activities, setActivities] = useState([]);
+    const [chartData, setChartData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [lastUpdated, setLastUpdated] = useState(new Date());
@@ -82,12 +83,14 @@ const Dashboard = () => {
         const fetchDataInternal = async (isManual = false) => {
             if (isManual) setRefreshing(true);
             try {
-                const [statsRes, logsRes] = await Promise.all([
+                const [statsRes, logsRes, chartRes] = await Promise.all([
                     api.get('/admin/stats'),
-                    api.get('/admin/live-feed?limit=8')
+                    api.get('/admin/live-feed?limit=8'),
+                    api.get('/admin/stats/attendance-chart')
                 ]);
                 setStats(statsRes.data);
                 setActivities(logsRes.data.logs || []);
+                setChartData(chartRes.data || []);
                 setLastUpdated(new Date());
             } catch (err) {
                 console.error('Error fetching dashboard data:', err);
@@ -105,12 +108,14 @@ const Dashboard = () => {
     const handleManualRefresh = async () => {
         setRefreshing(true);
         try {
-            const [statsRes, logsRes] = await Promise.all([
+            const [statsRes, logsRes, chartRes] = await Promise.all([
                 api.get('/admin/stats'),
-                api.get('/admin/live-feed?limit=8')
+                api.get('/admin/live-feed?limit=8'),
+                api.get('/admin/stats/attendance-chart')
             ]);
             setStats(statsRes.data);
             setActivities(logsRes.data.logs || []);
+            setChartData(chartRes.data || []);
             setLastUpdated(new Date());
         } catch (err) {
             console.error('Error fetching dashboard data:', err);
@@ -167,32 +172,32 @@ const Dashboard = () => {
                     value={stats?.total_employees || 0}
                     subValue="Organization capacity"
                     icon={Users}
-                    trend={12}
+                    trend={0}
                     type="blue"
                 />
                 <StatCard
                     title="Clocked-In Today"
                     value={stats?.clocked_in_today || 0}
-                    subValue="Total check-ins"
+                    subValue="Active attendance"
                     icon={UserCheck}
-                    trend={5}
+                    trend={0}
                     type="emerald"
                 />
                 <StatCard
-                    title="Security Anomalies"
-                    value={stats?.alerts_today || 0}
-                    subValue={`${stats?.critical_alerts || 0} critical issues`}
-                    icon={ShieldAlert}
-                    trend={stats?.alerts_today > 0 ? -10 : 0}
-                    type="rose"
-                />
-                <StatCard
-                    title="Pending Guards"
-                    value={stats?.pending_alerts || 0}
-                    subValue="Actions required"
-                    icon={Bell}
+                    title="On Leave"
+                    value={stats?.on_leave || 0}
+                    subValue="Approved requests"
+                    icon={Clock}
                     trend={0}
                     type="amber"
+                />
+                <StatCard
+                    title="Absent Today"
+                    value={stats?.absent_today || 0}
+                    subValue="Unaccounted staff"
+                    icon={UserX}
+                    trend={0}
+                    type="rose"
                 />
             </div>
 
@@ -209,10 +214,7 @@ const Dashboard = () => {
                     </div>
                     <div className="h-[350px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={[
-                                { name: 'Mon', count: 40 }, { name: 'Tue', count: 52 }, { name: 'Wed', count: 48 },
-                                { name: 'Thu', count: 61 }, { name: 'Fri', count: 55 }, { name: 'Sat', count: 12 }, { name: 'Sun', count: 8 },
-                            ]}>
+                            <AreaChart data={chartData}>
                                 <defs>
                                     <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} />
