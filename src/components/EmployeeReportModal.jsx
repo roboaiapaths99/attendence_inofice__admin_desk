@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatToIST } from '../utils/dateUtils';
+import client from '../utils/api';
 
 const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
     const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
@@ -22,7 +23,7 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
     const fetchReport = async () => {
         setLoading(true);
         try {
-            const res = await api.get(`/admin/reports/employee-monthly-summary`, {
+            const res = await client.get(`/admin/reports/employee-monthly-summary`, {
                 params: { email: employee.email, month }
             });
             setData(res.data);
