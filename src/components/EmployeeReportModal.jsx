@@ -5,7 +5,7 @@ import {
     ChevronRight, User, Fingerprint, Wifi
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { formatToIST } from '../utils/dateUtils';
+import { formatToIST, formatDateToIST } from '../utils/dateUtils';
 import client from '../utils/api';
 
 const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
@@ -136,7 +136,9 @@ const EmployeeReportModal = ({ isOpen, onClose, employee }) => {
                                                 className={`hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors group cursor-pointer ${selectedDay?.date === day.date ? 'bg-blue-50/50' : ''}`}
                                                 onClick={() => setSelectedDay(day)}
                                             >
-                                                <td className="px-6 py-4 text-sm font-medium">{day.date}</td>
+                                                <td className="px-6 py-4 text-sm font-medium">
+                                                    {formatDateToIST(day.date)}
+                                                </td>
                                                 <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
                                                     {day.first_in ? formatToIST(day.first_in, { hour: '2-digit', minute: '2-digit' }) : '--:--'}
                                                 </td>

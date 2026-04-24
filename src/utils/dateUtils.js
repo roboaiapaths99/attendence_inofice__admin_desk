@@ -35,7 +35,17 @@ export const formatToIST = (timestamp, options = { hour: '2-digit', minute: '2-d
 export const formatDateToIST = (timestamp) => {
     if (!timestamp) return 'N/A';
     try {
-        const date = new Date(timestamp);
+        // Ensure string timestamps are treated as UTC if they lack timezone info
+        let dateStr = timestamp;
+        if (typeof timestamp === 'string' && !timestamp.endsWith('Z') && !timestamp.includes('+')) {
+            dateStr = timestamp.includes('T') ? `${timestamp}Z` : `${timestamp.replace(' ', 'T')}Z`;
+        }
+
+        const date = new Date(dateStr);
+        
+        // Check if date is valid
+        if (isNaN(date.getTime())) return 'Invalid Date';
+
         return new Intl.DateTimeFormat('en-IN', {
             day: '2-digit',
             month: '2-digit',
