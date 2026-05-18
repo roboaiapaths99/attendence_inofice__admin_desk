@@ -18,7 +18,8 @@ const Settings = () => {
         office_start_time: '09:00',
         late_threshold_mins: 15,
         required_hours: 8.0,
-        timezone_offset: 330
+        timezone_offset: 330,
+        office_wifi_bssid: ''
     });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -339,6 +340,17 @@ const Settings = () => {
                                     onChange={(e) => setSettings({ ...settings, office_wifi_ssid: e.target.value })}
                                 />
                                 <p className="text-[10px] text-slate-600 mt-2">Leave blank to allow any network. Desk app will check for this SSID.</p>
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Restricted Office WiFi (BSSID)</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. 00:11:22:33:44:55"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                    value={settings.office_wifi_bssid || ''}
+                                    onChange={(e) => setSettings({ ...settings, office_wifi_bssid: e.target.value })}
+                                />
+                                <p className="text-[10px] text-slate-600 mt-2">Optional. Specify WiFi router BSSID MAC address for higher security.</p>
                             </div>
                             <div>
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Geofence Radius (Meters)</label>
