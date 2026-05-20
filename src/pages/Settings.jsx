@@ -237,15 +237,27 @@ const Settings = () => {
                             </div>
                         </div>
 
-                        <div>
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Visit Geofence Radius (Meters)</label>
-                            <input
-                                type="number"
-                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
-                                value={settings.field_visit_geofence || 200}
-                                onChange={(e) => setSettings({ ...settings, field_visit_geofence: parseInt(e.target.value) })}
-                            />
-                            <p className="text-[10px] text-slate-600 mt-2">Recommended: 200m for field reliability.</p>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Rate Per KM (₹)</label>
+                                <input
+                                    type="number"
+                                    step="0.5"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-primary-500 text-slate-200"
+                                    value={settings.field_rate_per_km || 10.0}
+                                    onChange={(e) => setSettings({ ...settings, field_rate_per_km: parseFloat(e.target.value) })}
+                                />
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Visit Geofence Radius (Meters)</label>
+                                <input
+                                    type="number"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-white"
+                                    value={settings.field_visit_geofence || 200}
+                                    onChange={(e) => setSettings({ ...settings, field_visit_geofence: parseInt(e.target.value) })}
+                                />
+                                <p className="text-[10px] text-slate-600 mt-2">Recommended: 200m for field reliability.</p>
+                            </div>
                         </div>
                     </div>
                 </div>

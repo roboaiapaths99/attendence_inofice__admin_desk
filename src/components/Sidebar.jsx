@@ -18,7 +18,8 @@ import {
     Network,
     ShieldX,
     Zap,
-    Trophy
+    Trophy,
+    X
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { clsx } from 'clsx';
@@ -28,7 +29,7 @@ function cn(...inputs) {
     return twMerge(clsx(inputs));
 }
 
-const Sidebar = () => {
+const Sidebar = ({ onClose }) => {
     const { logout, admin, organization } = useAuth();
     const navigate = useNavigate();
 
@@ -66,28 +67,35 @@ const Sidebar = () => {
     };
 
     return (
-        <aside className="w-72 bg-slate-900/50 backdrop-blur-xl border-r border-slate-800 h-screen sticky top-0 flex flex-col pt-8 pb-4">
-            <div className="px-6 mb-10 flex items-center gap-3">
-                {organization?.logo_url && organization.logo_url.startsWith('http') ? (
-                    <img src={organization.logo_url} alt="Logo" className="w-10 h-10 rounded-xl object-contain bg-white/5 p-1 border border-slate-700" />
-                ) : (
-                    <div className="w-10 h-10 bg-primary-600/20 rounded-xl flex items-center justify-center border border-primary-500/30"
-                        style={{
-                            backgroundColor: organization?.primary_color ? `${organization.primary_color}33` : undefined,
-                            borderColor: organization?.primary_color ? `${organization.primary_color}50` : undefined
-                        }}
-                    >
-                        <Shield className="text-primary-500" size={20} style={{ color: organization?.primary_color }} />
+        <aside className="w-72 bg-slate-900/95 backdrop-blur-xl border-r border-slate-800 h-screen flex flex-col pt-8 pb-4 relative z-50">
+            <div className="px-6 mb-10 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                    {organization?.logo_url && organization.logo_url.startsWith('http') ? (
+                        <img src={organization.logo_url} alt="Logo" className="w-10 h-10 rounded-xl object-contain bg-white/5 p-1 border border-slate-700" />
+                    ) : (
+                        <div className="w-10 h-10 bg-primary-600/20 rounded-xl flex items-center justify-center border border-primary-500/30"
+                            style={{
+                                backgroundColor: organization?.primary_color ? `${organization.primary_color}33` : undefined,
+                                borderColor: organization?.primary_color ? `${organization.primary_color}50` : undefined
+                            }}
+                        >
+                            <Shield className="text-primary-500" size={20} style={{ color: organization?.primary_color }} />
+                        </div>
+                    )}
+                    <div>
+                        <h2 className="text-lg font-bold text-white tracking-tight leading-none truncate max-w-[140px]" title={organization?.name}>
+                            {organization?.name || 'Log Day'}
+                        </h2>
+                        <span className="text-[10px] text-primary-500 font-bold uppercase tracking-widest" style={{ color: organization?.primary_color }}>
+                            {organization ? 'Enterprise' : 'Admin Portal'}
+                        </span>
                     </div>
-                )}
-                <div>
-                    <h2 className="text-lg font-bold text-white tracking-tight leading-none truncate max-w-[160px]" title={organization?.name}>
-                        {organization?.name || 'Log Day'}
-                    </h2>
-                    <span className="text-[10px] text-primary-500 font-bold uppercase tracking-widest" style={{ color: organization?.primary_color }}>
-                        {organization ? 'Enterprise' : 'Admin Portal'}
-                    </span>
                 </div>
+                {onClose && (
+                    <button onClick={onClose} className="md:hidden p-2 -mr-2 text-slate-400 hover:text-white">
+                        <X size={20} />
+                    </button>
+                )}
             </div>
 
             <nav className="flex-1 px-3 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 hover:scrollbar-thumb-slate-600 scrollbar-track-transparent">
@@ -96,6 +104,7 @@ const Sidebar = () => {
                         key={item.path}
                         to={item.path}
                         end={item.path === '/dashboard'}
+                        onClick={onClose}
                         className={({ isActive }) =>
                             cn(
                                 "flex items-center gap-3 px-4 py-3 rounded-xl transition-all group relative overflow-hidden",
