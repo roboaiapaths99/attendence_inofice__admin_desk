@@ -51,6 +51,8 @@ const Sidebar = ({ onClose }) => {
         { icon: Receipt, label: 'Expense Approvals', path: '/dashboard/expenses', featureId: 'expenses' },
         { icon: Zap, label: 'Nudge Center', path: '/dashboard/nudge', featureId: 'nudge' },
         { icon: Trophy, label: 'Team Leaderboard', path: '/dashboard/leaderboard', featureId: 'leaderboard' },
+        { icon: Shield, label: 'WFH Devices', path: '/dashboard/wfh-devices', featureId: 'dashboard' },
+        { icon: Users, label: 'WFH Live', path: '/dashboard/wfh-live', featureId: 'dashboard' },
         { icon: FileText, label: 'Reports', path: '/dashboard/reports', featureId: 'reports' },
         { icon: Settings, label: 'Settings', path: '/dashboard/settings', adminOnly: true },
     ];

@@ -57,6 +57,7 @@ const StatCard = ({ title, value, subValue, icon: Icon, trend, type = 'blue' }) 
 const Dashboard = () => {
     const navigate = useNavigate();
     const [stats, setStats] = useState(null);
+    const [wfhStats, setWfhStats] = useState(null);
     const [activities, setActivities] = useState([]);
     const [chartData, setChartData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -83,14 +84,16 @@ const Dashboard = () => {
         const fetchDataInternal = async (isManual = false) => {
             if (isManual) setRefreshing(true);
             try {
-                const [statsRes, logsRes, chartRes] = await Promise.all([
+                const [statsRes, logsRes, chartRes, wfhStatsRes] = await Promise.all([
                     api.get('/admin/stats'),
                     api.get('/admin/live-feed?limit=8'),
-                    api.get('/admin/stats/attendance-chart')
+                    api.get('/admin/stats/attendance-chart'),
+                    api.get('/admin/wfh/stats').catch(() => null)
                 ]);
                 setStats(statsRes.data);
                 setActivities(logsRes.data.logs || []);
                 setChartData(chartRes.data || []);
+                if (wfhStatsRes) setWfhStats(wfhStatsRes.data);
                 setLastUpdated(new Date());
             } catch (err) {
                 console.error('Error fetching dashboard data:', err);
@@ -108,14 +111,16 @@ const Dashboard = () => {
     const handleManualRefresh = async () => {
         setRefreshing(true);
         try {
-            const [statsRes, logsRes, chartRes] = await Promise.all([
+            const [statsRes, logsRes, chartRes, wfhStatsRes] = await Promise.all([
                 api.get('/admin/stats'),
                 api.get('/admin/live-feed?limit=8'),
-                api.get('/admin/stats/attendance-chart')
+                api.get('/admin/stats/attendance-chart'),
+                api.get('/admin/wfh/stats').catch(() => null)
             ]);
             setStats(statsRes.data);
             setActivities(logsRes.data.logs || []);
             setChartData(chartRes.data || []);
+            if (wfhStatsRes) setWfhStats(wfhStatsRes.data);
             setLastUpdated(new Date());
         } catch (err) {
             console.error('Error fetching dashboard data:', err);
@@ -196,6 +201,42 @@ const Dashboard = () => {
                     value={stats?.absent_today || 0}
                     subValue="Unaccounted staff"
                     icon={UserX}
+                    trend={0}
+                    type="rose"
+                />
+            </div>
+
+            {/* WFH Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <StatCard
+                    title="WFH Employees"
+                    value={wfhStats?.wfh_employees || 0}
+                    subValue="Remote capacity"
+                    icon={Users}
+                    trend={0}
+                    type="blue"
+                />
+                <StatCard
+                    title="WFH Live Now"
+                    value={wfhStats?.active_sessions || 0}
+                    subValue="Currently monitored"
+                    icon={UserCheck}
+                    trend={0}
+                    type="emerald"
+                />
+                <StatCard
+                    title="WFH Avg Productivity"
+                    value={wfhStats?.avg_productivity ? `${wfhStats.avg_productivity}%` : "0%"}
+                    subValue="Overall score today"
+                    icon={TrendingUp}
+                    trend={0}
+                    type="amber"
+                />
+                <StatCard
+                    title="WFH Pending Alerts"
+                    value={wfhStats?.pending_alerts || 0}
+                    subValue="Awaiting audit"
+                    icon={ShieldAlert}
                     trend={0}
                     type="rose"
                 />

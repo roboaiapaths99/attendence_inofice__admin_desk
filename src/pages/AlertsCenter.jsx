@@ -20,7 +20,8 @@ const AlertsCenter = () => {
     const [filters, setFilters] = useState({
         status: 'pending',
         severity: '',
-        type: ''
+        type: '',
+        source: ''
     });
 
     useEffect(() => {
@@ -35,6 +36,7 @@ const AlertsCenter = () => {
             if (filters.status) params.append('status', filters.status);
             if (filters.severity) params.append('severity', filters.severity);
             if (filters.type) params.append('type', filters.type);
+            if (filters.source) params.append('source', filters.source);
 
             const res = await client.get(`/admin/field/alerts?${params.toString()}`);
             setAlerts(res.data || []);
@@ -127,17 +129,36 @@ const AlertsCenter = () => {
                                 </div>
                             </div>
 
-                            <div>
+                             <div>
                                 <label className="text-[10px] uppercase font-bold text-slate-400 mb-2 block">Severity Level</label>
                                 <div className="space-y-2">
                                     {['critical', 'high', 'medium', 'low'].map(s => (
                                         <button
                                             key={s}
                                             onClick={() => setFilters({ ...filters, severity: filters.severity === s ? '' : s })}
-                                            className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm font-bold transition-all ${filters.severity === s ? 'bg-slate-800 border-primary-500' : 'bg-slate-950/20 border-slate-800 hover:bg-slate-800/50'}`}
+                                            className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm font-bold transition-all ${filters.severity === s ? 'bg-slate-800 border-primary-500 text-white' : 'bg-slate-950/20 border-slate-800 text-slate-400 hover:bg-slate-800/50'}`}
                                         >
                                             <span className="capitalize">{s}</span>
                                             <div className={`w-2 h-2 rounded-full ${s === 'critical' ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]' : s === 'high' ? 'bg-orange-500' : s === 'medium' ? 'bg-amber-500' : 'bg-emerald-500'}`}></div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="text-[10px] uppercase font-bold text-slate-400 mb-2 block">Workplace Source</label>
+                                <div className="space-y-2">
+                                    {[
+                                        { name: 'All Sources', value: '' },
+                                        { name: 'WFH Desktop', value: 'wfh_desktop' },
+                                        { name: 'Mobile App', value: 'mobile' }
+                                    ].map(src => (
+                                        <button
+                                            key={src.value}
+                                            onClick={() => setFilters({ ...filters, source: src.value })}
+                                            className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm font-bold transition-all ${filters.source === src.value ? 'bg-slate-800 border-primary-500 text-white' : 'bg-slate-950/20 border-slate-800 text-slate-400 hover:bg-slate-800/50'}`}
+                                        >
+                                            <span>{src.name}</span>
                                         </button>
                                     ))}
                                 </div>

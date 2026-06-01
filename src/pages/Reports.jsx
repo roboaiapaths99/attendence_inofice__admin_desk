@@ -26,6 +26,11 @@ const Reports = () => {
         employeeType: ''
     });
 
+    // WFH reports specific states
+    const [wfhReportType, setWfhReportType] = useState('productivity'); // productivity, app-usage, attendance, screenshots
+    const [wfhData, setWfhData] = useState([]);
+    const [selectedWfhEmployee, setSelectedWfhEmployee] = useState('');
+
     // Employee search states
     const [employees, setEmployees] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -110,16 +115,34 @@ const Reports = () => {
         setLoading(false);
     };
 
+    const fetchWfhReport = async () => {
+        setLoading(true);
+        try {
+            const params = new URLSearchParams();
+            if (filters.startDate) params.append('start_date', filters.startDate);
+            if (filters.endDate) params.append('end_date', filters.endDate);
+            if (selectedWfhEmployee) params.append('employee_email', selectedWfhEmployee);
+            
+            const res = await client.get(`/admin/wfh/reports/${wfhReportType}?${params}`);
+            setWfhData(res.data || []);
+        } catch (err) {
+            console.error(`Failed to fetch WFH ${wfhReportType} report:`, err);
+            setWfhData([]);
+        }
+        setLoading(false);
+    };
+
     useEffect(() => {
         if (activeTab === 'attendance') fetchAttendanceReport();
         else if (activeTab === 'expenses') fetchExpenseReport();
         else if (activeTab === 'leaves') fetchLeaveReport();
+        else if (activeTab === 'wfh') fetchWfhReport();
         else if (activeTab === 'analytics') {
             fetchPerformanceReport();
             fetchFunnelReport();
             fetchTrendReport();
         }
-    }, [activeTab]);
+    }, [activeTab, wfhReportType]);
 
     useEffect(() => {
         const loadEmployees = async () => {
@@ -152,6 +175,17 @@ const Reports = () => {
         a.href = url;
         a.download = `attendance_report_${filters.startDate}_${filters.endDate}.csv`;
         a.click();
+    };
+
+    const exportWfhCSV = () => {
+        const params = new URLSearchParams();
+        if (filters.startDate) params.append('start_date', filters.startDate);
+        if (filters.endDate) params.append('end_date', filters.endDate);
+        if (selectedWfhEmployee) params.append('employee_email', selectedWfhEmployee);
+        params.append('format', 'csv');
+        
+        const downloadUrl = `${client.defaults.baseURL}/admin/wfh/reports/${wfhReportType}?${params}`;
+        window.open(downloadUrl, '_blank');
     };
 
     const StatCard = ({ icon: Icon, label, value, color, sub }) => (
@@ -194,18 +228,22 @@ const Reports = () => {
                             fetchPerformanceReport(); fetchFunnelReport(); fetchTrendReport();
                         } else if (activeTab === 'attendance') {
                             fetchAttendanceReport();
+                        } else if (activeTab === 'leaves') {
+                            fetchLeaveReport();
+                        } else if (activeTab === 'wfh') {
+                            fetchWfhReport();
                         }
                     }} className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-slate-300 rounded-xl hover:bg-slate-700 transition-all border border-slate-700 font-medium">
                         <Activity size={16} /> Refresh
                     </button>
-                    <button onClick={exportCSV} className="flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-emerald-400 rounded-xl hover:bg-emerald-600/30 transition-all border border-emerald-500/20 font-medium">
+                    <button onClick={activeTab === 'wfh' ? exportWfhCSV : exportCSV} className="flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-emerald-400 rounded-xl hover:bg-emerald-600/30 transition-all border border-emerald-500/20 font-medium">
                         <Download size={16} /> Export CSV
                     </button>
                 </div>
             </div>
 
             <div className="flex gap-2 bg-slate-900/50 p-1 rounded-xl border border-slate-800 w-fit">
-                {['analytics', 'attendance', 'leaves', 'expenses', 'individual'].map(tab => (
+                {['analytics', 'attendance', 'leaves', 'expenses', 'wfh', 'individual'].map(tab => (
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
@@ -214,7 +252,7 @@ const Reports = () => {
                             : 'text-slate-400 hover:text-white'
                             }`}
                     >
-                        {tab === 'individual' ? 'Individual Report' : tab}
+                        {tab === 'individual' ? 'Individual Report' : tab === 'wfh' ? 'WFH Report' : tab}
                     </button>
                 ))}
             </div>
@@ -241,11 +279,24 @@ const Reports = () => {
                         </select>
                     </div>
                 )}
+                {activeTab === 'wfh' && (
+                    <div className="flex-1">
+                        <label className="text-xs text-slate-500 mb-1 block font-medium">Employee Email</label>
+                        <select value={selectedWfhEmployee} onChange={e => setSelectedWfhEmployee(e.target.value)}
+                            className="w-full bg-slate-800 text-white text-sm px-3 py-2 rounded-lg border border-slate-700 focus:border-primary-500 outline-none">
+                            <option value="">All WFH Employees</option>
+                            {employees.filter(emp => emp.employee_type === 'wfh').map(emp => (
+                                <option key={emp._id} value={emp.email}>{emp.full_name} ({emp.email})</option>
+                            ))}
+                        </select>
+                    </div>
+                )}
                 <button onClick={() => {
                     if (activeTab === 'attendance') fetchAttendanceReport();
                     else if (activeTab === 'leaves') fetchLeaveReport();
+                    else if (activeTab === 'wfh') fetchWfhReport();
                     else fetchPerformanceReport();
-                }} className="px-5 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-500 transition-all text-sm font-medium">
+                }} className="px-5 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-500 transition-all text-sm font-medium font-outfit">
                     Apply Filter
                 </button>
             </div>
@@ -456,6 +507,219 @@ const Reports = () => {
                     </div>
                 </div>
             )}
+            {activeTab === 'wfh' && (
+                <div className="space-y-6">
+                    {/* WFH Subtab selectors */}
+                    <div className="flex gap-2 border-b border-slate-800 pb-3">
+                        {[
+                            { id: 'productivity', label: 'Productivity Report' },
+                            { id: 'app-usage', label: 'App Usage Analytics' },
+                            { id: 'attendance', label: 'Attendance Summary' },
+                            { id: 'screenshots', label: 'Screenshot Audit Log' }
+                        ].map(sub => (
+                            <button
+                                key={sub.id}
+                                onClick={() => setWfhReportType(sub.id)}
+                                className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wide uppercase transition-all ${wfhReportType === sub.id
+                                    ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/20'
+                                    : 'text-slate-400 hover:text-white bg-slate-900/30 border border-slate-800 hover:border-slate-700'
+                                }`}
+                            >
+                                {sub.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden backdrop-blur-xl">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-sm">
+                                {wfhReportType === 'productivity' && (
+                                    <>
+                                        <thead>
+                                            <tr className="border-b border-slate-800 bg-slate-900/30">
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Date</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Employee</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Check-in</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Check-out</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Active Time</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Score (Client)</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Score (Verified)</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Face Checks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {loading ? (
+                                                <tr><td colSpan={8} className="p-8 text-center text-slate-500 font-outfit">Loading...</td></tr>
+                                            ) : wfhData.length === 0 ? (
+                                                <tr><td colSpan={8} className="p-8 text-center text-slate-500 font-outfit">No productivity records found for selected filters</td></tr>
+                                            ) : (
+                                                wfhData.map((row, i) => (
+                                                    <tr key={i} className="border-b border-slate-800/50 hover:bg-slate-800/20 transition-all">
+                                                        <td className="p-4 text-slate-300 font-medium font-outfit">{row.date}</td>
+                                                        <td className="p-4">
+                                                            <p className="text-white font-medium font-outfit">{row.employee_name}</p>
+                                                            <p className="text-xs text-slate-500">{row.employee_email}</p>
+                                                        </td>
+                                                        <td className="p-4 text-slate-400 font-outfit">{row.check_in_time ? new Date(row.check_in_time).toLocaleTimeString() : '—'}</td>
+                                                        <td className="p-4 text-slate-400 font-outfit">{row.check_out_time ? new Date(row.check_out_time).toLocaleTimeString() : '—'}</td>
+                                                        <td className="p-4 text-slate-300 font-outfit">{row.duration_hours} hrs</td>
+                                                        <td className="p-4">
+                                                            <span className={`px-2.5 py-1 rounded-lg text-xs font-bold font-outfit ${
+                                                                row.productivity_score >= 70 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                                                                row.productivity_score >= 50 ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                                                                'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                                            }`}>
+                                                                {row.productivity_score}%
+                                                            </span>
+                                                        </td>
+                                                        <td className="p-4">
+                                                            <span className={`px-2.5 py-1 rounded-lg text-xs font-bold font-outfit ${
+                                                                row.verified_productivity_score >= 70 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                                                                row.verified_productivity_score >= 50 ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                                                                'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                                            }`}>
+                                                                {row.verified_productivity_score}%
+                                                            </span>
+                                                        </td>
+                                                        <td className="p-4 text-slate-300 font-outfit">
+                                                            {row.face_check_passed} / {row.face_check_count}
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            )}
+                                        </tbody>
+                                    </>
+                                )}
+
+                                {wfhReportType === 'app-usage' && (
+                                    <>
+                                        <thead>
+                                            <tr className="border-b border-slate-800 bg-slate-900/30">
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Employee</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Application</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Classification</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Total Usage</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {loading ? (
+                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 font-outfit">Loading...</td></tr>
+                                            ) : wfhData.length === 0 ? (
+                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 font-outfit">No app usage logs found for selected filters</td></tr>
+                                            ) : (
+                                                wfhData.map((row, i) => (
+                                                    <tr key={i} className="border-b border-slate-800/50 hover:bg-slate-800/20 transition-all">
+                                                        <td className="p-4">
+                                                            <p className="text-white font-medium font-outfit">{row.employee_name}</p>
+                                                            <p className="text-xs text-slate-500">{row.employee_email}</p>
+                                                        </td>
+                                                        <td className="p-4 text-white font-semibold font-outfit">{row.app_name}</td>
+                                                        <td className="p-4">
+                                                            <span className={`px-2 py-1 rounded-lg text-xs font-semibold font-outfit ${
+                                                                row.category?.toLowerCase() === 'productive' ? 'bg-emerald-500/20 text-emerald-400' :
+                                                                row.category?.toLowerCase() === 'neutral' ? 'bg-slate-800 text-slate-400' :
+                                                                'bg-rose-500/20 text-rose-400'
+                                                            }`}>
+                                                                {row.category}
+                                                            </span>
+                                                        </td>
+                                                        <td className="p-4 text-slate-300 font-bold font-outfit">{row.total_minutes} mins</td>
+                                                    </tr>
+                                                ))
+                                            )}
+                                        </tbody>
+                                    </>
+                                )}
+
+                                {wfhReportType === 'attendance' && (
+                                    <>
+                                        <thead>
+                                            <tr className="border-b border-slate-800 bg-slate-900/30">
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Employee</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Total WFH Sessions</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Cumulative Hours</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Average Productivity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {loading ? (
+                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 font-outfit">Loading...</td></tr>
+                                            ) : wfhData.length === 0 ? (
+                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 font-outfit">No attendance summaries found for selected filters</td></tr>
+                                            ) : (
+                                                wfhData.map((row, i) => (
+                                                    <tr key={i} className="border-b border-slate-800/50 hover:bg-slate-800/20 transition-all">
+                                                        <td className="p-4">
+                                                            <p className="text-white font-medium font-outfit">{row.employee_name}</p>
+                                                            <p className="text-xs text-slate-500">{row.employee_email}</p>
+                                                        </td>
+                                                        <td className="p-4 text-slate-300 font-medium font-outfit">{row.total_sessions} sessions</td>
+                                                        <td className="p-4 text-slate-300 font-bold font-outfit">{row.total_duration_hours} hrs</td>
+                                                        <td className="p-4 font-outfit">
+                                                            <span className={`px-2.5 py-1 rounded-lg text-xs font-bold font-outfit ${
+                                                                row.average_productivity_score >= 70 ? 'bg-emerald-500/10 text-emerald-400' :
+                                                                row.average_productivity_score >= 50 ? 'bg-amber-500/10 text-amber-400' :
+                                                                'bg-rose-500/10 text-rose-400'
+                                                            }`}>
+                                                                {row.average_productivity_score}%
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            )}
+                                        </tbody>
+                                    </>
+                                )}
+
+                                {wfhReportType === 'screenshots' && (
+                                    <>
+                                        <thead>
+                                            <tr className="border-b border-slate-800 bg-slate-900/30">
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Timestamp</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Employee</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Active Application</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Active Window</th>
+                                                <th className="text-left p-4 text-slate-400 font-medium font-outfit">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {loading ? (
+                                                <tr><td colSpan={5} className="p-8 text-center text-slate-500 font-outfit">Loading...</td></tr>
+                                            ) : wfhData.length === 0 ? (
+                                                <tr><td colSpan={5} className="p-8 text-center text-slate-500 font-outfit">No screenshots log found for selected filters</td></tr>
+                                            ) : (
+                                                wfhData.map((row, i) => (
+                                                    <tr key={i} className="border-b border-slate-800/50 hover:bg-slate-800/20 transition-all">
+                                                        <td className="p-4 text-slate-400 font-outfit">{new Date(row.timestamp).toLocaleString()}</td>
+                                                        <td className="p-4">
+                                                            <p className="text-white font-medium font-outfit">{row.employee_name}</p>
+                                                            <p className="text-xs text-slate-500">{row.employee_email}</p>
+                                                        </td>
+                                                        <td className="p-4 text-white font-semibold font-outfit">{row.active_app}</td>
+                                                        <td className="p-4 text-slate-400 font-outfit truncate max-w-[200px]" title={row.active_window}>{row.active_window}</td>
+                                                        <td className="p-4 font-outfit">
+                                                            {row.flagged ? (
+                                                                <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-bold" title={row.flag_reason}>
+                                                                    ⚠️ Flagged
+                                                                </span>
+                                                            ) : (
+                                                                <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-bold">
+                                                                    ✓ Normal
+                                                                </span>
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            )}
+                                        </tbody>
+                                    </>
+                                )}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {activeTab === 'individual' && (
                 <div className="space-y-6 max-w-2xl mx-auto py-10">
                     <div className="text-center space-y-2 mb-8">

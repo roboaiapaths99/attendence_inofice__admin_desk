@@ -21,6 +21,18 @@ const Settings = () => {
         timezone_offset: 330,
         office_wifi_bssid: ''
     });
+    const [wfhPolicy, setWfhPolicy] = useState({
+        screenshot_interval_minutes: 10,
+        face_check_interval_minutes: 30,
+        max_idle_minutes: 20,
+        productivity_threshold_percent: 60,
+        working_hours_start: '09:00',
+        working_hours_end: '18:00',
+        screenshot_retention_days: 90,
+        require_face_verification: true,
+        productive_apps: '',
+        unproductive_apps: ''
+    });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [success, setSuccess] = useState('');
@@ -33,11 +45,23 @@ const Settings = () => {
     const fetchSettings = async () => {
         try {
             setLoading(true);
-            const res = await api.get('/admin/settings');
+            const [settingsRes, policyRes] = await Promise.all([
+                api.get('/admin/settings'),
+                api.get('/admin/wfh/policy').catch(() => null)
+            ]);
+            
             setSettings({
-                ...res.data,
-                primary_color: res.data.primary_color || '#6366f1'
+                ...settingsRes.data,
+                primary_color: settingsRes.data.primary_color || '#6366f1'
             });
+            
+            if (policyRes && policyRes.data) {
+                setWfhPolicy({
+                    ...policyRes.data,
+                    productive_apps: (policyRes.data.productive_apps || []).join('\n'),
+                    unproductive_apps: (policyRes.data.unproductive_apps || []).join('\n')
+                });
+            }
         } catch (err) {
             console.error('Error fetching settings:', err);
             setError('Failed to load system configurations.');
@@ -78,8 +102,19 @@ const Settings = () => {
             setSaving(true);
             setSuccess('');
             setError('');
-            await api.put('/admin/settings', settings);
-            setSuccess('System settings updated successfully.');
+            
+            const formattedPolicy = {
+                ...wfhPolicy,
+                productive_apps: wfhPolicy.productive_apps.split('\n').map(a => a.trim()).filter(Boolean),
+                unproductive_apps: wfhPolicy.unproductive_apps.split('\n').map(a => a.trim()).filter(Boolean)
+            };
+            
+            await Promise.all([
+                api.put('/admin/settings', settings),
+                api.put('/admin/wfh/policy', formattedPolicy)
+            ]);
+            
+            setSuccess('System and WFH policy settings updated successfully.');
             setTimeout(() => setSuccess(''), 3000);
         } catch (err) {
             console.error('Error saving settings:', err);
@@ -428,6 +463,160 @@ const Settings = () => {
                                     </div>
                                 )}
                             </label>
+                        </div>
+                    </div>
+                </div>
+
+                {/* WFH Policy Section */}
+                <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-8 rounded-[2rem] space-y-6 md:col-span-2">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2.5 rounded-xl bg-indigo-600/10 border border-indigo-500/20 text-indigo-500">
+                            <Clock size={20} />
+                        </div>
+                        <h2 className="text-lg font-bold text-white">Work From Home (WFH) Policy</h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-6">
+                            <div>
+                                <div className="flex justify-between items-center mb-2">
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Screenshot Interval</label>
+                                    <span className="text-xs font-mono font-bold text-indigo-400">{wfhPolicy.screenshot_interval_minutes} minutes</span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="5"
+                                    max="60"
+                                    step="5"
+                                    className="w-full h-1 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                                    value={wfhPolicy.screenshot_interval_minutes}
+                                    onChange={(e) => setWfhPolicy({ ...wfhPolicy, screenshot_interval_minutes: parseInt(e.target.value) })}
+                                />
+                                <p className="text-[9px] text-slate-600 mt-1">Select interval for desktop screenshots. Range: 5 to 60 min. Default: 10 min.</p>
+                            </div>
+
+                            <div>
+                                <div className="flex justify-between items-center mb-2">
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Face Check Interval</label>
+                                    <span className="text-xs font-mono font-bold text-indigo-400">{wfhPolicy.face_check_interval_minutes} minutes</span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="15"
+                                    max="120"
+                                    step="15"
+                                    className="w-full h-1 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                                    value={wfhPolicy.face_check_interval_minutes}
+                                    onChange={(e) => setWfhPolicy({ ...wfhPolicy, face_check_interval_minutes: parseInt(e.target.value) })}
+                                />
+                                <p className="text-[9px] text-slate-600 mt-1">Continuous webcam biometrics verification check frequency.</p>
+                            </div>
+
+                            <div>
+                                <div className="flex justify-between items-center mb-2">
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Max Idle Timeout</label>
+                                    <span className="text-xs font-mono font-bold text-indigo-400">{wfhPolicy.max_idle_minutes} minutes</span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="5"
+                                    max="60"
+                                    step="5"
+                                    className="w-full h-1 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                                    value={wfhPolicy.max_idle_minutes}
+                                    onChange={(e) => setWfhPolicy({ ...wfhPolicy, max_idle_minutes: parseInt(e.target.value) })}
+                                />
+                                <p className="text-[9px] text-slate-600 mt-1">Minutes of inactivity before extended idle alert and auto checkout.</p>
+                            </div>
+
+                            <div>
+                                <div className="flex justify-between items-center mb-2">
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Productivity Threshold</label>
+                                    <span className="text-xs font-mono font-bold text-indigo-400">{wfhPolicy.productivity_threshold_percent}%</span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="30"
+                                    max="90"
+                                    step="5"
+                                    className="w-full h-1 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                                    value={wfhPolicy.productivity_threshold_percent}
+                                    onChange={(e) => setWfhPolicy({ ...wfhPolicy, productivity_threshold_percent: parseInt(e.target.value) })}
+                                />
+                                <p className="text-[9px] text-slate-600 mt-1">Minimum score required to maintain productive status.</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Working Hours Start</label>
+                                    <input
+                                        type="time"
+                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 text-slate-200"
+                                        value={wfhPolicy.working_hours_start}
+                                        onChange={(e) => setWfhPolicy({ ...wfhPolicy, working_hours_start: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Working Hours End</label>
+                                    <input
+                                        type="time"
+                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 text-slate-200"
+                                        value={wfhPolicy.working_hours_end}
+                                        onChange={(e) => setWfhPolicy({ ...wfhPolicy, working_hours_end: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Screenshot Retention (Days)</label>
+                                <input
+                                    type="number"
+                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 text-slate-200"
+                                    value={wfhPolicy.screenshot_retention_days}
+                                    onChange={(e) => setWfhPolicy({ ...wfhPolicy, screenshot_retention_days: parseInt(e.target.value) })}
+                                />
+                                <p className="text-[9px] text-slate-600 mt-2">Captured workstation frames older than this will be auto-deleted.</p>
+                            </div>
+
+                            <div className="flex items-center gap-3 py-2">
+                                <input
+                                    type="checkbox"
+                                    id="require_face_verification"
+                                    className="w-4 h-4 rounded border-slate-800 bg-slate-950 text-indigo-500 focus:ring-indigo-500 cursor-pointer"
+                                    checked={wfhPolicy.require_face_verification}
+                                    onChange={(e) => setWfhPolicy({ ...wfhPolicy, require_face_verification: e.target.checked })}
+                                />
+                                <label htmlFor="require_face_verification" className="text-xs font-bold text-slate-300 cursor-pointer">
+                                    Require Face Biometrics & Liveness
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-slate-800/50">
+                        <div>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Productive Applications List</label>
+                            <textarea
+                                rows={3}
+                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 text-slate-200 font-mono text-xs resize-none"
+                                placeholder="E.g. vscode, slack, teams, chrome (one per line)"
+                                value={wfhPolicy.productive_apps}
+                                onChange={(e) => setWfhPolicy({ ...wfhPolicy, productive_apps: e.target.value })}
+                            />
+                            <p className="text-[9px] text-slate-600 mt-1">Applications classified as high-priority workflow tools.</p>
+                        </div>
+                        <div>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Unproductive Applications List</label>
+                            <textarea
+                                rows={3}
+                                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-rose-500 text-slate-200 font-mono text-xs resize-none"
+                                placeholder="E.g. steam, discord, netflix, pubg (one per line)"
+                                value={wfhPolicy.unproductive_apps}
+                                onChange={(e) => setWfhPolicy({ ...wfhPolicy, unproductive_apps: e.target.value })}
+                            />
+                            <p className="text-[9px] text-slate-600 mt-1">Applications classified as non-workflow/entertainment tools.</p>
                         </div>
                     </div>
                 </div>

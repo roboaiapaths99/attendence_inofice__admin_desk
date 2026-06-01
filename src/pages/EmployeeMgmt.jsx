@@ -27,7 +27,8 @@ import {
     Key,
     RotateCcw,
     Monitor,
-    Building2
+    Building2,
+    Home
 } from 'lucide-react';
 import api from '../utils/api';
 import { getFriendlyErrorMessage } from '../utils/errorMapper';
@@ -353,11 +354,12 @@ const EmployeeMgmt = () => {
                             </div>
                             <div className="space-y-3">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1 block">Work Mode / Type</label>
-                                <div className="grid grid-cols-3 gap-3">
+                                <div className="grid grid-cols-4 gap-3">
                                     {[
                                         { id: 'desk', label: 'Desk', icon: Monitor },
                                         { id: 'field', label: 'Field', icon: MapPin },
-                                        { id: 'office', label: 'Office', icon: Building2 }
+                                        { id: 'office', label: 'Office', icon: Building2 },
+                                        { id: 'wfh', label: 'WFH', icon: Home }
                                     ].map(item => (
                                         <button
                                             key={item.id}
@@ -479,7 +481,7 @@ const EmployeeMgmt = () => {
                                             </button>
 
                                             <div className="flex items-center gap-1.5 px-4 border-l border-slate-800">
-                                                {['desk', 'field', 'office'].map(type => (
+                                                {['desk', 'field', 'office', 'wfh'].map(type => (
                                                     <button
                                                         key={type}
                                                         onClick={() => handleBulkTypeChange(type)}
@@ -593,7 +595,8 @@ const EmployeeMgmt = () => {
                                                     <td className="px-6 py-4">
                                                         <span className={`text-[10px] font-black px-2 py-1 rounded border uppercase tracking-widest ${emp.employee_type === 'field' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
                                                             emp.employee_type === 'office' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                                                                'bg-slate-500/10 text-slate-400 border-slate-500/20'
+                                                                emp.employee_type === 'wfh' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                                                                    'bg-slate-500/10 text-slate-400 border-slate-500/20'
                                                             }`}>
                                                             {emp.employee_type || 'desk'}
                                                         </span>
@@ -744,11 +747,12 @@ const EmployeeMgmt = () => {
 
                             <div className="space-y-3 p-4 bg-slate-950/50 rounded-2xl border border-slate-800/50">
                                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1 block">Work Settings & Mode</label>
-                                <div className="grid grid-cols-3 gap-3">
+                                <div className="grid grid-cols-4 gap-3">
                                     {[
                                         { id: 'desk', label: 'Desk', icon: Monitor },
                                         { id: 'field', label: 'Field', icon: MapPin },
-                                        { id: 'office', label: 'Office', icon: Building2 }
+                                        { id: 'office', label: 'Office', icon: Building2 },
+                                        { id: 'wfh', label: 'WFH', icon: Home }
                                     ].map(item => (
                                         <button
                                             key={item.id}

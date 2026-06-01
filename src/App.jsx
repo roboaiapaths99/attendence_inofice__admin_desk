@@ -20,6 +20,9 @@ import FraudDashboard from './pages/FraudDashboard';
 import NudgeCenter from './pages/NudgeCenter';
 import TeamLeaderboard from './pages/TeamLeaderboard';
 import Layout from './components/Layout';
+import WFHDevices from "./pages/WFHDevices";
+import WFHLive from "./pages/WFHLive";
+import WFHEmployeeDetail from "./pages/WFHEmployeeDetail";
 
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAuth();
@@ -175,6 +178,30 @@ function App() {
           element={
             <ProtectedRoute>
               <TeamLeaderboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/wfh-devices"
+          element={
+            <ProtectedRoute>
+              <WFHDevices />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/wfh-live"
+          element={
+            <ProtectedRoute>
+              <WFHLive />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/wfh-employee/:email"
+          element={
+            <ProtectedRoute>
+              <WFHEmployeeDetail />
             </ProtectedRoute>
           }
         />
