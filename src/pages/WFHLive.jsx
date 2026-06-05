@@ -219,9 +219,9 @@ export default function WFHLive() {
                     setSelectedEmpForForceEnd(emp.employee_email);
                     setShowConfirmModal(true);
                   }}
-                  disabled={endingMap[emp.employee_email]}
+                  disabled={endingMap[emp.employee_email] || emp.session_id?.startsWith("offline")}
                   className="p-2 border border-rose-950 rounded-xl hover:bg-rose-950/40 text-rose-500 hover:text-rose-400 transition-all disabled:opacity-50"
-                  title="Force-End Active Session"
+                  title={emp.session_id?.startsWith("offline") ? "No active session to end" : "Force-End Active Session"}
                 >
                   {endingMap[emp.employee_email] ? (
                     <Loader2 size={14} className="animate-spin" />
