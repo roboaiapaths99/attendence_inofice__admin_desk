@@ -72,6 +72,26 @@ export default function WFHEmployeeDetail() {
     }
   };
 
+  const [showForceLogoutModal, setShowForceLogoutModal] = useState(false);
+  const [loggingOutEmployee, setLoggingOutEmployee] = useState(false);
+
+  const handleForceLogoutEmployee = async () => {
+    setLoggingOutEmployee(true);
+    setToast({ text: `Force-logging out employee ${email}...`, type: "info" });
+    try {
+      await api.post(`/admin/wfh/employee/${email}/force-logout`);
+      setToast({ text: `Force-logout command dispatched successfully!`, type: "success" });
+      setShowForceLogoutModal(false);
+      fetchDetailData(true);
+    } catch (err) {
+      console.error("Failed to force logout employee:", err);
+      setToast({ text: `Failed to force logout: ${err.response?.data?.detail || err.message}`, type: "error" });
+    } finally {
+      setLoggingOutEmployee(false);
+      setTimeout(() => setToast(null), 5000);
+    }
+  };
+
   const fetchDetailData = useCallback(async (isManual = false) => {
     if (isManual) setRefreshing(true);
     try {
@@ -220,6 +240,14 @@ export default function WFHEmployeeDetail() {
           >
             <Power size={14} />
             Force End Session
+          </button>
+          <button 
+            onClick={() => setShowForceLogoutModal(true)}
+            className="px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-amber-500/10 flex items-center gap-2"
+            title="Force-Logout Employee Workspace"
+          >
+            <Power size={14} />
+            Force Logout Employee
           </button>
           <button 
             onClick={() => fetchDetailData(true)}
@@ -411,8 +439,9 @@ export default function WFHEmployeeDetail() {
               <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                 <span className="text-[10px] text-white font-bold tracking-widest uppercase bg-slate-950/90 px-3 py-1 rounded-full border border-slate-700">Audit</span>
               </div>
-              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/80 p-2">
-                <span className="text-[9px] text-slate-400 block font-bold truncate">{shot.active_app || "Unknown app"}</span>
+              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/90 p-2 flex justify-between items-center gap-1">
+                <span className="text-[9px] text-slate-300 font-bold truncate max-w-[60%]">{shot.active_app || "Unknown app"}</span>
+                <span className="text-[9px] text-indigo-400 font-mono font-bold shrink-0">{formatToIST(shot.timestamp, { hour: '2-digit', minute: '2-digit' })}</span>
               </div>
             </div>
           ))}
@@ -465,14 +494,29 @@ export default function WFHEmployeeDetail() {
       </div>
 
       {/* Screenshot Lightbox Modal */}
-      {lightboxImage && (
-        <div 
-          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out animate-fadeIn"
-          onClick={() => setLightboxImage(null)}
-        >
-          <img src={lightboxImage} alt="" className="max-w-full max-h-[90vh] rounded-2xl shadow-2xl border border-slate-800" />
-        </div>
-      )}
+      {lightboxImage && (() => {
+        const activeShot = screenshots.find(s => {
+          const shotUrl = s.image_url?.startsWith('http') ? s.image_url : `${api.defaults.baseURL || "http://localhost:8000"}${s.image_url}`;
+          return shotUrl === lightboxImage;
+        });
+        return (
+          <div 
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-4 cursor-zoom-out animate-fadeIn"
+            onClick={() => setLightboxImage(null)}
+          >
+            {activeShot && (
+              <div className="bg-slate-900/90 border border-slate-800 px-5 py-2.5 rounded-full text-xs font-bold text-slate-200 mb-3 flex items-center gap-3 backdrop-blur-md shadow-lg">
+                <span className="text-indigo-400">{activeShot.active_app || "Unknown App"}</span>
+                <span className="text-slate-600">•</span>
+                <span className="text-slate-300 truncate max-w-xs">{activeShot.active_window || "Active window"}</span>
+                <span className="text-slate-600">•</span>
+                <span className="text-indigo-400 font-mono">{formatToIST(activeShot.timestamp, { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+              </div>
+            )}
+            <img src={lightboxImage} alt="" className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border border-slate-850" />
+          </div>
+        );
+      })()}
       {/* Force End Confirmation Modal */}
       {showForceEndModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in-95 duration-200">
@@ -510,6 +554,37 @@ export default function WFHEmployeeDetail() {
                 className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-50 text-xs font-semibold text-white transition-all"
               >
                 {endingSession ? "Ending..." : "Confirm & End"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Force Logout Confirmation Modal */}
+      {showForceLogoutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-slate-900 border border-slate-800 rounded-[2rem] max-w-md w-full p-6 space-y-6 shadow-2xl">
+            <div>
+              <h3 className="text-lg font-bold text-white">Force Logout Employee</h3>
+              <p className="text-slate-400 text-xs mt-1">
+                Are you sure you want to force-logout <strong className="text-white">{email}</strong>? 
+                This will immediately log them out of the desktop tracking app and end their monitoring session.
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setShowForceLogoutModal(false)}
+                className="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 transition-all"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleForceLogoutEmployee}
+                disabled={loggingOutEmployee}
+                className="flex-1 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 disabled:opacity-50 text-xs font-semibold text-white transition-all"
+              >
+                {loggingOutEmployee ? "Logging out..." : "Confirm & Logout"}
               </button>
             </div>
           </div>
