@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { 
   ArrowLeft, Calendar, Clock, Percent, ShieldAlert, Monitor, 
-  Terminal, ShieldCheck, Video, Eye, RefreshCw, Loader2, Play, Square, ExternalLink, Camera, Power
+  Terminal, ShieldCheck, Video, Eye, RefreshCw, Loader2, Play, Square, ExternalLink, Camera, Power, Download
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from "recharts";
 import api from "../utils/api";
@@ -46,6 +46,56 @@ export default function WFHEmployeeDetail() {
       setToast({ text: `Screenshot trigger failed: ${err.response?.data?.detail || err.message}`, type: "error" });
     } finally {
       setTriggeringScreenshot(false);
+      setTimeout(() => setToast(null), 5000);
+    }
+  };
+
+  const [downloadingScreenshots, setDownloadingScreenshots] = useState(false);
+
+  const handleDownloadScreenshots = async () => {
+    setDownloadingScreenshots(true);
+    setToast({ text: `Generating and compressing screenshots ZIP for ${email}...`, type: "info" });
+    try {
+      const response = await api.get(`/admin/wfh/employee/${email}/screenshots/download?date=${selectedDate}`, {
+        responseType: "blob"
+      });
+
+      const blob = new Blob([response.data], { type: "application/zip" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+
+      let filename = `screenshots_${email.replace(/[@.]/g, "_")}_${selectedDate}.zip`;
+      const contentDisposition = response.headers["content-disposition"];
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename="(.+)"/);
+        if (match && match[1]) {
+          filename = match[1];
+        }
+      }
+
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+
+      setToast({ text: "Screenshots ZIP downloaded successfully!", type: "success" });
+    } catch (err) {
+      console.error("Failed to download screenshots:", err);
+      if (err.response?.data instanceof Blob) {
+        try {
+          const text = await err.response.data.text();
+          const parsed = JSON.parse(text);
+          setToast({ text: `Failed to download: ${parsed.detail || err.message}`, type: "error" });
+        } catch (_) {
+          setToast({ text: `Failed to download: ${err.message}`, type: "error" });
+        }
+      } else {
+        setToast({ text: `Failed to download: ${err.response?.data?.detail || err.message}`, type: "error" });
+      }
+    } finally {
+      setDownloadingScreenshots(false);
       setTimeout(() => setToast(null), 5000);
     }
   };
@@ -232,6 +282,19 @@ export default function WFHEmployeeDetail() {
               <Camera size={14} />
             )}
             {triggeringScreenshot ? "Capturing..." : "Trigger Live Screenshot"}
+          </button>
+          <button 
+            onClick={handleDownloadScreenshots}
+            disabled={downloadingScreenshots}
+            className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-50 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-emerald-500/10 flex items-center gap-2"
+            title="Download All Screenshots as ZIP"
+          >
+            {downloadingScreenshots ? (
+              <Loader2 size={14} className="animate-spin" />
+            ) : (
+              <Download size={14} />
+            )}
+            {downloadingScreenshots ? "Downloading..." : "Download Screenshots"}
           </button>
           <button 
             onClick={() => setShowForceEndModal(true)}
