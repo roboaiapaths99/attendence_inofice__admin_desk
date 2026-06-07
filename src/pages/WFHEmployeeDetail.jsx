@@ -57,7 +57,8 @@ export default function WFHEmployeeDetail() {
     setToast({ text: `Generating and compressing screenshots ZIP for ${email}...`, type: "info" });
     try {
       const response = await api.get(`/admin/wfh/employee/${email}/screenshots/download?date=${selectedDate}`, {
-        responseType: "blob"
+        responseType: "blob",
+        timeout: 0 // Disable default 30s timeout for large zip compilation & download
       });
 
       const blob = new Blob([response.data], { type: "application/zip" });
