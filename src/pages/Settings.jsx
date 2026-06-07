@@ -28,7 +28,7 @@ const Settings = () => {
         productivity_threshold_percent: 60,
         working_hours_start: '09:00',
         working_hours_end: '18:00',
-        screenshot_retention_days: 90,
+        screenshot_retention_days: 5,
         require_face_verification: true,
         productive_apps: '',
         unproductive_apps: ''
