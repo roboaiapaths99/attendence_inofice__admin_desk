@@ -264,7 +264,7 @@ const LocationDisplay = ({ lat, lon }) => {
         const fetchAddress = async () => {
             try {
                 // Use backend proxy to avoid CORS and 429 Rate Limiting issues
-                const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8001'}/api/geocoding/reverse?lat=${lat}&lon=${lon}`);
+                const res = await fetch(`${import.meta.env.VITE_API_URL || 'https://logday-api.duckdns.org'}/api/geocoding/reverse?lat=${lat}&lon=${lon}`);
                 const data = await res.json();
                 if (isMounted && data.display_name) {
                     const parts = [];
