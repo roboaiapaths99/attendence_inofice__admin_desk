@@ -168,9 +168,9 @@ const AdminMgmt = () => {
                 </div>
                 <button
                     onClick={() => setShowAddModal(true)}
-                    className="flex items-center gap-2 bg-primary-600 hover:bg-primary-500 text-slate-900 px-6 py-3 rounded-xl font-medium transition-all shadow-lg shadow-primary-900/20 active:scale-95"
+                    className="flex items-center gap-2 bg-[#004B87] hover:bg-[#003A6B] text-white px-5 py-2.5 rounded-xl font-semibold transition-all shadow-md shadow-[#004B87]/20 active:scale-95"
                 >
-                    <UserPlus size={20} />
+                    <UserPlus size={18} />
                     New Admin
                 </button>
             </div>
@@ -388,7 +388,7 @@ const AdminMgmt = () => {
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-900/20 flex items-center justify-center gap-2"
+                                    className="w-full bg-[#004B87] hover:bg-[#003A6B] disabled:opacity-50 text-white font-bold py-3.5 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2"
                                 >
                                     {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Create Role Account'}
                                 </button>
@@ -472,7 +472,7 @@ const AdminMgmt = () => {
                                 <button
                                     onClick={handleSavePermissions}
                                     disabled={isSubmitting}
-                                    className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-900/20 flex items-center justify-center gap-2"
+                                    className="w-full bg-[#004B87] hover:bg-[#003A6B] disabled:opacity-50 text-white font-bold py-3.5 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2"
                                 >
                                     {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Save Permissions'}
                                 </button>

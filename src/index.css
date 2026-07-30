@@ -47,6 +47,28 @@ body {
   -webkit-backdrop-filter: none !important;
 }
 
+/* Global Button Styling — Force Crisp White Text & Icons on Dark/Primary Buttons */
+button[class*="bg-[#004B87]"],
+button[class*="bg-[#003A6B]"],
+button[class*="bg-primary"],
+button[class*="bg-blue"],
+button[class*="bg-slate-900"],
+button[class*="bg-black"],
+button[class*="bg-red"] {
+  color: #ffffff !important;
+}
+
+button[class*="bg-[#004B87]"] svg,
+button[class*="bg-[#003A6B]"] svg,
+button[class*="bg-primary"] svg,
+button[class*="bg-blue"] svg,
+button[class*="bg-slate-900"] svg,
+button[class*="bg-black"] svg,
+button[class*="bg-red"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
 #root {
   width: 100%;
 }
