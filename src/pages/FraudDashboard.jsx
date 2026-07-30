@@ -28,7 +28,7 @@ const CATEGORIES = [
     {
         key: 'Territory',
         label: 'Location Anomalies',
-        description: 'GPS spoofing, mock locations & geofence breaches',
+        description: 'GPS spoofing, virtual locations & geofence breaches',
         icon: MapPin,
         color: '#f97316',
         gradient: 'from-orange-500/10 to-orange-900/5',
@@ -66,7 +66,7 @@ const AlertCard = ({ alert, onResolve, onDismiss }) => {
     const sev = SEVERITY_STYLES[alert.severity] || SEVERITY_STYLES.medium;
 
     return (
-        <div className="relative bg-slate-900/60 rounded-2xl border border-slate-800/60 overflow-hidden hover:border-slate-700/80 transition-all group">
+        <div className="relative bg-white dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800/60 overflow-hidden hover:border-slate-300 dark:border-slate-700/80 transition-all group">
             {/* Left severity bar */}
             <div className={`absolute left-0 top-0 bottom-0 w-1 ${sev.bar}`} />
 
@@ -75,7 +75,7 @@ const AlertCard = ({ alert, onResolve, onDismiss }) => {
                 <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="flex items-center gap-2 flex-1 min-w-0">
                         <div className={`w-2 h-2 rounded-full flex-shrink-0 ${sev.dot}`} />
-                        <p className="text-white font-semibold text-sm leading-snug line-clamp-2">
+                        <p className="text-slate-900 dark:text-white font-semibold text-sm leading-snug line-clamp-2">
                             {alert.detail}
                         </p>
                     </div>
@@ -85,7 +85,7 @@ const AlertCard = ({ alert, onResolve, onDismiss }) => {
                 </div>
 
                 {/* Meta */}
-                <div className="flex flex-wrap items-center gap-3 text-[10px] text-slate-500 font-semibold uppercase tracking-wider mb-3">
+                <div className="flex flex-wrap items-center gap-3 text-[10px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider mb-3">
                     <span className="flex items-center gap-1">
                         <UserX size={10} className="text-primary-500" />
                         {alert.employee_name || alert.employee_id}
@@ -107,7 +107,7 @@ const AlertCard = ({ alert, onResolve, onDismiss }) => {
                     <div className="flex items-center gap-2">
                         <button
                             onClick={() => onDismiss(alert._id)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 text-slate-400 text-[11px] font-bold transition-all"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/60 hover:bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-bold transition-all"
                         >
                             <XCircle size={12} /> Dismiss
                         </button>
@@ -119,7 +119,7 @@ const AlertCard = ({ alert, onResolve, onDismiss }) => {
                         </button>
                     </div>
                 ) : (
-                    <span className={`text-[11px] font-bold ${alert.status === 'resolved' ? 'text-emerald-500' : 'text-slate-500'} flex items-center gap-1`}>
+                    <span className={`text-[11px] font-bold ${alert.status === 'resolved' ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'} flex items-center gap-1`}>
                         {alert.status === 'resolved' ? <CheckCircle size={12} /> : <XCircle size={12} />}
                         {alert.status === 'resolved' ? 'Resolved' : 'Dismissed'}
                     </span>
@@ -131,13 +131,13 @@ const AlertCard = ({ alert, onResolve, onDismiss }) => {
 
 // ─── Stat Mini Card ────────────────────────────────────────────────────────────
 const StatMini = ({ label, value, color, icon: Icon }) => (
-    <div className="bg-slate-900/40 rounded-2xl border border-slate-800/50 p-4 flex items-center gap-4">
+    <div className="bg-white dark:bg-white dark:bg-slate-900/40 rounded-2xl border border-slate-200 dark:border-slate-200 dark:border-slate-800/50 p-4 flex items-center gap-4">
         <div className="p-3 rounded-xl" style={{ backgroundColor: `${color}18` }}>
             <Icon size={20} style={{ color }} />
         </div>
         <div>
-            <p className="text-2xl font-black text-white">{value}</p>
-            <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">{label}</p>
+            <p className="text-2xl font-black text-slate-900 dark:text-white">{value}</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider">{label}</p>
         </div>
     </div>
 );
@@ -195,11 +195,11 @@ const FraudDashboard = () => {
             <header className="bg-gradient-to-r from-rose-900/30 to-slate-900/40 p-6 rounded-3xl border border-rose-500/20 backdrop-blur-sm">
                 <div className="flex justify-between items-start">
                     <div>
-                        <h1 className="text-2xl font-black text-white flex items-center gap-3">
+                        <h1 className="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-3">
                             <AlertOctagon className="text-rose-400" size={26} />
                             Fraud Intelligence Dashboard
                         </h1>
-                        <p className="text-slate-400 text-sm mt-1.5">
+                        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1.5">
                             Real-time anomaly detection: Identity, Location & Productivity threats
                         </p>
                     </div>
@@ -207,7 +207,7 @@ const FraudDashboard = () => {
                         <select
                             value={selectedStatus}
                             onChange={e => setSelectedStatus(e.target.value)}
-                            className="bg-slate-950/50 border border-slate-800 text-white rounded-xl px-4 py-2 text-sm"
+                            className="bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-xl px-4 py-2 text-sm"
                         >
                             <option value="pending">Pending</option>
                             <option value="resolved">Resolved</option>
@@ -216,7 +216,7 @@ const FraudDashboard = () => {
                         </select>
                         <button
                             onClick={fetchAll}
-                            className="p-2.5 rounded-xl bg-slate-800/50 hover:bg-slate-800 text-slate-400 transition-colors"
+                            className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/50 hover:bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors"
                         >
                             <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
                         </button>
@@ -256,8 +256,8 @@ const FraudDashboard = () => {
                                         {count}
                                     </span>
                                 </div>
-                                <p className="text-white font-bold text-sm">{cat.label}</p>
-                                <p className="text-slate-400 text-[10px] mt-0.5 leading-snug">{cat.description}</p>
+                                <p className="text-slate-900 dark:text-white font-bold text-sm">{cat.label}</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-[10px] mt-0.5 leading-snug">{cat.description}</p>
                             </button>
                         );
                     })}
@@ -270,8 +270,8 @@ const FraudDashboard = () => {
                         <div className={`bg-gradient-to-r ${activeCat.gradient} rounded-2xl border ${activeCat.border} p-4 flex items-center gap-3`}>
                             {React.createElement(activeCat.icon, { size: 20, style: { color: activeCat.color } })}
                             <div>
-                                <p className="text-white font-bold">{activeCat.label}</p>
-                                <p className="text-slate-400 text-xs">{activeCat.description}</p>
+                                <p className="text-slate-900 dark:text-white font-bold">{activeCat.label}</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-xs">{activeCat.description}</p>
                             </div>
                             <span
                                 className="ml-auto text-sm font-black px-3 py-1 rounded-full"
@@ -291,8 +291,8 @@ const FraudDashboard = () => {
                             <div className="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center">
                                 <CheckCircle className="text-emerald-400" size={32} />
                             </div>
-                            <p className="text-white font-bold">No Alerts</p>
-                            <p className="text-slate-500 text-sm text-center max-w-xs">
+                            <p className="text-slate-900 dark:text-white font-bold">No Alerts</p>
+                            <p className="text-slate-500 dark:text-slate-400 text-sm text-center max-w-xs">
                                 No {activeCategory.toLowerCase()} anomalies detected with the current filter.
                             </p>
                         </div>

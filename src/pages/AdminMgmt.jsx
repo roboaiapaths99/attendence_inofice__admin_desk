@@ -45,16 +45,33 @@ const AdminMgmt = () => {
     const [permissionsForm, setPermissionsForm] = useState([]);
 
     const AVAILABLE_FEATURES = [
-        { id: "dashboard", name: "Dashboard" },
-        { id: "employees", name: "Employee Directory" },
-        { id: "attendance", name: "Attendance Logs" },
-        { id: "leaves", name: "Leave Requests" },
-        { id: "expenses", name: "Expense Approvals" },
-        { id: "reports", name: "Reports & Analytics" },
-        { id: "war_room", name: "War Room Live" },
-        { id: "territory", name: "Territory Manager" },
-        { id: "nudge", name: "Nudge Center" },
-        { id: "leaderboard", name: "Team Leaderboard" },
+        // Core
+        { id: "dashboard", name: "Dashboard", category: "Core Operations", icon: "📊" },
+        { id: "employees", name: "Employee Directory", category: "Core Operations", icon: "👥" },
+        { id: "attendance", name: "Attendance Logs", category: "Core Operations", icon: "📋" },
+        { id: "leaves", name: "Leave Requests", category: "Core Operations", icon: "🏖️" },
+        { id: "expenses", name: "Expense Approvals", category: "Core Operations", icon: "💳" },
+        { id: "reports", name: "Reports & Analytics", category: "Core Operations", icon: "📈" },
+
+        // Field Force
+        { id: "war_room", name: "War Room Live", category: "Field Force", icon: "🗺️" },
+        { id: "territory", name: "Territory Manager", category: "Field Force", icon: "📍" },
+        { id: "nudge", name: "Nudge Center", category: "Field Force", icon: "⚡" },
+        { id: "leaderboard", name: "Team Leaderboard", category: "Field Force", icon: "🏆" },
+
+        // HRMS
+        { id: "onboarding", name: "Onboarding", category: "HRMS Modules", icon: "🚀" },
+        { id: "exit_management", name: "Exit Management", category: "HRMS Modules", icon: "🚪" },
+        { id: "payroll", name: "Payroll", category: "HRMS Modules", icon: "💰" },
+        { id: "document_verification", name: "Document Verification", category: "HRMS Modules", icon: "📄" },
+
+        // Remote
+        { id: "wfh_management", name: "WFH Management", category: "Remote & WFH", icon: "🏠" },
+        { id: "wfh_monitoring", name: "WFH Monitoring", category: "Remote & WFH", icon: "🖥️" },
+
+        // Admin
+        { id: "settings", name: "System Settings", category: "System Admin", icon: "⚙️" },
+        { id: "sub_admins", name: "Sub-Admin Management", category: "System Admin", icon: "🛡️" }
     ];
 
     // Form state
@@ -146,12 +163,12 @@ const AdminMgmt = () => {
             {/* Header section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-white">Role Management</h1>
-                    <p className="text-slate-400">Define administrative access and team scoping</p>
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Role Management</h1>
+                    <p className="text-slate-500 dark:text-slate-400">Define administrative access and team scoping</p>
                 </div>
                 <button
                     onClick={() => setShowAddModal(true)}
-                    className="flex items-center gap-2 bg-primary-600 hover:bg-primary-500 text-white px-6 py-3 rounded-xl font-medium transition-all shadow-lg shadow-primary-900/20 active:scale-95"
+                    className="flex items-center gap-2 bg-primary-600 hover:bg-primary-500 text-slate-900 dark:text-white px-6 py-3 rounded-xl font-medium transition-all shadow-lg shadow-primary-900/20 active:scale-95"
                 >
                     <UserPlus size={20} />
                     New Admin
@@ -160,25 +177,25 @@ const AdminMgmt = () => {
 
             {/* Quick Stats & Filters */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-6 rounded-3xl">
+                <div className="bg-white dark:bg-white dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-slate-800 p-6 rounded-3xl">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-primary-600/20 rounded-2xl flex items-center justify-center border border-primary-500/30">
                             <Shield className="text-primary-500" size={24} />
                         </div>
                         <div>
-                            <p className="text-slate-400 text-sm">Total Staff</p>
-                            <h3 className="text-2xl font-bold text-white">{admins.length}</h3>
+                            <p className="text-slate-500 dark:text-slate-400 text-sm">Total Staff</p>
+                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{admins.length}</h3>
                         </div>
                     </div>
                 </div>
 
-                <div className="md:col-span-2 bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-6 rounded-3xl flex items-center">
+                <div className="md:col-span-2 bg-white dark:bg-white dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-slate-800 p-6 rounded-3xl flex items-center">
                     <div className="relative w-full">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={20} />
                         <input
                             type="text"
                             placeholder="Search by name or email..."
-                            className="w-full bg-slate-950/50 border border-slate-800 rounded-xl py-3 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-200 placeholder:text-slate-600"
+                            className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-xl py-3 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800 dark:text-slate-200 placeholder:text-slate-600"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -208,36 +225,36 @@ const AdminMgmt = () => {
             </AnimatePresence>
 
             {/* Admins Table-like Grid */}
-            <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-3xl overflow-hidden">
+            <div className="bg-white dark:bg-white dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden">
                 {loading ? (
-                    <div className="p-20 flex flex-col items-center justify-center text-slate-500">
+                    <div className="p-20 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
                         <Loader2 className="animate-spin mb-4" size={40} />
                         <p>Loading role accounts...</p>
                     </div>
                 ) : filteredAdmins.length === 0 ? (
-                    <div className="p-20 text-center text-slate-500">
+                    <div className="p-20 text-center text-slate-500 dark:text-slate-400">
                         <Shield className="mx-auto mb-4 opacity-20" size={60} />
                         <p>No administrative accounts found.</p>
                     </div>
                 ) : (
-                    <div className="divide-y divide-slate-800/50">
+                    <div className="divide-y divide-slate-200 dark:divide-slate-200/50 dark:divide-slate-800/50">
                         {filteredAdmins.map((admin) => {
                             const config = ROLE_CONFIG[admin.role] || ROLE_CONFIG.hr;
                             const Icon = config.icon;
                             return (
-                                <div key={admin.email} className="p-6 flex items-center justify-between hover:bg-white/5 transition-colors group">
+                                <div key={admin.email} className="p-6 flex items-center justify-between hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group">
                                     <div className="flex items-center gap-4">
                                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${config.bg} ${config.border} ${config.color}`}>
                                             <Icon size={24} />
                                         </div>
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <h4 className="text-white font-semibold">{admin.full_name}</h4>
+                                                <h4 className="text-slate-900 dark:text-white font-semibold">{admin.full_name}</h4>
                                                 <span className={`${config.bg} ${config.color} ${config.border} text-[10px] font-black px-2 py-0.5 rounded border uppercase tracking-widest`}>
                                                     {config.label}
                                                 </span>
                                             </div>
-                                            <p className="text-slate-500 text-sm flex items-center gap-1.5 mt-0.5">
+                                            <p className="text-slate-500 dark:text-slate-400 text-sm flex items-center gap-1.5 mt-0.5">
                                                 <Mail size={12} />
                                                 {admin.email}
                                             </p>
@@ -246,17 +263,17 @@ const AdminMgmt = () => {
 
                                     <div className="flex items-center gap-3">
                                         <div className="text-right mr-4 hidden sm:block">
-                                            <p className="text-slate-400 text-xs font-medium">Joined On</p>
-                                            <p className="text-white text-sm">{new Date(admin.created_at).toLocaleDateString()}</p>
+                                            <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">Joined On</p>
+                                            <p className="text-slate-900 dark:text-white text-sm">{new Date(admin.created_at).toLocaleDateString()}</p>
                                         </div>
 
                                         {/* Actions */}
-                                        {admin.role !== 'owner' && (
+                                        {admin.role !== 'owner' && admin.role !== 'superadmin' && admin.email !== currentAdmin?.email && (
                                             <div className="flex items-center gap-1">
                                                 {isOwner && (
                                                     <button
                                                         onClick={() => handleOpenPermissions(admin)}
-                                                        className="p-3 text-slate-400 hover:text-primary-400 hover:bg-primary-500/10 rounded-xl transition-all"
+                                                        className="p-3 text-slate-500 dark:text-slate-400 hover:text-primary-400 hover:bg-primary-500/10 rounded-xl transition-all"
                                                         title="Manage Permissions"
                                                     >
                                                         <Settings size={20} />
@@ -264,7 +281,7 @@ const AdminMgmt = () => {
                                                 )}
                                                 <button
                                                     onClick={() => handleDeleteAdmin(admin.email)}
-                                                    className="p-3 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all"
+                                                    className="p-3 text-slate-500 dark:text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all"
                                                     title="Revoke Admin Access"
                                                 >
                                                     <Trash2 size={20} />
@@ -287,43 +304,43 @@ const AdminMgmt = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="bg-slate-900 border border-slate-800 w-full max-w-xl p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden"
+                            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-xl p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden"
                         >
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 via-purple-500 to-indigo-500" />
 
                             <button
                                 onClick={() => setShowAddModal(false)}
-                                className="absolute right-6 top-6 text-slate-500 hover:text-white transition-colors"
+                                className="absolute right-6 top-6 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors"
                             >
                                 <X size={24} />
                             </button>
 
                             <div className="mb-6">
-                                <h2 className="text-2xl font-bold text-white mb-1">New Administrative Role</h2>
-                                <p className="text-slate-400">Assign permissions based on administrative requirements</p>
+                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">New Administrative Role</h2>
+                                <p className="text-slate-500 dark:text-slate-400">Assign permissions based on administrative requirements</p>
                             </div>
 
                             <form onSubmit={handleAddAdmin} className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="relative">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={18} />
                                         <input
                                             type="text"
                                             placeholder="Full Name"
                                             required
-                                            className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-200"
+                                            className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800 dark:text-slate-200"
                                             value={formData.full_name}
                                             onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
                                         />
                                     </div>
 
                                     <div className="relative">
-                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={18} />
                                         <input
                                             type="email"
                                             placeholder="Email Address"
                                             required
-                                            className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-200"
+                                            className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800 dark:text-slate-200"
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         />
@@ -331,19 +348,19 @@ const AdminMgmt = () => {
                                 </div>
 
                                 <div className="relative">
-                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={18} />
                                     <input
                                         type="password"
                                         placeholder="Portal Password"
                                         required
-                                        className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-200"
+                                        className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800 dark:text-slate-200"
                                         value={formData.password}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                     />
                                 </div>
 
                                 <div className="space-y-3">
-                                    <p className="text-sm font-medium text-slate-300 ml-1">Select Administrative Role</p>
+                                    <p className="text-sm font-medium text-slate-600 dark:text-slate-300 ml-1">Select Administrative Role</p>
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                         {['hr', 'support', 'manager'].map((role) => {
                                             const config = ROLE_CONFIG[role];
@@ -356,12 +373,12 @@ const AdminMgmt = () => {
                                                     onClick={() => setFormData({ ...formData, role: role })}
                                                     className={`p-4 rounded-2xl border text-left transition-all ${isSelected
                                                         ? `${config.bg} ${config.border} ring-2 ring-primary-500/20`
-                                                        : 'bg-slate-950/30 border-slate-800 hover:border-slate-700'
+                                                        : 'bg-slate-50 dark:bg-slate-950/30 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700'
                                                         }`}
                                                 >
-                                                    <Icon className={isSelected ? config.color : 'text-slate-500'} size={24} />
-                                                    <p className={`font-bold mt-2 text-sm ${isSelected ? 'text-white' : 'text-slate-400'}`}>{config.label}</p>
-                                                    <p className="text-[10px] text-slate-500 mt-1 leading-tight">{config.desc}</p>
+                                                    <Icon className={isSelected ? config.color : 'text-slate-500 dark:text-slate-400'} size={24} />
+                                                    <p className={`font-bold mt-2 text-sm ${isSelected ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}>{config.label}</p>
+                                                    <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 leading-tight">{config.desc}</p>
                                                 </button>
                                             );
                                         })}
@@ -371,7 +388,7 @@ const AdminMgmt = () => {
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-900/20 flex items-center justify-center gap-2"
+                                    className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 dark:text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-900/20 flex items-center justify-center gap-2"
                                 >
                                     {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Create Role Account'}
                                 </button>
@@ -389,58 +406,73 @@ const AdminMgmt = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="bg-slate-900 border border-slate-800 w-full max-w-2xl p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]"
+                            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-2xl p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]"
                         >
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 via-purple-500 to-indigo-500" />
                             <button
                                 onClick={() => setShowPermissionsModal(false)}
-                                className="absolute right-6 top-6 text-slate-500 hover:text-white transition-colors"
+                                className="absolute right-6 top-6 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors"
                             >
                                 <X size={24} />
                             </button>
 
                             <div className="mb-6 flex-shrink-0">
-                                <h2 className="text-2xl font-bold text-white mb-1">Feature Permissions</h2>
-                                <p className="text-slate-400">Configure access for {selectedAdminForPermissions.full_name}</p>
+                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Feature Permissions</h2>
+                                <p className="text-slate-500 dark:text-slate-400">Configure access for {selectedAdminForPermissions.full_name}</p>
                             </div>
 
                             <div className="flex-1 overflow-y-auto min-h-0 pr-2 pb-4">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pb-8">
-                                    {AVAILABLE_FEATURES.map((feature) => {
-                                        const isSelected = permissionsForm.includes(feature.id);
-                                        return (
-                                            <button
-                                                key={feature.id}
-                                                type="button"
-                                                onClick={() => {
-                                                    if (isSelected) {
-                                                        setPermissionsForm(prev => prev.filter(id => id !== feature.id));
-                                                    } else {
-                                                        setPermissionsForm(prev => [...prev, feature.id]);
-                                                    }
-                                                }}
-                                                className={`p-4 rounded-2xl border text-left flex items-center justify-between transition-all ${isSelected
-                                                    ? 'bg-primary-500/10 border-primary-500/30'
-                                                    : 'bg-slate-950/30 border-slate-800'
-                                                    }`}
-                                            >
-                                                <span className={`font-semibold ${isSelected ? 'text-primary-300' : 'text-slate-400'}`}>
-                                                    {feature.name}
-                                                </span>
-                                                <div className={`w-5 h-5 rounded flex items-center justify-center ${isSelected ? 'bg-primary-500 text-white' : 'border border-slate-600'}`}>
-                                                    {isSelected && <CheckCircle2 size={14} />}
-                                                </div>
-                                            </button>
-                                        );
-                                    })}
+                                <div className="space-y-6 pb-8">
+                                    {Object.entries(
+                                        AVAILABLE_FEATURES.reduce((acc, feature) => {
+                                            if (!acc[feature.category]) acc[feature.category] = [];
+                                            acc[feature.category].push(feature);
+                                            return acc;
+                                        }, {})
+                                    ).map(([category, features]) => (
+                                        <div key={category} className="space-y-2">
+                                            <h3 className="text-xs font-bold text-primary-400 tracking-wide uppercase px-1">
+                                                {category}
+                                            </h3>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                {features.map((feature) => {
+                                                    const isSelected = permissionsForm.includes(feature.id);
+                                                    return (
+                                                        <button
+                                                            key={feature.id}
+                                                            type="button"
+                                                            onClick={() => {
+                                                                if (isSelected) {
+                                                                    setPermissionsForm(prev => prev.filter(id => id !== feature.id));
+                                                                } else {
+                                                                    setPermissionsForm(prev => [...prev, feature.id]);
+                                                                }
+                                                            }}
+                                                            className={`p-4 rounded-2xl border text-left flex items-center justify-between transition-all hover:bg-slate-100 dark:bg-slate-800/40 ${isSelected
+                                                                ? 'bg-primary-500/10 border-primary-500/30'
+                                                                : 'bg-slate-50 dark:bg-slate-950/30 border-slate-200 dark:border-slate-800'
+                                                                }`}
+                                                        >
+                                                            <span className={`font-semibold flex items-center gap-2 ${isSelected ? 'text-primary-300' : 'text-slate-500 dark:text-slate-400'}`}>
+                                                                <span className="text-lg">{feature.icon}</span> {feature.name}
+                                                            </span>
+                                                            <div className={`w-5 h-5 rounded flex items-center justify-center ${isSelected ? 'bg-primary-500 text-slate-900 dark:text-white' : 'border border-slate-600'}`}>
+                                                                {isSelected && <CheckCircle2 size={14} />}
+                                                            </div>
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
 
-                            <div className="pt-4 border-t border-slate-800 mt-auto flex-shrink-0">
+                            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 mt-auto flex-shrink-0">
                                 <button
                                     onClick={handleSavePermissions}
                                     disabled={isSubmitting}
-                                    className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-900/20 flex items-center justify-center gap-2"
+                                    className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 dark:text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-900/20 flex items-center justify-center gap-2"
                                 >
                                     {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Save Permissions'}
                                 </button>

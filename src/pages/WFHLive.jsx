@@ -110,10 +110,10 @@ export default function WFHLive() {
       {/* Header section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">WFH Live Command</h1>
-          <p className="text-slate-400 text-xs mt-1">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">WFH Live Command</h1>
+          <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">
             Real-time visual monitoring feed of remote workforce workstations.
-            <span className="ml-2 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-800 text-slate-400">
+            <span className="ml-2 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
               {refreshing ? "Refreshing..." : `Sync: ${formatToIST(lastUpdated, { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`}
             </span>
           </p>
@@ -121,11 +121,11 @@ export default function WFHLive() {
 
         <div className="flex items-center gap-3">
           <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 dark:text-slate-400">
               <Search size={16} />
             </span>
             <input 
-              className="bg-slate-900 border border-slate-800 rounded-xl py-2 pl-9 pr-4 text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none w-56 transition-all"
+              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl py-2 pl-9 pr-4 text-xs text-slate-900 dark:text-white placeholder-slate-500 focus:border-indigo-500 outline-none w-56 transition-all"
               placeholder="Search active staff..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -133,7 +133,7 @@ export default function WFHLive() {
           </div>
           <button 
             onClick={handleManualRefresh}
-            className="p-2 border border-slate-800 rounded-xl bg-slate-900/40 hover:bg-slate-900 text-slate-400 hover:text-white transition-all"
+            className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-white dark:bg-slate-900/40 hover:bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-all"
             title="Force refresh metrics"
           >
             <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} />
@@ -143,44 +143,44 @@ export default function WFHLive() {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-6 rounded-3xl">
+        <div className="bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800 p-6 rounded-3xl">
           <div className="flex justify-between items-start mb-3">
             <div className="p-3 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-2xl">
               <Users size={20} />
             </div>
           </div>
-          <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Remote Workforce</p>
-          <h3 className="text-2xl font-bold text-white tracking-tight mt-1">{stats?.wfh_employees || 0} Employees</h3>
+          <p className="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Remote Workforce</p>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight mt-1">{stats?.wfh_employees || 0} Employees</h3>
         </div>
 
-        <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-6 rounded-3xl">
+        <div className="bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800 p-6 rounded-3xl">
           <div className="flex justify-between items-start mb-3">
             <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl">
               <Activity size={20} className="animate-pulse" />
             </div>
           </div>
-          <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Active Sessions</p>
-          <h3 className="text-2xl font-bold text-white tracking-tight mt-1">{stats?.active_sessions || 0} Live Now</h3>
+          <p className="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Active Sessions</p>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight mt-1">{stats?.active_sessions || 0} Live Now</h3>
         </div>
 
-        <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-6 rounded-3xl">
+        <div className="bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800 p-6 rounded-3xl">
           <div className="flex justify-between items-start mb-3">
             <div className="p-3 bg-amber-500/10 border border-indigo-500/20 text-indigo-400 rounded-2xl">
               <Percent size={20} />
             </div>
           </div>
-          <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Avg Productivity</p>
-          <h3 className="text-2xl font-bold text-white tracking-tight mt-1">{stats?.avg_productivity || 0}% Today</h3>
+          <p className="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Avg Productivity</p>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight mt-1">{stats?.avg_productivity || 0}% Today</h3>
         </div>
 
-        <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-6 rounded-3xl">
+        <div className="bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800 p-6 rounded-3xl">
           <div className="flex justify-between items-start mb-3">
             <div className="p-3 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl">
               <ShieldAlert size={20} />
             </div>
           </div>
-          <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Pending Alerts</p>
-          <h3 className="text-2xl font-bold text-white tracking-tight mt-1">{stats?.pending_alerts || 0} Triggered</h3>
+          <p className="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Pending Alerts</p>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight mt-1">{stats?.pending_alerts || 0} Triggered</h3>
         </div>
       </div>
 
@@ -189,23 +189,23 @@ export default function WFHLive() {
         {filteredEmployees.map((emp) => (
           <div 
             key={emp.session_id} 
-            className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-6 rounded-[2rem] flex flex-col justify-between group hover:border-slate-700 transition-all shadow-xl shadow-slate-950/20"
+            className="bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800 p-6 rounded-[2rem] flex flex-col justify-between group hover:border-slate-300 dark:border-slate-700 transition-all shadow-xl shadow-slate-950/20"
           >
             <div className="space-y-4">
               
               {/* Card Header info */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-slate-800 flex items-center justify-center text-xs font-black text-slate-300 border border-slate-700/50">
+                <div className="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-black text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-700/50">
                   {emp.employee_name?.charAt(0) || "U"}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-bold text-white truncate">{emp.employee_name}</h4>
-                  <span className="text-[10px] text-slate-500 truncate block mt-0.5">{emp.employee_email}</span>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white truncate">{emp.employee_name}</h4>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate block mt-0.5">{emp.employee_email}</span>
                 </div>
                 <button 
                   onClick={() => handleTriggerScreenshot(emp.employee_email)}
                   disabled={triggeringMap[emp.employee_email]}
-                  className="p-2 border border-slate-800 rounded-xl hover:bg-slate-900 text-slate-400 hover:text-white transition-all disabled:opacity-50"
+                  className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-all disabled:opacity-50"
                   title="Trigger Live Workstation Screenshot"
                 >
                   {triggeringMap[emp.employee_email] ? (
@@ -231,7 +231,7 @@ export default function WFHLive() {
                 </button>
                 <button 
                   onClick={() => navigate(`/dashboard/wfh-employee/${emp.employee_email}`)}
-                  className="p-2 border border-slate-800 rounded-xl hover:bg-slate-900 text-slate-400 hover:text-white transition-all"
+                  className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-all"
                   title="Deep-dive timeline"
                 >
                   <ArrowRight size={14} />
@@ -239,16 +239,16 @@ export default function WFHLive() {
               </div>
 
               {/* Status parameters */}
-              <div className="grid grid-cols-2 gap-4 py-2 border-y border-slate-800/50 text-xs">
+              <div className="grid grid-cols-2 gap-4 py-2 border-y border-slate-200 dark:border-slate-200 dark:border-slate-800/50 text-xs">
                 <div>
-                  <span className="text-slate-500 block text-[9px] uppercase tracking-wider mb-0.5">Uptime</span>
-                  <span className="font-bold text-slate-300 flex items-center gap-1.5">
+                  <span className="text-slate-500 dark:text-slate-400 block text-[9px] uppercase tracking-wider mb-0.5">Uptime</span>
+                  <span className="font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
                     <Clock size={12} className="text-indigo-400" />
                     {emp.check_in_time ? formatToIST(emp.check_in_time, { hour: '2-digit', minute: '2-digit' }) : "N/A"}
                   </span>
                 </div>
                 <div>
-                  <span className="text-slate-500 block text-[9px] uppercase tracking-wider mb-0.5">Productivity</span>
+                  <span className="text-slate-500 dark:text-slate-400 block text-[9px] uppercase tracking-wider mb-0.5">Productivity</span>
                   <span className="font-bold text-indigo-400">{emp.productivity_score || 0}%</span>
                 </div>
               </div>
@@ -257,14 +257,14 @@ export default function WFHLive() {
               {emp.latest_screenshot && (
                 <div className="space-y-2">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-500">Active App:</span>
-                    <span className="font-bold text-slate-300 truncate max-w-[160px]" title={emp.latest_screenshot.active_window}>
+                    <span className="text-slate-500 dark:text-slate-400">Active App:</span>
+                    <span className="font-bold text-slate-600 dark:text-slate-300 truncate max-w-[160px]" title={emp.latest_screenshot.active_window}>
                       {emp.latest_screenshot.active_app}
                     </span>
                   </div>
 
                   {/* Screenshot thumbnail vault */}
-                  <div className="relative rounded-2xl border border-slate-800 overflow-hidden group/img aspect-video bg-slate-950 flex items-center justify-center">
+                  <div className="relative rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden group/img aspect-video bg-slate-50 dark:bg-slate-950 flex items-center justify-center">
                     <img 
                       src={emp.latest_screenshot.image_url?.startsWith('http') ? emp.latest_screenshot.image_url : `${api.defaults.baseURL || "http://localhost:8000"}${emp.latest_screenshot.image_url}`} 
                       alt="" 
@@ -274,7 +274,7 @@ export default function WFHLive() {
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-3">
-                      <span className="text-[9px] text-slate-400 font-medium">Captured: {formatToIST(emp.latest_screenshot.timestamp, { hour: '2-digit', minute: '2-digit' })}</span>
+                      <span className="text-[9px] text-slate-500 dark:text-slate-400 font-medium">Captured: {formatToIST(emp.latest_screenshot.timestamp, { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
                   </div>
                 </div>
@@ -284,7 +284,7 @@ export default function WFHLive() {
         ))}
 
         {filteredEmployees.length === 0 && (
-          <div className="col-span-full bg-slate-900/20 rounded-3xl border border-dashed border-slate-800 p-12 text-center text-slate-600">
+          <div className="col-span-full bg-white dark:bg-slate-900/20 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800 p-12 text-center text-slate-600">
             <Monitor size={48} className="mx-auto mb-4 text-slate-700" />
             <p className="text-sm">No remote staff active or checked-in at the moment.</p>
           </div>
@@ -293,19 +293,19 @@ export default function WFHLive() {
       
       {/* Force End Confirmation Modal */}
       {showConfirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in-95 duration-200">
-          <div className="bg-slate-900 border border-slate-800 rounded-[2rem] max-w-md w-full p-6 space-y-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-50 dark:bg-slate-950/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2rem] max-w-md w-full p-6 space-y-6 shadow-2xl">
             <div>
-              <h3 className="text-lg font-bold text-white">Force End Session</h3>
-              <p className="text-slate-400 text-xs mt-1">
-                Are you sure you want to remotely terminate the WFH monitoring session for <strong className="text-white">{selectedEmpForForceEnd}</strong>? This will immediately log them out of monitoring.
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">Force End Session</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">
+                Are you sure you want to remotely terminate the WFH monitoring session for <strong className="text-slate-900 dark:text-white">{selectedEmpForForceEnd}</strong>? This will immediately log them out of monitoring.
               </p>
             </div>
             
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Reason for termination</label>
+              <label className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold">Reason for termination</label>
               <textarea 
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white placeholder-slate-600 focus:border-rose-500 outline-none h-20 transition-all resize-none"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:border-rose-500 outline-none h-20 transition-all resize-none"
                 placeholder="e.g. Inactivity detected, policy violation, etc."
                 value={forceEndReason}
                 onChange={(e) => setForceEndReason(e.target.value)}
@@ -319,14 +319,14 @@ export default function WFHLive() {
                   setSelectedEmpForForceEnd(null);
                   setForceEndReason("");
                 }}
-                className="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 transition-all"
+                className="flex-1 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 transition-all"
               >
                 Cancel
               </button>
               <button 
                 onClick={handleForceEndSession}
                 disabled={endingMap[selectedEmpForForceEnd]}
-                className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-50 text-xs font-semibold text-white transition-all"
+                className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-50 text-xs font-semibold text-slate-900 dark:text-white transition-all"
               >
                 {endingMap[selectedEmpForForceEnd] ? "Ending..." : "Confirm & End"}
               </button>
@@ -358,7 +358,7 @@ export default function WFHLive() {
             </div>
           )}
           <div className="text-xs font-bold leading-normal">{toast.text}</div>
-          <button onClick={() => setToast(null)} className="text-slate-400 hover:text-white ml-2 text-xs font-semibold shrink-0">
+          <button onClick={() => setToast(null)} className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white ml-2 text-xs font-semibold shrink-0">
             ✕
           </button>
         </div>

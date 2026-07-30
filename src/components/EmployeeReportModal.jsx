@@ -297,13 +297,17 @@ const LocationDisplay = ({ lat, lon }) => {
         let isMounted = true;
         const fetchAddress = async () => {
             try {
-                const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
-                const data = await res.json();
+                const res = await client.get(`/api/geocoding/reverse`, { params: { lat, lon } });
+                const data = res.data;
                 if (isMounted && data.display_name) {
                     // Extract a simplified address, like suburb + city
                     const parts = [];
-                    if (data.address.suburb || data.address.neighbourhood) parts.push(data.address.suburb || data.address.neighbourhood);
-                    if (data.address.city || data.address.town) parts.push(data.address.city || data.address.town);
+                    if (data.address && (data.address.suburb || data.address.neighbourhood)) {
+                        parts.push(data.address.suburb || data.address.neighbourhood);
+                    }
+                    if (data.address && (data.address.city || data.address.town)) {
+                        parts.push(data.address.city || data.address.town);
+                    }
                     if (parts.length === 0) setAddress(data.display_name.split(',').slice(0, 2).join(', '));
                     else setAddress(parts.join(', '));
                 }

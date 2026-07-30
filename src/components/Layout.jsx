@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
-        <div className="flex min-h-screen bg-[#020617]">
+        <div className="flex min-h-screen bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-100 transition-colors duration-200">
             {/* Mobile Sidebar Overlay */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
@@ -26,11 +26,11 @@ const Layout = ({ children }) => {
                 <Sidebar onClose={() => setIsMobileMenuOpen(false)} />
             </div>
 
-            <main className="flex-1 min-w-0 overflow-hidden relative flex flex-col h-screen">
+            <main className="flex-1 min-w-0 overflow-hidden relative flex flex-col h-screen bg-slate-50 dark:bg-[#020617] transition-colors duration-200">
                 {/* Mobile Header */}
-                <div className="md:hidden flex items-center justify-between p-4 border-b border-slate-800 bg-[#020617] z-30">
-                    <span className="font-bold text-white tracking-tight">Admin Portal</span>
-                    <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-slate-300 hover:text-white">
+                <div className="md:hidden flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#020617] z-30 transition-colors duration-200">
+                    <span className="font-bold text-slate-900 dark:text-white tracking-tight">Admin Portal</span>
+                    <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
                         <Menu size={24} />
                     </button>
                 </div>

@@ -117,27 +117,27 @@ const FieldWarRoom = () => {
 
     return (
         <div className="flex flex-col h-full gap-6">
-            <header className="flex justify-between items-center bg-slate-900/40 p-6 rounded-3xl border border-slate-800/50">
+            <header className="flex justify-between items-center bg-white dark:bg-white dark:bg-slate-900/40 p-6 rounded-3xl border border-slate-200 dark:border-slate-200 dark:border-slate-800/50">
                 <div>
-                    <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
                         <Route className="text-primary-500" /> Field War Room
                     </h1>
-                    <p className="text-slate-400 text-sm mt-1">Live Zomato-style tracking (Active Duty Only)</p>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Live Zomato-style tracking (Active Duty Only)</p>
                 </div>
                 <div className="flex gap-4">
                     <button
                         onClick={() => setShowHeatmap(!showHeatmap)}
-                        className={`px-4 py-2 rounded-2xl border transition-all flex items-center gap-2 text-xs font-bold ${showHeatmap ? 'bg-amber-500/20 border-amber-500 text-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'}`}
+                        className={`px-4 py-2 rounded-2xl border transition-all flex items-center gap-2 text-xs font-bold ${showHeatmap ? 'bg-amber-500/20 border-amber-500 text-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:border-slate-700'}`}
                     >
                         <EyeOff size={16} /> Heatmap {showHeatmap ? 'ON' : 'OFF'}
                     </button>
                     <StatCard icon={Users} label="On-Site" value={agents.filter(a => a.status === 'On-Site').length} color="emerald" />
                     <StatCard icon={Navigation} label="En Route" value={agents.filter(a => a.status === 'Traveling').length} color="amber" />
-                    <div className="bg-slate-950/50 px-4 py-2 rounded-2xl border border-slate-800 flex items-center gap-3">
+                    <div className="bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 px-4 py-2 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center gap-3">
                         <ShieldCheck className="text-primary-500" size={18} />
                         <div>
                             <span className="text-[10px] uppercase font-bold opacity-60 block text-primary-500">Privacy Shield</span>
-                            <span className="text-xs font-bold text-white">Duty Filter ON</span>
+                            <span className="text-xs font-bold text-slate-900 dark:text-white">Duty Filter ON</span>
                         </div>
                     </div>
                 </div>
@@ -145,9 +145,9 @@ const FieldWarRoom = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1 min-h-[600px]">
                 {/* Agent List */}
-                <div className="lg:col-span-1 bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden flex flex-col">
-                    <div className="p-4 bg-slate-800/20 flex items-center justify-between border-b border-slate-800">
-                        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Live Agents</span>
+                <div className="lg:col-span-1 bg-white dark:bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden flex flex-col">
+                    <div className="p-4 bg-slate-100 dark:bg-slate-800/20 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
+                        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Live Agents</span>
                         <div className="flex items-center gap-1">
                             <span className="relative flex h-2 w-2">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -161,10 +161,10 @@ const FieldWarRoom = () => {
                             <button
                                 key={agent.id}
                                 onClick={() => fetchAgentHistory(agent)}
-                                className={`w-full text-left p-4 rounded-2xl transition-all border ${selectedAgent?.id === agent.id ? 'bg-primary-500/10 border-primary-500/50 shadow-lg' : 'hover:bg-slate-800/50 border-transparent'}`}
+                                className={`w-full text-left p-4 rounded-2xl transition-all border ${selectedAgent?.id === agent.id ? 'bg-primary-500/10 border-primary-500/50 shadow-lg' : 'hover:bg-slate-100 dark:bg-slate-800/50 border-transparent'}`}
                             >
                                 <div className="flex justify-between items-center">
-                                    <span className="font-bold text-white text-sm">{agent.name}</span>
+                                    <span className="font-bold text-slate-900 dark:text-white text-sm">{agent.name}</span>
                                     <span
                                         className="text-[10px] px-1.5 py-0.5 rounded font-bold"
                                         style={{ backgroundColor: `${getStatusColor(agent.status)}20`, color: getStatusColor(agent.status) }}
@@ -175,7 +175,7 @@ const FieldWarRoom = () => {
                                 {agent.current_visit && (
                                     <p className="text-[10px] text-emerald-400 font-bold mt-1 uppercase">At: {agent.current_visit}</p>
                                 )}
-                                <div className="text-xs text-slate-500 mt-2 flex items-center justify-between">
+                                <div className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex items-center justify-between">
                                     <div className="flex items-center gap-1.5">
                                         <Navigation size={12} className="text-primary-500" /> {agent.km_today || 0} km
                                     </div>
@@ -187,7 +187,7 @@ const FieldWarRoom = () => {
                 </div>
 
                 {/* Map View */}
-                <div className="lg:col-span-3 bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden relative shadow-2xl">
+                <div className="lg:col-span-3 bg-white dark:bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden relative shadow-2xl">
                     <MapContainer
                         center={[20.5937, 78.9629]}
                         zoom={5}
@@ -238,8 +238,8 @@ const FieldWarRoom = () => {
                                 icon={agentMarkerIcon(getStatusColor(agent.status))}
                             >
                                 <Popup className="custom-popup">
-                                    <div className="p-3 bg-slate-900 rounded-lg min-w-[200px]">
-                                        <h3 className="font-bold text-white mb-1">{agent.name}</h3>
+                                    <div className="p-3 bg-white dark:bg-slate-900 rounded-lg min-w-[200px]">
+                                        <h3 className="font-bold text-slate-900 dark:text-white mb-1">{agent.name}</h3>
                                         <div className="flex items-center gap-2 mb-3">
                                             <span
                                                 className="w-2 h-2 rounded-full"
@@ -252,23 +252,23 @@ const FieldWarRoom = () => {
 
                                         {agent.current_visit && (
                                             <div className="bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20 mb-3">
-                                                <p className="text-[8px] text-slate-500 uppercase font-bold">Current Visit</p>
+                                                <p className="text-[8px] text-slate-500 dark:text-slate-400 uppercase font-bold">Current Visit</p>
                                                 <p className="text-xs text-emerald-400 font-bold">{agent.current_visit}</p>
                                             </div>
                                         )}
 
-                                        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                                        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
                                             <div>
-                                                <p className="text-[8px] text-slate-500 uppercase font-bold">Coverage</p>
-                                                <p className="text-sm font-bold text-white">{agent.km_today || 0} KM</p>
+                                                <p className="text-[8px] text-slate-500 dark:text-slate-400 uppercase font-bold">Coverage</p>
+                                                <p className="text-sm font-bold text-slate-900 dark:text-white">{agent.km_today || 0} KM</p>
                                             </div>
                                             <div>
-                                                <p className="text-[8px] text-slate-500 uppercase font-bold">Last Active</p>
-                                                <p className="text-sm font-bold text-white">{formatToIST(agent.last_ping, { hour: '2-digit', minute: '2-digit' })}</p>
+                                                <p className="text-[8px] text-slate-500 dark:text-slate-400 uppercase font-bold">Last Active</p>
+                                                <p className="text-sm font-bold text-slate-900 dark:text-white">{formatToIST(agent.last_ping, { hour: '2-digit', minute: '2-digit' })}</p>
                                             </div>
                                         </div>
 
-                                        <div className="mt-4 pt-3 border-t border-slate-800 flex flex-col gap-2">
+                                        <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
                                             <button
                                                 onClick={async (e) => {
                                                     e.stopPropagation();
@@ -279,7 +279,7 @@ const FieldWarRoom = () => {
                                                         alert("Failed to generate OTP");
                                                     }
                                                 }}
-                                                className="w-full bg-indigo-500 hover:bg-indigo-600 text-white text-[10px] font-bold py-2 rounded-lg flex items-center justify-center gap-2"
+                                                className="w-full bg-indigo-500 hover:bg-indigo-600 text-slate-900 dark:text-white text-[10px] font-bold py-2 rounded-lg flex items-center justify-center gap-2"
                                             >
                                                 <ShieldCheck size={14} /> Generate GPS OTP
                                             </button>
@@ -299,7 +299,7 @@ const FieldWarRoom = () => {
                     </MapContainer>
 
                     {/* Overlay Privacy Tooltip */}
-                    <div className="absolute bottom-6 left-6 z-[1000] bg-slate-950/80 backdrop-blur-md px-4 py-2 rounded-xl border border-slate-800 text-[10px] text-slate-400 flex items-center gap-2">
+                    <div className="absolute bottom-6 left-6 z-[1000] bg-slate-50 dark:bg-slate-950/80 backdrop-blur-md px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-2">
                         <EyeOff size={14} className="text-amber-500" />
                         Tracking hidden for employees NOT currently checked-in.
                     </div>
@@ -317,7 +317,7 @@ const StatCard = ({ icon: Icon, label, value, color }) => {
     };
     return (
         <div className={`px-5 py-3 rounded-2xl border ${colors[color]} flex items-center gap-4`}>
-            <div className="p-2 rounded-xl bg-slate-950/20">
+            <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-950/20">
                 <Icon size={20} />
             </div>
             <div>

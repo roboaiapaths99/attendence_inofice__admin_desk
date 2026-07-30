@@ -97,13 +97,13 @@ export default function NudgeCenter() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${primaryColor}22` }}>
                             <Zap size={20} style={{ color: primaryColor }} />
                         </div>
                         Nudge Center
                     </h1>
-                    <p className="text-slate-400 text-sm mt-1">Motivate and communicate with your field team</p>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Motivate and communicate with your field team</p>
                 </div>
                 <div className="flex gap-2">
                     {['compose', 'history'].map(tab => (
@@ -111,8 +111,8 @@ export default function NudgeCenter() {
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${activeTab === tab
-                                ? 'bg-white/10 text-white border border-white/10'
-                                : 'text-slate-400 hover:text-white'
+                                ? 'bg-white/10 text-slate-900 dark:text-white border border-white/10'
+                                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white'
                                 }`}
                         >
                             {tab === 'compose' ? '✏️ Compose' : '📋 History'}
@@ -126,8 +126,8 @@ export default function NudgeCenter() {
                     {/* Left: Type + Message */}
                     <div className="lg:col-span-2 space-y-5">
                         {/* Type Picker */}
-                        <div className="bg-slate-900/50 rounded-2xl p-5 border border-slate-800">
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">1 — Nudge Type</p>
+                        <div className="bg-white dark:bg-white dark:bg-slate-900/50 rounded-2xl p-5 border border-slate-200 dark:border-slate-800">
+                            <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">1 — Nudge Type</p>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                 {NUDGE_TYPES.map(t => {
                                     const TIcon = t.icon;
@@ -137,7 +137,7 @@ export default function NudgeCenter() {
                                             onClick={() => { setNudgeType(t.key); setMessage(''); }}
                                             className={`flex items-center gap-2 p-3 rounded-xl border transition-all text-sm font-semibold ${nudgeType === t.key
                                                 ? 'border-white/20 bg-white/5'
-                                                : 'border-slate-800 hover:border-slate-700'
+                                                : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700'
                                                 }`}
                                             style={nudgeType === t.key ? { color: t.color } : { color: '#94a3b8' }}
                                         >
@@ -150,8 +150,8 @@ export default function NudgeCenter() {
                         </div>
 
                         {/* Quick Messages */}
-                        <div className="bg-slate-900/50 rounded-2xl p-5 border border-slate-800">
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">2 — Quick Message</p>
+                        <div className="bg-white dark:bg-white dark:bg-slate-900/50 rounded-2xl p-5 border border-slate-200 dark:border-slate-800">
+                            <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">2 — Quick Message</p>
                             <div className="flex flex-wrap gap-2 mb-4">
                                 {(QUICK_MESSAGES[nudgeType] || []).map((msg, i) => (
                                     <button
@@ -159,7 +159,7 @@ export default function NudgeCenter() {
                                         onClick={() => setMessage(msg)}
                                         className={`text-xs px-3 py-2 rounded-lg border transition-all ${message === msg
                                             ? 'border-indigo-500/40 bg-indigo-500/10 text-indigo-400'
-                                            : 'border-slate-800 text-slate-400 hover:border-slate-700'
+                                            : 'border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:border-slate-700'
                                             }`}
                                     >
                                         {msg}
@@ -167,7 +167,7 @@ export default function NudgeCenter() {
                                 ))}
                             </div>
                             <textarea
-                                className="w-full bg-slate-950/50 border border-slate-800 rounded-xl p-4 text-white text-sm resize-none focus:border-indigo-500/50 focus:outline-none transition-colors"
+                                className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-xl p-4 text-slate-900 dark:text-white text-sm resize-none focus:border-indigo-500/50 focus:outline-none transition-colors"
                                 rows={3}
                                 placeholder="Or type a custom message..."
                                 value={message}
@@ -181,7 +181,7 @@ export default function NudgeCenter() {
                         <button
                             onClick={handleSend}
                             disabled={sending || !message || selectedEmails.length === 0}
-                            className="w-full py-4 rounded-xl font-bold text-white flex items-center justify-center gap-3 transition-all disabled:opacity-40"
+                            className="w-full py-4 rounded-xl font-bold text-slate-900 dark:text-white flex items-center justify-center gap-3 transition-all disabled:opacity-40"
                             style={{ backgroundColor: primaryColor }}
                         >
                             {sending ? (
@@ -196,21 +196,21 @@ export default function NudgeCenter() {
                     </div>
 
                     {/* Right: Team Selection */}
-                    <div className="bg-slate-900/50 rounded-2xl p-5 border border-slate-800">
+                    <div className="bg-white dark:bg-white dark:bg-slate-900/50 rounded-2xl p-5 border border-slate-200 dark:border-slate-800">
                         <div className="flex items-center justify-between mb-4">
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">3 — Recipients</p>
+                            <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">3 — Recipients</p>
                             <div className="flex gap-2">
                                 <button onClick={selectAll} className="text-xs font-semibold" style={{ color: primaryColor }}>All</button>
-                                <button onClick={clearAll} className="text-xs font-semibold text-slate-500">Clear</button>
+                                <button onClick={clearAll} className="text-xs font-semibold text-slate-500 dark:text-slate-400">Clear</button>
                             </div>
                         </div>
                         <div className="space-y-2 max-h-[400px] overflow-y-auto">
                             {loading ? (
                                 <div className="flex justify-center py-10">
-                                    <div className="w-6 h-6 border-2 border-slate-700 border-t-indigo-500 rounded-full animate-spin" />
+                                    <div className="w-6 h-6 border-2 border-slate-300 dark:border-slate-700 border-t-indigo-500 rounded-full animate-spin" />
                                 </div>
                             ) : team.length === 0 ? (
-                                <p className="text-slate-500 text-sm text-center py-10">No field team members found</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm text-center py-10">No field team members found</p>
                             ) : (
                                 team.map(m => (
                                     <button
@@ -218,7 +218,7 @@ export default function NudgeCenter() {
                                         onClick={() => toggleMember(m.email)}
                                         className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all text-left ${selectedEmails.includes(m.email)
                                             ? 'border-indigo-500/30 bg-indigo-500/10'
-                                            : 'border-slate-800 hover:border-slate-700'
+                                            : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700'
                                             }`}
                                     >
                                         <div
@@ -231,8 +231,8 @@ export default function NudgeCenter() {
                                             {(m.full_name || '?').charAt(0).toUpperCase()}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-medium text-white truncate">{m.full_name}</p>
-                                            <p className="text-[10px] text-slate-500 truncate">{m.email}</p>
+                                            <p className="text-sm font-medium text-slate-900 dark:text-white truncate">{m.full_name}</p>
+                                            <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{m.email}</p>
                                         </div>
                                         {selectedEmails.includes(m.email) && (
                                             <CheckCircle2 size={16} style={{ color: primaryColor }} />
@@ -247,9 +247,9 @@ export default function NudgeCenter() {
                 /* History Tab */
                 <div className="space-y-3">
                     {history.length === 0 ? (
-                        <div className="bg-slate-900/50 rounded-2xl p-12 border border-slate-800 text-center">
+                        <div className="bg-white dark:bg-white dark:bg-slate-900/50 rounded-2xl p-12 border border-slate-200 dark:border-slate-800 text-center">
                             <History size={32} className="text-slate-700 mx-auto mb-3" />
-                            <p className="text-slate-500">No nudges sent yet</p>
+                            <p className="text-slate-500 dark:text-slate-400">No nudges sent yet</p>
                         </div>
                     ) : (
                         history.map((log, i) => {
@@ -261,14 +261,14 @@ export default function NudgeCenter() {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.05 }}
-                                    className="bg-slate-900/50 rounded-xl p-4 border border-slate-800 flex items-start gap-4"
+                                    className="bg-white dark:bg-white dark:bg-slate-900/50 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex items-start gap-4"
                                 >
                                     <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${typeInfo.color}15` }}>
                                         <LogIcon size={18} style={{ color: typeInfo.color }} />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-sm text-white font-medium">{log.message}</p>
-                                        <p className="text-xs text-slate-500 mt-1">
+                                        <p className="text-sm text-slate-900 dark:text-white font-medium">{log.message}</p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                                             To {log.recipients?.length || 0} member(s) · {new Date(log.sent_at).toLocaleString()}
                                         </p>
                                     </div>

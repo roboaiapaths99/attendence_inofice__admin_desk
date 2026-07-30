@@ -24,6 +24,13 @@ import WFHDevices from "./pages/WFHDevices";
 import WFHLive from "./pages/WFHLive";
 import WFHEmployeeDetail from "./pages/WFHEmployeeDetail";
 
+import Onboarding from './pages/Onboarding';
+import Payroll from './pages/Payroll';
+import ExitManagement from './pages/ExitManagement';
+import DocumentVerification from './pages/DocumentVerification';
+import WFHManagement from './pages/WFHManagement';
+
+
 const ProtectedRoute = ({ children }) => {
   const { admin, loading } = useAuth();
 
@@ -202,6 +209,46 @@ function App() {
           element={
             <ProtectedRoute>
               <WFHEmployeeDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/onboarding"
+          element={
+            <ProtectedRoute>
+              <Onboarding />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/payroll"
+          element={
+            <ProtectedRoute>
+              <Payroll />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/exit-management"
+          element={
+            <ProtectedRoute>
+              <ExitManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/verify-docs"
+          element={
+            <ProtectedRoute>
+              <DocumentVerification />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/wfh-management"
+          element={
+            <ProtectedRoute>
+              <WFHManagement />
             </ProtectedRoute>
           }
         />
