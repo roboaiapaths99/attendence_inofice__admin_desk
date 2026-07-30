@@ -728,8 +728,9 @@ const EmployeeMgmt = () => {
                                                                     setIsReportModalOpen(true);
                                                                 }}
                                                                 title="Activity Report"
+                                                                className="p-2 hover:bg-slate-200 rounded-xl text-slate-900 hover:text-[#004B87] transition-all"
                                                             >
-                                                                <FileText size={16} />
+                                                                <FileText size={18} className="text-slate-900" />
                                                             </button>
                                                             <button
                                                                 onClick={() => {
@@ -755,30 +756,30 @@ const EmployeeMgmt = () => {
                                                                     setShowEditModal(true);
                                                                 }}
                                                                 title="Edit Details"
-                                                                className="p-2 hover:bg-primary-400/10 rounded-xl text-slate-500 hover:text-primary-400 transition-all font-bold"
+                                                                className="p-2 hover:bg-slate-200 rounded-xl text-slate-900 hover:text-[#004B87] transition-all"
                                                             >
-                                                                <Edit2 size={16} />
+                                                                <Edit2 size={18} className="text-slate-900" />
                                                             </button>
                                                             <button
                                                                 onClick={() => resetPassword(emp.email)}
                                                                 title="Change Password"
-                                                                className="p-2 hover:bg-amber-400/10 rounded-xl text-slate-500 hover:text-amber-400 transition-all"
+                                                                className="p-2 hover:bg-slate-200 rounded-xl text-slate-900 hover:text-amber-700 transition-all"
                                                             >
-                                                                <Key size={16} />
+                                                                <Key size={18} className="text-slate-900" />
                                                             </button>
                                                             <button
                                                                 onClick={() => clearBinding(emp.email)}
                                                                 title="Release Device Binding"
-                                                                className="p-2 hover:bg-primary-400/10 rounded-xl text-slate-500 hover:text-primary-400 transition-all"
+                                                                className="p-2 hover:bg-slate-200 rounded-xl text-slate-900 hover:text-[#004B87] transition-all"
                                                             >
-                                                                <RotateCcw size={16} />
+                                                                <RotateCcw size={18} className="text-slate-900" />
                                                             </button>
                                                             <button
                                                                 onClick={() => deleteEmployee(emp.email)}
                                                                 title="Delete Employee"
-                                                                className="p-2 hover:bg-rose-500/10 rounded-xl text-slate-500 hover:text-rose-500 transition-all"
+                                                                className="p-2 hover:bg-red-100 rounded-xl text-slate-900 hover:text-red-600 transition-all"
                                                             >
-                                                                <Trash2 size={16} />
+                                                                <Trash2 size={18} className="text-slate-900" />
                                                             </button>
                                                         </div>
                                                     </td>
