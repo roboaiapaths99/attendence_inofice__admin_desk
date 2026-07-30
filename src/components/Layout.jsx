@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
-        <div className="flex min-h-screen bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-100 transition-colors duration-200">
+        <div className="flex min-h-screen bg-[#F8FAFC] text-slate-900">
             {/* Mobile Sidebar Overlay */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black/60 z-40 md:hidden"
+                        className="fixed inset-0 bg-black/40 z-40 md:hidden"
                         onClick={() => setIsMobileMenuOpen(false)}
                     />
                 )}
@@ -26,17 +26,16 @@ const Layout = ({ children }) => {
                 <Sidebar onClose={() => setIsMobileMenuOpen(false)} />
             </div>
 
-            <main className="flex-1 min-w-0 overflow-hidden relative flex flex-col h-screen bg-slate-50 dark:bg-[#020617] transition-colors duration-200">
+            <main className="flex-1 min-w-0 overflow-hidden relative flex flex-col h-screen bg-[#F8FAFC]">
                 {/* Mobile Header */}
-                <div className="md:hidden flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#020617] z-30 transition-colors duration-200">
-                    <span className="font-bold text-slate-900 dark:text-white tracking-tight">Admin Portal</span>
-                    <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
+                <div className="md:hidden flex items-center justify-between p-4 border-b border-slate-200 bg-white z-30">
+                    <div className="flex items-center gap-2">
+                        <img src="/logday_logo.png" alt="LogDay" className="h-8 object-contain" />
+                    </div>
+                    <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-slate-500 hover:text-slate-900">
                         <Menu size={24} />
                     </button>
                 </div>
-
-                {/* Background Gradient Orbs for main content area */}
-                <div className="absolute top-[-5%] right-[-5%] w-[30%] h-[30%] bg-blue-600/10 blur-[100px] rounded-full pointer-events-none" />
 
                 <div className="p-4 md:p-8 flex-1 relative z-10 overflow-y-auto">
                     <motion.div

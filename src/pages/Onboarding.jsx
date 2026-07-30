@@ -196,7 +196,7 @@ const Onboarding = () => {
     const getStatusStyles = (status) => {
         switch (status) {
             case 'completed': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
-            case 'cancelled': return 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20';
+            case 'cancelled': return 'bg-slate-500/10 text-slate-500 border-slate-500/20';
             case 'in_progress': return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
             default: return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
         }
@@ -207,12 +207,12 @@ const Onboarding = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Onboarding Pipelines</h1>
-                    <p className="text-slate-500 dark:text-slate-400">Track and manage onboarding procedures, document submissions, and check-in clearances.</p>
+                    <h1 className="text-3xl font-bold text-slate-900 mb-2 tracking-tight">Onboarding Pipelines</h1>
+                    <p className="text-slate-500">Track and manage onboarding procedures, document submissions, and check-in clearances.</p>
                 </div>
                 <button
                     onClick={() => setShowCreateModal(true)}
-                    className="bg-primary-600 hover:bg-primary-500 text-slate-900 dark:text-white px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
+                    className="bg-primary-600 hover:bg-primary-500 text-slate-900 px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
                 >
                     <Plus size={18} /> Initiate Onboarding
                 </button>
@@ -223,12 +223,12 @@ const Onboarding = () => {
                 {[
                     { label: 'Total Pipelines', value: stats.total, color: 'text-blue-500', bg: 'bg-blue-500/5 border-blue-500/10' },
                     { label: 'Pending', value: stats.pending, color: 'text-amber-500', bg: 'bg-amber-500/5 border-amber-500/10' },
-                    { label: 'In Progress', value: stats.in_progress, color: 'text-indigo-500', bg: 'bg-indigo-500/5 border-indigo-500/10' },
+                    { label: 'In Progress', value: stats.in_progress, color: 'text-[#004B87]', bg: 'bg-[#004B87]/5 border-[#004B87]/10' },
                     { label: 'Completed', value: stats.completed, color: 'text-emerald-500', bg: 'bg-emerald-500/5 border-emerald-500/10' },
                     { label: 'Overdue Pipelines', value: stats.overdue, color: 'text-rose-500', bg: 'bg-rose-500/5 border-rose-500/10 animate-pulse' }
                 ].map((s, idx) => (
                     <div key={idx} className={`border p-5 rounded-2xl ${s.bg}`}>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block mb-1">{s.label}</span>
+                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mb-1">{s.label}</span>
                         <span className={`text-2xl font-bold ${s.color}`}>{s.value}</span>
                     </div>
                 ))}
@@ -247,34 +247,34 @@ const Onboarding = () => {
                             <div
                                 key={onb._id}
                                 onClick={() => setSelectedId(onb._id)}
-                                className={`border p-5 rounded-[2rem] transition-all cursor-pointer group bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md ${
-                                    selectedId === onb._id ? 'border-primary-500 ring-1 ring-primary-500/20' : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700'
+                                className={`border p-5 rounded-[2rem] transition-all cursor-pointer group bg-white backdrop-blur-md ${
+                                    selectedId === onb._id ? 'border-primary-500 ring-1 ring-primary-500/20' : 'border-slate-200 hover:border-slate-300'
                                 }`}
                             >
                                 <div className="flex justify-between items-start gap-2 mb-3">
                                     <div>
-                                        <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-primary-400 transition-colors text-base truncate leading-tight max-w-[180px]">{onb.employee_name}</h3>
-                                        <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate mt-1">{onb.employee_email}</p>
+                                        <h3 className="font-bold text-slate-900 group-hover:text-primary-400 transition-colors text-base truncate leading-tight max-w-[180px]">{onb.employee_name}</h3>
+                                        <p className="text-[10px] text-slate-500 truncate mt-1">{onb.employee_email}</p>
                                     </div>
                                     <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest border ${getStatusStyles(onb.status)}`}>
                                         {onb.status.replace('_', ' ')}
                                     </span>
                                 </div>
-                                <div className="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 mb-4 bg-slate-50 dark:bg-slate-950/30 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800/30">
-                                    <span className="flex items-center gap-1 font-semibold text-slate-600 dark:text-slate-300">
-                                        <Briefcase size={12} className="text-slate-500 dark:text-slate-400" /> {onb.department}
+                                <div className="flex justify-between items-center text-xs text-slate-500 mb-4 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                                    <span className="flex items-center gap-1 font-semibold text-slate-600">
+                                        <Briefcase size={12} className="text-slate-500" /> {onb.department}
                                     </span>
-                                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                                    <span className="text-[10px] text-slate-500">
                                         Start: {onb.start_date}
                                     </span>
                                 </div>
                                 {/* Progress track */}
                                 <div className="space-y-1">
                                     <div className="flex justify-between text-[10px]">
-                                        <span className="text-slate-500 dark:text-slate-400 font-bold">Progress</span>
+                                        <span className="text-slate-500 font-bold">Progress</span>
                                         <span className="text-primary-400 font-black">{onb.progress}%</span>
                                     </div>
-                                    <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                    <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                                         <div
                                             className="h-full bg-primary-500 transition-all duration-500"
                                             style={{ width: `${onb.progress}%` }}
@@ -284,9 +284,9 @@ const Onboarding = () => {
                             </div>
                         ))
                     ) : (
-                        <div className="border border-dashed border-slate-200 dark:border-slate-800 rounded-[2rem] py-16 text-center bg-white dark:bg-slate-900/10">
+                        <div className="border border-dashed border-slate-200 rounded-[2rem] py-16 text-center bg-white">
                             <Clipboard className="mx-auto text-slate-700 mb-3" size={40} />
-                            <p className="text-slate-500 dark:text-slate-400 text-sm">No onboarding processes logged.</p>
+                            <p className="text-slate-500 text-sm">No onboarding processes logged.</p>
                         </div>
                     )}
                 </div>
@@ -294,20 +294,20 @@ const Onboarding = () => {
                 {/* Detail view */}
                 <div className="lg:col-span-2">
                     {selectedOnb ? (
-                        <div className="bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-8 space-y-6">
+                        <div className="bg-white backdrop-blur-md border border-slate-200 rounded-[2.5rem] p-8 space-y-6">
                             {/* Detail header */}
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200 dark:border-slate-200 dark:border-slate-800/50">
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200">
                                 <div>
-                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-2">{selectedOnb.employee_name}</h2>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                                        <Briefcase size={14} className="text-slate-500 dark:text-slate-400" /> {selectedOnb.designation} • {selectedOnb.department}
+                                    <h2 className="text-2xl font-bold text-slate-900 tracking-tight leading-none mb-2">{selectedOnb.employee_name}</h2>
+                                    <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
+                                        <Briefcase size={14} className="text-slate-500" /> {selectedOnb.designation} • {selectedOnb.department}
                                     </p>
                                 </div>
                                 {selectedOnb.status !== 'completed' && (
                                     <button
                                         onClick={handleCompleteOnboarding}
                                         disabled={actionLoading}
-                                        className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-slate-900 dark:text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-xl transition-all shadow-lg shadow-emerald-950/30 flex items-center gap-2"
+                                        className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-slate-900 font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-xl transition-all shadow-lg shadow-emerald-950/30 flex items-center gap-2"
                                     >
                                         {actionLoading ? <Loader2 className="animate-spin" size={14} /> : <UserCheck size={16} />}
                                         Complete Onboarding
@@ -316,33 +316,33 @@ const Onboarding = () => {
                             </div>
 
                             {/* Info card */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 dark:bg-slate-950/40 p-5 rounded-2xl border border-slate-200 dark:border-slate-200 dark:border-slate-800/50">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200">
                                 <div className="space-y-1">
-                                    <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Start Date</span>
-                                    <p className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                                        <Calendar size={14} className="text-slate-500 dark:text-slate-400" /> {selectedOnb.start_date}
+                                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Start Date</span>
+                                    <p className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                                        <Calendar size={14} className="text-slate-500" /> {selectedOnb.start_date}
                                     </p>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Expected Completion</span>
-                                    <p className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                                        <Calendar size={14} className="text-slate-500 dark:text-slate-400" /> {selectedOnb.expected_completion_date || 'Not Set'}
+                                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Expected Completion</span>
+                                    <p className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                                        <Calendar size={14} className="text-slate-500" /> {selectedOnb.expected_completion_date || 'Not Set'}
                                     </p>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Assigned HR Buddy</span>
-                                    <p className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                                        <User size={14} className="text-slate-500 dark:text-slate-400" /> {selectedOnb.buddy || 'Not Assigned'}
+                                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Assigned HR Buddy</span>
+                                    <p className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                                        <User size={14} className="text-slate-500" /> {selectedOnb.buddy || 'Not Assigned'}
                                     </p>
                                 </div>
                             </div>
 
                             {/* Tab selector */}
-                            <div className="flex gap-4 border-b border-slate-200 dark:border-slate-800 pb-2">
+                            <div className="flex gap-4 border-b border-slate-200 pb-2">
                                 <button
                                     onClick={() => setDetailTab('tasks')}
                                     className={`pb-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all ${
-                                        detailTab === 'tasks' ? 'border-primary-500 text-primary-500' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:text-slate-300'
+                                        detailTab === 'tasks' ? 'border-primary-500 text-primary-500' : 'border-transparent text-slate-500 hover:text-slate-600'
                                     }`}
                                 >
                                     Onboarding Tasks ({selectedOnb.tasks?.length || 0})
@@ -350,7 +350,7 @@ const Onboarding = () => {
                                 <button
                                     onClick={() => setDetailTab('documents')}
                                     className={`pb-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all ${
-                                        detailTab === 'documents' ? 'border-primary-500 text-primary-500' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:text-slate-300'
+                                        detailTab === 'documents' ? 'border-primary-500 text-primary-500' : 'border-transparent text-slate-500 hover:text-slate-600'
                                     }`}
                                 >
                                     Verification Documents ({selectedOnb.documents_required?.length || 0})
@@ -361,7 +361,7 @@ const Onboarding = () => {
                             {detailTab === 'tasks' && (
                                 <div className="space-y-4">
                                     <div className="flex justify-between items-center">
-                                        <h3 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Tasks List</h3>
+                                        <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest">Tasks List</h3>
                                         {selectedOnb.status !== 'completed' && (
                                             <button
                                                 onClick={() => setShowAddTask(!showAddTask)}
@@ -373,11 +373,11 @@ const Onboarding = () => {
                                     </div>
 
                                     {showAddTask && (
-                                        <form onSubmit={handleAddTask} className="bg-slate-50 dark:bg-slate-950 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 animate-in slide-in-from-top-4 duration-200">
+                                        <form onSubmit={handleAddTask} className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4 animate-in slide-in-from-top-4 duration-200">
                                             <div className="space-y-1.5">
-                                                <label className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Task Title</label>
+                                                <label className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Task Title</label>
                                                 <input
-                                                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
+                                                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900"
                                                     required
                                                     placeholder="e.g. Sign NDA document"
                                                     value={customTask.title}
@@ -386,9 +386,9 @@ const Onboarding = () => {
                                             </div>
                                             <div className="grid grid-cols-2 gap-4">
                                                 <div className="space-y-1.5">
-                                                    <label className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Category</label>
+                                                    <label className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Category</label>
                                                     <select
-                                                        className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
+                                                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900"
                                                         value={customTask.category}
                                                         onChange={e => setCustomTask({ ...customTask, category: e.target.value })}
                                                     >
@@ -398,18 +398,18 @@ const Onboarding = () => {
                                                     </select>
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <label className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Due Date</label>
+                                                    <label className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Due Date</label>
                                                     <input
                                                         type="date"
-                                                        className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
+                                                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900"
                                                         value={customTask.due_date}
                                                         onChange={e => setCustomTask({ ...customTask, due_date: e.target.value })}
                                                     />
                                                 </div>
                                             </div>
                                             <div className="flex justify-end gap-3 pt-2">
-                                                <button type="button" onClick={() => setShowAddTask(false)} className="px-4 py-2 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-bold text-slate-500 dark:text-slate-400">Cancel</button>
-                                                <button type="submit" className="px-4 py-2 bg-primary-600 rounded-xl text-xs font-bold text-slate-900 dark:text-white">Save Task</button>
+                                                <button type="button" onClick={() => setShowAddTask(false)} className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-500">Cancel</button>
+                                                <button type="submit" className="px-4 py-2 bg-primary-600 rounded-xl text-xs font-bold text-slate-900">Save Task</button>
                                             </div>
                                         </form>
                                     )}
@@ -424,19 +424,19 @@ const Onboarding = () => {
                                                         onClick={() => selectedOnb.status !== 'completed' && handleToggleTask(task.task_id, task.status)}
                                                         className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
                                                             isCompleted
-                                                                ? 'bg-white dark:bg-slate-900/20 border-slate-850/50 opacity-60'
-                                                                : 'bg-slate-50 dark:bg-slate-950 border-slate-850 hover:border-slate-200 dark:border-slate-800 cursor-pointer'
+                                                                ? 'bg-white border-slate-850/50 opacity-60'
+                                                                : 'bg-slate-50 border-slate-850 hover:border-slate-200 cursor-pointer'
                                                         }`}
                                                     >
                                                         <div className={`transition-colors ${isCompleted ? 'text-primary-500' : 'text-slate-600'}`}>
                                                             {isCompleted ? <CheckSquare size={18} /> : <Square size={18} />}
                                                         </div>
                                                         <div className="flex-1 min-w-0">
-                                                            <p className={`text-xs font-bold truncate ${isCompleted ? 'text-slate-500 dark:text-slate-400 line-through' : 'text-slate-800 dark:text-slate-200'}`}>
+                                                            <p className={`text-xs font-bold truncate ${isCompleted ? 'text-slate-500 line-through' : 'text-slate-800'}`}>
                                                                 {task.title}
                                                             </p>
                                                             <div className="flex items-center gap-2 mt-1">
-                                                                <span className="bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-800 text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded">
+                                                                <span className="bg-white text-slate-500 border border-slate-200 text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded">
                                                                     {task.category}
                                                                 </span>
                                                                 {task.due_date && (
@@ -448,7 +448,7 @@ const Onboarding = () => {
                                                 );
                                             })
                                         ) : (
-                                            <p className="text-slate-500 dark:text-slate-400 text-xs py-8 text-center uppercase tracking-widest font-black">No tasks created</p>
+                                            <p className="text-slate-500 text-xs py-8 text-center uppercase tracking-widest font-black">No tasks created</p>
                                         )}
                                     </div>
                                 </div>
@@ -456,17 +456,17 @@ const Onboarding = () => {
 
                             {detailTab === 'documents' && (
                                 <div className="space-y-4">
-                                    <h3 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Required Documents</h3>
+                                    <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest">Required Documents</h3>
                                     <div className="space-y-3">
                                         {selectedOnb.documents_required?.map((docType) => {
                                             const submitted = selectedOnb.documents_submitted?.find(d => d.type === docType);
                                             const isVerified = submitted?.verified;
                                             const baseURL = api.defaults.baseURL || 'https://logday-api.duckdns.org';
                                             return (
-                                                <div key={docType} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-950 border border-slate-850 rounded-xl">
+                                                <div key={docType} className="flex items-center justify-between p-4 bg-slate-50 border border-slate-850 rounded-xl">
                                                     <div>
-                                                        <p className="text-xs font-bold text-slate-800 dark:text-slate-200 capitalize">{docType.replace('_', ' ')}</p>
-                                                        <p className="text-[9px] text-slate-500 dark:text-slate-400 mt-1">
+                                                        <p className="text-xs font-bold text-slate-800 capitalize">{docType.replace('_', ' ')}</p>
+                                                        <p className="text-[9px] text-slate-500 mt-1">
                                                             {submitted 
                                                                 ? `${isVerified ? 'Verified' : 'Submitted (Awaiting Audit)'} on ${submitted.submitted_at?.split('T')[0]}`
                                                                 : 'Awaiting submission & audit'}
@@ -493,7 +493,7 @@ const Onboarding = () => {
                                                             className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest border transition-all ${
                                                                 isVerified
                                                                     ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
-                                                                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white'
+                                                                    : 'bg-white border-slate-200 text-slate-500 hover:text-slate-900'
                                                             }`}
                                                         >
                                                             {isVerified ? 'Verified' : 'Verify'}
@@ -514,16 +514,16 @@ const Onboarding = () => {
 
                             {/* Notes */}
                             {selectedOnb.notes && (
-                                <div className="space-y-1.5 border-t border-slate-200 dark:border-slate-200 dark:border-slate-800/50 pt-4">
-                                    <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">HR Checklist & Notes</span>
-                                    <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-850 text-xs text-slate-500 dark:text-slate-400 italic">
+                                <div className="space-y-1.5 border-t border-slate-200 pt-4">
+                                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">HR Checklist & Notes</span>
+                                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-850 text-xs text-slate-500 italic">
                                         "{selectedOnb.notes}"
                                     </div>
                                 </div>
                             )}
                         </div>
                     ) : (
-                        <div className="h-full border border-dashed border-slate-200 dark:border-slate-800 rounded-[2.5rem] flex items-center justify-center p-12 text-center bg-white dark:bg-slate-900/10 text-slate-600">
+                        <div className="h-full border border-dashed border-slate-200 rounded-[2.5rem] flex items-center justify-center p-12 text-center bg-white text-slate-600">
                             <div>
                                 <Clipboard className="mx-auto mb-4 opacity-15" size={48} />
                                 <p className="text-sm font-medium">Select an employee from the pipeline to view tasks checklist.</p>
@@ -535,20 +535,20 @@ const Onboarding = () => {
 
             {/* Initiate Onboarding Modal */}
             {showCreateModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950/80 backdrop-blur-sm">
-                    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-lg rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50 backdrop-blur-sm">
+                    <div className="bg-white border border-slate-200 w-full max-w-lg rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
                         <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Initiate Joining Process</h2>
-                            <button onClick={() => setShowCreateModal(false)} className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white">
+                            <h2 className="text-xl font-bold text-slate-900">Initiate Joining Process</h2>
+                            <button onClick={() => setShowCreateModal(false)} className="text-slate-500 hover:text-slate-900">
                                 <X size={20} />
                             </button>
                         </div>
                         <form onSubmit={handleCreateOnboarding} className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">New Hire Name</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">New Hire Name</label>
                                     <input
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         required
                                         placeholder="John Doe"
                                         value={newOnb.employee_name}
@@ -556,10 +556,10 @@ const Onboarding = () => {
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Personal Email</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Personal Email</label>
                                     <input
                                         type="email"
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         required
                                         placeholder="john@company.com"
                                         value={newOnb.employee_email}
@@ -570,9 +570,9 @@ const Onboarding = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Department</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Department</label>
                                     <input
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         required
                                         placeholder="Engineering"
                                         value={newOnb.department}
@@ -580,9 +580,9 @@ const Onboarding = () => {
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Designation</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Designation</label>
                                     <input
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         required
                                         placeholder="Software Engineer"
                                         value={newOnb.designation}
@@ -593,20 +593,20 @@ const Onboarding = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Joining Date</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Joining Date</label>
                                     <input
                                         type="date"
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         required
                                         value={newOnb.start_date}
                                         onChange={e => setNewOnb({ ...newOnb, start_date: e.target.value })}
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Expected Completion</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Expected Completion</label>
                                     <input
                                         type="date"
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         value={newOnb.expected_completion_date}
                                         onChange={e => setNewOnb({ ...newOnb, expected_completion_date: e.target.value })}
                                     />
@@ -615,10 +615,10 @@ const Onboarding = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">HR Representative</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">HR Representative</label>
                                     <input
                                         type="email"
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         required
                                         placeholder="hr@company.com"
                                         value={newOnb.assigned_to}
@@ -626,10 +626,10 @@ const Onboarding = () => {
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Buddy/Mentor (Optional)</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Buddy/Mentor (Optional)</label>
                                     <input
                                         type="email"
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         placeholder="buddy@company.com"
                                         value={newOnb.buddy}
                                         onChange={e => setNewOnb({ ...newOnb, buddy: e.target.value })}
@@ -638,9 +638,9 @@ const Onboarding = () => {
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Internal Notes</label>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Internal Notes</label>
                                 <textarea
-                                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white h-20 resize-none"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 h-20 resize-none"
                                     placeholder="Add any specific instructions or profile notes..."
                                     value={newOnb.notes}
                                     onChange={e => setNewOnb({ ...newOnb, notes: e.target.value })}
@@ -648,8 +648,8 @@ const Onboarding = () => {
                             </div>
 
                             <div className="flex gap-4 pt-4">
-                                <button type="button" onClick={() => setShowCreateModal(false)} className="flex-1 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold text-sm">Cancel</button>
-                                <button type="submit" disabled={actionLoading} className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 dark:text-white font-bold text-sm flex items-center justify-center gap-2">
+                                <button type="button" onClick={() => setShowCreateModal(false)} className="flex-1 py-3 rounded-xl border border-slate-200 text-slate-500 font-bold text-sm">Cancel</button>
+                                <button type="submit" disabled={actionLoading} className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 font-bold text-sm flex items-center justify-center gap-2">
                                     {actionLoading && <Loader2 className="animate-spin" size={16} />}
                                     Start Process
                                 </button>

@@ -84,7 +84,7 @@ const RegisterOrg = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex items-center justify-center p-4 relative overflow-hidden">
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 relative overflow-hidden">
             {/* Background Orbs */}
             <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/20 blur-[120px] rounded-full" />
             <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full" />
@@ -94,7 +94,7 @@ const RegisterOrg = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="w-full max-w-lg"
             >
-                <div className="bg-white dark:bg-white dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-2xl">
+                <div className="bg-white backdrop-blur-xl border border-slate-200 rounded-3xl p-8 shadow-2xl">
                     <div className="flex flex-col items-center mb-8">
                         <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center mb-4 border border-purple-500/30">
                             <Building2 className="text-purple-500" size={32} />
@@ -102,7 +102,7 @@ const RegisterOrg = () => {
                         <h1 className="text-3xl font-bold bg-linear-to-r from-white to-slate-400 bg-clip-text text-transparent text-center">
                             Register Organization
                         </h1>
-                        <p className="text-slate-500 dark:text-slate-400 mt-2 text-center">Start your journey with Log Day Enterprise</p>
+                        <p className="text-slate-500 mt-2 text-center">Start your journey with Log Day Enterprise</p>
                     </div>
 
                     {success ? (
@@ -114,13 +114,13 @@ const RegisterOrg = () => {
                             <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <CheckCircle className="text-green-500" size={40} />
                             </div>
-                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Registration Successful!</h3>
-                            <div className="bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 mb-6">
-                                <p className="text-slate-500 dark:text-slate-400 text-sm mb-2 uppercase tracking-wider font-semibold">Your Organization Code</p>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-2">Registration Successful!</h3>
+                            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-6">
+                                <p className="text-slate-500 text-sm mb-2 uppercase tracking-wider font-semibold">Your Organization Code</p>
                                 <p className="text-3xl font-mono font-bold text-purple-400 select-all">{successData?.org_slug}</p>
-                                <p className="text-slate-500 dark:text-slate-400 text-xs mt-2 italic">Copy this code to use in the Field App</p>
+                                <p className="text-slate-500 text-xs mt-2 italic">Copy this code to use in the Field App</p>
                             </div>
-                            <p className="text-slate-500 dark:text-slate-400">Account created for {formData.org_name}.<br />Redirecting to login...</p>
+                            <p className="text-slate-500">Account created for {formData.org_name}.<br />Redirecting to login...</p>
                         </motion.div>
                     ) : (
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -131,12 +131,12 @@ const RegisterOrg = () => {
                             )}
 
                             <div className="relative group">
-                                <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={20} />
+                                <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
                                 <input
                                     name="org_name"
                                     type="text"
                                     placeholder="Organization Name"
-                                    className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-purple-500/50 transition-all text-slate-800 dark:text-slate-200 placeholder:text-slate-600"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-purple-500/50 transition-all text-slate-800 placeholder:text-slate-600"
                                     value={formData.org_name}
                                     onChange={handleChange}
                                     required
@@ -144,12 +144,12 @@ const RegisterOrg = () => {
                             </div>
 
                             <div className="relative group">
-                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={20} />
+                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
                                 <input
                                     name="admin_full_name"
                                     type="text"
                                     placeholder="Admin Full Name"
-                                    className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-purple-500/50 transition-all text-slate-800 dark:text-slate-200 placeholder:text-slate-600"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-purple-500/50 transition-all text-slate-800 placeholder:text-slate-600"
                                     value={formData.admin_full_name}
                                     onChange={handleChange}
                                     required
@@ -157,12 +157,12 @@ const RegisterOrg = () => {
                             </div>
 
                             <div className="relative group">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={20} />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
                                 <input
                                     name="admin_email"
                                     type="email"
                                     placeholder="Admin Email"
-                                    className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-purple-500/50 transition-all text-slate-800 dark:text-slate-200 placeholder:text-slate-600"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-purple-500/50 transition-all text-slate-800 placeholder:text-slate-600"
                                     value={formData.admin_email}
                                     onChange={handleChange}
                                     required
@@ -170,12 +170,12 @@ const RegisterOrg = () => {
                             </div>
 
                             <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={20} />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
                                 <input
                                     name="admin_password"
                                     type="password"
                                     placeholder="Password"
-                                    className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-purple-500/50 transition-all text-slate-800 dark:text-slate-200 placeholder:text-slate-600"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3.5 pl-12 pr-4 outline-none focus:border-purple-500/50 transition-all text-slate-800 placeholder:text-slate-600"
                                     value={formData.admin_password}
                                     onChange={handleChange}
                                     required
@@ -183,7 +183,7 @@ const RegisterOrg = () => {
                             </div>
 
                             <div className="pt-2">
-                                <label className="text-slate-500 dark:text-slate-400 text-sm mb-2 block ml-1">Organization Logo (optional)</label>
+                                <label className="text-slate-500 text-sm mb-2 block ml-1">Organization Logo (optional)</label>
                                 <input
                                     ref={fileInputRef}
                                     type="file"
@@ -195,24 +195,24 @@ const RegisterOrg = () => {
                                     <button
                                         type="button"
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:bg-slate-800 transition-all text-sm"
+                                        className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-300 bg-slate-100 text-slate-600 hover:bg-slate-100 transition-all text-sm"
                                     >
                                         <ImagePlus size={18} />
                                         {logoPreview ? 'Change Logo' : 'Upload Logo'}
                                     </button>
                                     {logoPreview && (
                                         <div className="relative">
-                                            <img src={logoPreview} alt="Logo preview" className="w-14 h-14 rounded-xl object-contain border border-slate-300 dark:border-slate-700" />
-                                            <button type="button" onClick={clearLogo} className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500/80 text-slate-900 dark:text-white text-xs flex items-center justify-center hover:bg-red-500">×</button>
+                                            <img src={logoPreview} alt="Logo preview" className="w-14 h-14 rounded-xl object-contain border border-slate-300" />
+                                            <button type="button" onClick={clearLogo} className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500/80 text-slate-900 text-xs flex items-center justify-center hover:bg-red-500">×</button>
                                         </div>
                                     )}
                                 </div>
                             </div>
 
                             <div className="pt-2">
-                                <label className="text-slate-500 dark:text-slate-400 text-sm mb-2 block ml-1">Primary Brand Color</label>
+                                <label className="text-slate-500 text-sm mb-2 block ml-1">Primary Brand Color</label>
                                 <div className="flex gap-3">
-                                    {['#3b82f6', '#8b5cf6', '#ec4899', '#f97316', '#10b981'].map((color) => (
+                                    {['#3b82f6', '#004B87', '#ec4899', '#f97316', '#10b981'].map((color) => (
                                         <button
                                             key={color}
                                             type="button"
@@ -233,20 +233,20 @@ const RegisterOrg = () => {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-slate-900 dark:text-white font-semibold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 mt-6 shadow-lg shadow-purple-900/20"
+                                className="w-full bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-slate-900 font-semibold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 mt-6 shadow-lg shadow-purple-900/20"
                             >
                                 {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Create Account'}
                                 {!isSubmitting && <ArrowRight size={20} />}
                             </button>
 
                             <div className="text-center mt-6">
-                                <Link to="/login" className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white text-sm transition-colors">
+                                <Link to="/login" className="text-slate-500 hover:text-slate-900 text-sm transition-colors">
                                     Already have an account? Login
                                 </Link>
                             </div>
                         </form>
                     )}
-                    <p className="text-center text-slate-500 dark:text-slate-400 text-xs mt-6 pt-4 border-t border-slate-200 dark:border-slate-200 dark:border-slate-800/50">
+                    <p className="text-center text-slate-500 text-xs mt-6 pt-4 border-t border-slate-200">
                         Powered by Log Day
                     </p>
                 </div>

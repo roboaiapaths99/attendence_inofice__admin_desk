@@ -60,6 +60,14 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const updateOrganization = (newOrgData) => {
+        setOrganization(prev => {
+            const updated = { ...(prev || {}), ...newOrgData };
+            localStorage.setItem('admin_org', JSON.stringify(updated));
+            return updated;
+        });
+    };
+
     const logout = () => {
         localStorage.removeItem('admin_token');
         localStorage.removeItem('admin_user');
@@ -69,7 +77,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ admin, organization, loading, login, logout }}>
+        <AuthContext.Provider value={{ admin, organization, loading, login, logout, updateOrganization }}>
             {children}
         </AuthContext.Provider>
     );

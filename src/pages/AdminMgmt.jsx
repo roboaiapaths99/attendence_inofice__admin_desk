@@ -26,7 +26,7 @@ const ROLE_CONFIG = {
     owner: { label: 'Owner', color: 'text-amber-500', bg: 'bg-amber-500/10', border: 'border-amber-500/30', icon: Shield, desc: 'Full control over organization & admins.' },
     hr: { label: 'HR Manager', color: 'text-purple-500', bg: 'bg-purple-500/10', border: 'border-purple-500/30', icon: Building2, desc: 'Manage employees, leaves, & attendance.' },
     support: { label: 'Support Desk', color: 'text-blue-500', bg: 'bg-blue-500/10', border: 'border-blue-500/30', icon: Headset, desc: 'View logs & manage basic settings.' },
-    manager: { label: 'Team Manager', color: 'text-indigo-500', bg: 'bg-indigo-500/10', border: 'border-indigo-500/30', icon: Users, desc: 'Manage assigned team members only.' }
+    manager: { label: 'Team Manager', color: 'text-[#004B87]', bg: 'bg-[#004B87]/10', border: 'border-[#004B87]/30', icon: Users, desc: 'Manage assigned team members only.' }
 };
 const AdminMgmt = () => {
     const { admin: currentAdmin } = useAuth();
@@ -163,12 +163,12 @@ const AdminMgmt = () => {
             {/* Header section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Role Management</h1>
-                    <p className="text-slate-500 dark:text-slate-400">Define administrative access and team scoping</p>
+                    <h1 className="text-2xl font-bold text-slate-900">Role Management</h1>
+                    <p className="text-slate-500">Define administrative access and team scoping</p>
                 </div>
                 <button
                     onClick={() => setShowAddModal(true)}
-                    className="flex items-center gap-2 bg-primary-600 hover:bg-primary-500 text-slate-900 dark:text-white px-6 py-3 rounded-xl font-medium transition-all shadow-lg shadow-primary-900/20 active:scale-95"
+                    className="flex items-center gap-2 bg-primary-600 hover:bg-primary-500 text-slate-900 px-6 py-3 rounded-xl font-medium transition-all shadow-lg shadow-primary-900/20 active:scale-95"
                 >
                     <UserPlus size={20} />
                     New Admin
@@ -177,25 +177,25 @@ const AdminMgmt = () => {
 
             {/* Quick Stats & Filters */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white dark:bg-white dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-slate-800 p-6 rounded-3xl">
+                <div className="bg-white backdrop-blur-xl border border-slate-200 p-6 rounded-3xl">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-primary-600/20 rounded-2xl flex items-center justify-center border border-primary-500/30">
                             <Shield className="text-primary-500" size={24} />
                         </div>
                         <div>
-                            <p className="text-slate-500 dark:text-slate-400 text-sm">Total Staff</p>
-                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{admins.length}</h3>
+                            <p className="text-slate-500 text-sm">Total Staff</p>
+                            <h3 className="text-2xl font-bold text-slate-900">{admins.length}</h3>
                         </div>
                     </div>
                 </div>
 
-                <div className="md:col-span-2 bg-white dark:bg-white dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-slate-800 p-6 rounded-3xl flex items-center">
+                <div className="md:col-span-2 bg-white backdrop-blur-xl border border-slate-200 p-6 rounded-3xl flex items-center">
                     <div className="relative w-full">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={20} />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
                         <input
                             type="text"
                             placeholder="Search by name or email..."
-                            className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-xl py-3 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800 dark:text-slate-200 placeholder:text-slate-600"
+                            className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800 placeholder:text-slate-600"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -225,36 +225,36 @@ const AdminMgmt = () => {
             </AnimatePresence>
 
             {/* Admins Table-like Grid */}
-            <div className="bg-white dark:bg-white dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden">
+            <div className="bg-white backdrop-blur-xl border border-slate-200 rounded-3xl overflow-hidden">
                 {loading ? (
-                    <div className="p-20 flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
+                    <div className="p-20 flex flex-col items-center justify-center text-slate-500">
                         <Loader2 className="animate-spin mb-4" size={40} />
                         <p>Loading role accounts...</p>
                     </div>
                 ) : filteredAdmins.length === 0 ? (
-                    <div className="p-20 text-center text-slate-500 dark:text-slate-400">
+                    <div className="p-20 text-center text-slate-500">
                         <Shield className="mx-auto mb-4 opacity-20" size={60} />
                         <p>No administrative accounts found.</p>
                     </div>
                 ) : (
-                    <div className="divide-y divide-slate-200 dark:divide-slate-200/50 dark:divide-slate-800/50">
+                    <div className="divide-y divide-slate-200">
                         {filteredAdmins.map((admin) => {
                             const config = ROLE_CONFIG[admin.role] || ROLE_CONFIG.hr;
                             const Icon = config.icon;
                             return (
-                                <div key={admin.email} className="p-6 flex items-center justify-between hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group">
+                                <div key={admin.email} className="p-6 flex items-center justify-between hover:bg-slate-100:bg-white/5 transition-colors group">
                                     <div className="flex items-center gap-4">
                                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${config.bg} ${config.border} ${config.color}`}>
                                             <Icon size={24} />
                                         </div>
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <h4 className="text-slate-900 dark:text-white font-semibold">{admin.full_name}</h4>
+                                                <h4 className="text-slate-900 font-semibold">{admin.full_name}</h4>
                                                 <span className={`${config.bg} ${config.color} ${config.border} text-[10px] font-black px-2 py-0.5 rounded border uppercase tracking-widest`}>
                                                     {config.label}
                                                 </span>
                                             </div>
-                                            <p className="text-slate-500 dark:text-slate-400 text-sm flex items-center gap-1.5 mt-0.5">
+                                            <p className="text-slate-500 text-sm flex items-center gap-1.5 mt-0.5">
                                                 <Mail size={12} />
                                                 {admin.email}
                                             </p>
@@ -263,8 +263,8 @@ const AdminMgmt = () => {
 
                                     <div className="flex items-center gap-3">
                                         <div className="text-right mr-4 hidden sm:block">
-                                            <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">Joined On</p>
-                                            <p className="text-slate-900 dark:text-white text-sm">{new Date(admin.created_at).toLocaleDateString()}</p>
+                                            <p className="text-slate-500 text-xs font-medium">Joined On</p>
+                                            <p className="text-slate-900 text-sm">{new Date(admin.created_at).toLocaleDateString()}</p>
                                         </div>
 
                                         {/* Actions */}
@@ -273,7 +273,7 @@ const AdminMgmt = () => {
                                                 {isOwner && (
                                                     <button
                                                         onClick={() => handleOpenPermissions(admin)}
-                                                        className="p-3 text-slate-500 dark:text-slate-400 hover:text-primary-400 hover:bg-primary-500/10 rounded-xl transition-all"
+                                                        className="p-3 text-slate-500 hover:text-primary-400 hover:bg-primary-500/10 rounded-xl transition-all"
                                                         title="Manage Permissions"
                                                     >
                                                         <Settings size={20} />
@@ -281,7 +281,7 @@ const AdminMgmt = () => {
                                                 )}
                                                 <button
                                                     onClick={() => handleDeleteAdmin(admin.email)}
-                                                    className="p-3 text-slate-500 dark:text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all"
+                                                    className="p-3 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all"
                                                     title="Revoke Admin Access"
                                                 >
                                                     <Trash2 size={20} />
@@ -304,43 +304,43 @@ const AdminMgmt = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-xl p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden"
+                            className="bg-white border border-slate-200 w-full max-w-xl p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden"
                         >
-                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 via-purple-500 to-indigo-500" />
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 via-purple-500 to-[#004B87]" />
 
                             <button
                                 onClick={() => setShowAddModal(false)}
-                                className="absolute right-6 top-6 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors"
+                                className="absolute right-6 top-6 text-slate-500 hover:text-slate-900 transition-colors"
                             >
                                 <X size={24} />
                             </button>
 
                             <div className="mb-6">
-                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">New Administrative Role</h2>
-                                <p className="text-slate-500 dark:text-slate-400">Assign permissions based on administrative requirements</p>
+                                <h2 className="text-2xl font-bold text-slate-900 mb-1">New Administrative Role</h2>
+                                <p className="text-slate-500">Assign permissions based on administrative requirements</p>
                             </div>
 
                             <form onSubmit={handleAddAdmin} className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="relative">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={18} />
+                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
                                         <input
                                             type="text"
                                             placeholder="Full Name"
                                             required
-                                            className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800 dark:text-slate-200"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800"
                                             value={formData.full_name}
                                             onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
                                         />
                                     </div>
 
                                     <div className="relative">
-                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={18} />
+                                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
                                         <input
                                             type="email"
                                             placeholder="Email Address"
                                             required
-                                            className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800 dark:text-slate-200"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800"
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         />
@@ -348,19 +348,19 @@ const AdminMgmt = () => {
                                 </div>
 
                                 <div className="relative">
-                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" size={18} />
+                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
                                     <input
                                         type="password"
                                         placeholder="Portal Password"
                                         required
-                                        className="w-full bg-slate-50 dark:bg-slate-100 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800 dark:text-slate-200"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3.5 pl-12 pr-4 outline-none focus:border-primary-500/50 transition-all text-slate-800"
                                         value={formData.password}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                     />
                                 </div>
 
                                 <div className="space-y-3">
-                                    <p className="text-sm font-medium text-slate-600 dark:text-slate-300 ml-1">Select Administrative Role</p>
+                                    <p className="text-sm font-medium text-slate-600 ml-1">Select Administrative Role</p>
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                         {['hr', 'support', 'manager'].map((role) => {
                                             const config = ROLE_CONFIG[role];
@@ -373,12 +373,12 @@ const AdminMgmt = () => {
                                                     onClick={() => setFormData({ ...formData, role: role })}
                                                     className={`p-4 rounded-2xl border text-left transition-all ${isSelected
                                                         ? `${config.bg} ${config.border} ring-2 ring-primary-500/20`
-                                                        : 'bg-slate-50 dark:bg-slate-950/30 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700'
+                                                        : 'bg-slate-50 border-slate-200 hover:border-slate-300'
                                                         }`}
                                                 >
-                                                    <Icon className={isSelected ? config.color : 'text-slate-500 dark:text-slate-400'} size={24} />
-                                                    <p className={`font-bold mt-2 text-sm ${isSelected ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}>{config.label}</p>
-                                                    <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 leading-tight">{config.desc}</p>
+                                                    <Icon className={isSelected ? config.color : 'text-slate-500'} size={24} />
+                                                    <p className={`font-bold mt-2 text-sm ${isSelected ? 'text-slate-900' : 'text-slate-500'}`}>{config.label}</p>
+                                                    <p className="text-[10px] text-slate-500 mt-1 leading-tight">{config.desc}</p>
                                                 </button>
                                             );
                                         })}
@@ -388,7 +388,7 @@ const AdminMgmt = () => {
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 dark:text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-900/20 flex items-center justify-center gap-2"
+                                    className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-900/20 flex items-center justify-center gap-2"
                                 >
                                     {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Create Role Account'}
                                 </button>
@@ -406,19 +406,19 @@ const AdminMgmt = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-2xl p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]"
+                            className="bg-white border border-slate-200 w-full max-w-2xl p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]"
                         >
-                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 via-purple-500 to-indigo-500" />
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 via-purple-500 to-[#004B87]" />
                             <button
                                 onClick={() => setShowPermissionsModal(false)}
-                                className="absolute right-6 top-6 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors"
+                                className="absolute right-6 top-6 text-slate-500 hover:text-slate-900 transition-colors"
                             >
                                 <X size={24} />
                             </button>
 
                             <div className="mb-6 flex-shrink-0">
-                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Feature Permissions</h2>
-                                <p className="text-slate-500 dark:text-slate-400">Configure access for {selectedAdminForPermissions.full_name}</p>
+                                <h2 className="text-2xl font-bold text-slate-900 mb-1">Feature Permissions</h2>
+                                <p className="text-slate-500">Configure access for {selectedAdminForPermissions.full_name}</p>
                             </div>
 
                             <div className="flex-1 overflow-y-auto min-h-0 pr-2 pb-4">
@@ -448,15 +448,15 @@ const AdminMgmt = () => {
                                                                     setPermissionsForm(prev => [...prev, feature.id]);
                                                                 }
                                                             }}
-                                                            className={`p-4 rounded-2xl border text-left flex items-center justify-between transition-all hover:bg-slate-100 dark:bg-slate-800/40 ${isSelected
+                                                            className={`p-4 rounded-2xl border text-left flex items-center justify-between transition-all hover:bg-slate-100 ${isSelected
                                                                 ? 'bg-primary-500/10 border-primary-500/30'
-                                                                : 'bg-slate-50 dark:bg-slate-950/30 border-slate-200 dark:border-slate-800'
+                                                                : 'bg-slate-50 border-slate-200'
                                                                 }`}
                                                         >
-                                                            <span className={`font-semibold flex items-center gap-2 ${isSelected ? 'text-primary-300' : 'text-slate-500 dark:text-slate-400'}`}>
+                                                            <span className={`font-semibold flex items-center gap-2 ${isSelected ? 'text-primary-300' : 'text-slate-500'}`}>
                                                                 <span className="text-lg">{feature.icon}</span> {feature.name}
                                                             </span>
-                                                            <div className={`w-5 h-5 rounded flex items-center justify-center ${isSelected ? 'bg-primary-500 text-slate-900 dark:text-white' : 'border border-slate-600'}`}>
+                                                            <div className={`w-5 h-5 rounded flex items-center justify-center ${isSelected ? 'bg-primary-500 text-slate-900' : 'border border-slate-600'}`}>
                                                                 {isSelected && <CheckCircle2 size={14} />}
                                                             </div>
                                                         </button>
@@ -468,11 +468,11 @@ const AdminMgmt = () => {
                                 </div>
                             </div>
 
-                            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 mt-auto flex-shrink-0">
+                            <div className="pt-4 border-t border-slate-200 mt-auto flex-shrink-0">
                                 <button
                                     onClick={handleSavePermissions}
                                     disabled={isSubmitting}
-                                    className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 dark:text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-900/20 flex items-center justify-center gap-2"
+                                    className="w-full bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 font-bold py-4 rounded-2xl transition-all shadow-xl shadow-primary-900/20 flex items-center justify-center gap-2"
                                 >
                                     {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : 'Save Permissions'}
                                 </button>

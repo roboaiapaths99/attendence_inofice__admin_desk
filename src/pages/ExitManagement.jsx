@@ -273,7 +273,7 @@ const ExitManagement = () => {
     const getStatusStyles = (status) => {
         switch (status) {
             case 'completed': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
-            case 'cancelled': return 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20';
+            case 'cancelled': return 'bg-slate-500/10 text-slate-500 border-slate-500/20';
             case 'in_progress': return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
             default: return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
         }
@@ -292,12 +292,12 @@ const ExitManagement = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Exit Management</h1>
-                    <p className="text-slate-500 dark:text-slate-400">Track notice periods, manage departmental clearances, and calculate final settlements for departing staff.</p>
+                    <h1 className="text-3xl font-bold text-slate-900 mb-2 tracking-tight">Exit Management</h1>
+                    <p className="text-slate-500">Track notice periods, manage departmental clearances, and calculate final settlements for departing staff.</p>
                 </div>
                 <button
                     onClick={() => setShowInitiateModal(true)}
-                    className="bg-rose-600 hover:bg-rose-500 text-slate-900 dark:text-white px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-rose-950/40"
+                    className="bg-rose-600 hover:bg-rose-500 text-slate-900 px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-rose-950/40"
                 >
                     <Plus size={18} /> Initiate Exit Process
                 </button>
@@ -306,13 +306,13 @@ const ExitManagement = () => {
             {/* Stats row */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {[
-                    { label: 'Total Separations', value: stats.total, color: 'text-indigo-500', bg: 'bg-indigo-500/5 border-indigo-500/10' },
+                    { label: 'Total Separations', value: stats.total, color: 'text-[#004B87]', bg: 'bg-[#004B87]/5 border-[#004B87]/10' },
                     { label: 'Active pipelines', value: stats.in_progress, color: 'text-blue-500', bg: 'bg-blue-500/5 border-blue-500/10' },
                     { label: 'Clearances completed', value: stats.completed, color: 'text-emerald-500', bg: 'bg-emerald-500/5 border-emerald-500/10' },
-                    { label: 'Cancelled processes', value: stats.cancelled, color: 'text-slate-500 dark:text-slate-400', bg: 'bg-slate-500/5 border-slate-500/10' }
+                    { label: 'Cancelled processes', value: stats.cancelled, color: 'text-slate-500', bg: 'bg-slate-500/5 border-slate-500/10' }
                 ].map((s, idx) => (
-                    <div key={idx} className={`border p-6 rounded-3xl bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md border-slate-200 dark:border-slate-800/80`}>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block mb-2">{s.label}</span>
+                    <div key={idx} className={`border p-6 rounded-3xl bg-white backdrop-blur-md border-slate-200`}>
+                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mb-2">{s.label}</span>
                         <span className={`text-3xl font-black ${s.color}`}>{s.value}</span>
                     </div>
                 ))}
@@ -331,34 +331,34 @@ const ExitManagement = () => {
                             <div
                                 key={ex._id}
                                 onClick={() => setSelectedId(ex._id)}
-                                className={`border p-5 rounded-[2rem] transition-all cursor-pointer group bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md ${
-                                    selectedId === ex._id ? 'border-primary-500 ring-1 ring-primary-500/20' : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700'
+                                className={`border p-5 rounded-[2rem] transition-all cursor-pointer group bg-white backdrop-blur-md ${
+                                    selectedId === ex._id ? 'border-primary-500 ring-1 ring-primary-500/20' : 'border-slate-200 hover:border-slate-300'
                                 }`}
                             >
                                 <div className="flex justify-between items-start gap-2 mb-3">
                                     <div>
-                                        <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-primary-400 transition-colors text-base truncate leading-tight max-w-[180px]">{ex.employee_name}</h3>
-                                        <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate mt-1">{ex.employee_email}</p>
+                                        <h3 className="font-bold text-slate-900 group-hover:text-primary-400 transition-colors text-base truncate leading-tight max-w-[180px]">{ex.employee_name}</h3>
+                                        <p className="text-[10px] text-slate-500 truncate mt-1">{ex.employee_email}</p>
                                     </div>
                                     <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest border ${getStatusStyles(ex.status)}`}>
                                         {ex.status.replace('_', ' ')}
                                     </span>
                                 </div>
-                                <div className="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 mb-4 bg-slate-50 dark:bg-slate-950/30 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800/30">
-                                    <span className="flex items-center gap-1 font-semibold text-slate-600 dark:text-slate-300">
-                                        <Briefcase size={12} className="text-slate-500 dark:text-slate-400" /> {ex.department}
+                                <div className="flex justify-between items-center text-xs text-slate-500 mb-4 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                                    <span className="flex items-center gap-1 font-semibold text-slate-600">
+                                        <Briefcase size={12} className="text-slate-500" /> {ex.department}
                                     </span>
-                                    <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                                    <span className="text-[10px] text-slate-500">
                                         LWD: {ex.last_working_day}
                                     </span>
                                 </div>
                                 {/* Clearance Progress bar */}
                                 <div className="space-y-1">
                                     <div className="flex justify-between text-[10px]">
-                                        <span className="text-slate-500 dark:text-slate-400 font-bold">Clearance Progress</span>
+                                        <span className="text-slate-500 font-bold">Clearance Progress</span>
                                         <span className="text-primary-400 font-black">{ex.progress}%</span>
                                     </div>
-                                    <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                    <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                                         <div
                                             className="h-full bg-rose-500 transition-all duration-500"
                                             style={{ width: `${ex.progress}%` }}
@@ -368,9 +368,9 @@ const ExitManagement = () => {
                             </div>
                         ))
                     ) : (
-                        <div className="border border-dashed border-slate-200 dark:border-slate-800 rounded-[2rem] py-16 text-center bg-white dark:bg-slate-900/10">
+                        <div className="border border-dashed border-slate-200 rounded-[2rem] py-16 text-center bg-white">
                             <UserMinus className="mx-auto text-slate-700 mb-3" size={40} />
-                            <p className="text-slate-500 dark:text-slate-400 text-sm">No exit processes active.</p>
+                            <p className="text-slate-500 text-sm">No exit processes active.</p>
                         </div>
                     )}
                 </div>
@@ -378,20 +378,20 @@ const ExitManagement = () => {
                 {/* Detail View panel */}
                 <div className="lg:col-span-2">
                     {selectedExit ? (
-                        <div className="bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-8 space-y-6">
+                        <div className="bg-white backdrop-blur-md border border-slate-200 rounded-[2.5rem] p-8 space-y-6">
                             {/* Detail header */}
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200 dark:border-slate-200 dark:border-slate-800/50">
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200">
                                 <div>
-                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-2">{selectedExit.employee_name}</h2>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                                        <Briefcase size={14} className="text-slate-500 dark:text-slate-400" /> {selectedExit.designation} • {selectedExit.department}
+                                    <h2 className="text-2xl font-bold text-slate-900 tracking-tight leading-none mb-2">{selectedExit.employee_name}</h2>
+                                    <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
+                                        <Briefcase size={14} className="text-slate-500" /> {selectedExit.designation} • {selectedExit.department}
                                     </p>
                                 </div>
                                 {selectedExit.status === 'in_progress' && (
                                     <button
                                         onClick={handleCompleteExit}
                                         disabled={actionLoading || selectedExit.progress < 100}
-                                        className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 dark:text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-xl transition-all shadow-lg shadow-emerald-950/30 flex items-center gap-2"
+                                        className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-xl transition-all shadow-lg shadow-emerald-950/30 flex items-center gap-2"
                                         title={selectedExit.progress < 100 ? 'All 4 clearances must be completed first' : ''}
                                     >
                                         {actionLoading ? <Loader2 className="animate-spin" size={14} /> : <CheckCircle size={16} />}
@@ -401,31 +401,31 @@ const ExitManagement = () => {
                             </div>
 
                             {/* Info card */}
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-slate-50 dark:bg-slate-950/40 p-5 rounded-2xl border border-slate-200 dark:border-slate-200 dark:border-slate-800/50 text-xs">
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs">
                                 <div className="space-y-1">
-                                    <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Exit Reason</span>
-                                    <p className="text-slate-800 dark:text-slate-200 font-bold capitalize">{selectedExit.exit_reason?.replace('_', ' ')}</p>
+                                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Exit Reason</span>
+                                    <p className="text-slate-800 font-bold capitalize">{selectedExit.exit_reason?.replace('_', ' ')}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Resignation Date</span>
-                                    <p className="text-slate-800 dark:text-slate-200 font-bold">{selectedExit.resignation_date}</p>
+                                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Resignation Date</span>
+                                    <p className="text-slate-800 font-bold">{selectedExit.resignation_date}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Last Working Day</span>
-                                    <p className="text-slate-800 dark:text-slate-200 font-bold">{selectedExit.last_working_day}</p>
+                                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Last Working Day</span>
+                                    <p className="text-slate-800 font-bold">{selectedExit.last_working_day}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Notice Period</span>
-                                    <p className="text-slate-800 dark:text-slate-200 font-bold">{selectedExit.notice_period_days} Days</p>
+                                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Notice Period</span>
+                                    <p className="text-slate-800 font-bold">{selectedExit.notice_period_days} Days</p>
                                 </div>
                             </div>
 
                             {/* Tab selector */}
-                            <div className="flex gap-4 border-b border-slate-200 dark:border-slate-800 pb-2">
+                            <div className="flex gap-4 border-b border-slate-200 pb-2">
                                 <button
                                     onClick={() => setDetailTab('clearances')}
                                     className={`pb-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all ${
-                                        detailTab === 'clearances' ? 'border-primary-500 text-primary-500' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:text-slate-300'
+                                        detailTab === 'clearances' ? 'border-primary-500 text-primary-500' : 'border-transparent text-slate-500 hover:text-slate-600'
                                     }`}
                                 >
                                     Department Clearances
@@ -433,7 +433,7 @@ const ExitManagement = () => {
                                 <button
                                     onClick={() => setDetailTab('settlement')}
                                     className={`pb-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all ${
-                                        detailTab === 'settlement' ? 'border-primary-500 text-primary-500' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:text-slate-300'
+                                        detailTab === 'settlement' ? 'border-primary-500 text-primary-500' : 'border-transparent text-slate-500 hover:text-slate-600'
                                     }`}
                                 >
                                     Final Settlement
@@ -441,7 +441,7 @@ const ExitManagement = () => {
                                 <button
                                     onClick={() => setDetailTab('interview')}
                                     className={`pb-2 text-xs font-black uppercase tracking-widest border-b-2 transition-all ${
-                                        detailTab === 'interview' ? 'border-primary-500 text-primary-500' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-600 dark:text-slate-300'
+                                        detailTab === 'interview' ? 'border-primary-500 text-primary-500' : 'border-transparent text-slate-500 hover:text-slate-600'
                                     }`}
                                 >
                                     Exit Interview
@@ -456,10 +456,10 @@ const ExitManagement = () => {
                                         const isCompleted = clearance.status === 'completed';
                                         
                                         return (
-                                            <div key={dept} className="bg-slate-50 dark:bg-slate-950/40 border border-slate-850 p-5 rounded-2xl flex flex-col justify-between space-y-4">
+                                            <div key={dept} className="bg-slate-50 border border-slate-850 p-5 rounded-2xl flex flex-col justify-between space-y-4">
                                                 <div>
                                                     <div className="flex justify-between items-center mb-3">
-                                                        <h4 className="text-xs font-black text-slate-600 dark:text-slate-300 uppercase tracking-wider">{dept} Clearance</h4>
+                                                        <h4 className="text-xs font-black text-slate-600 uppercase tracking-wider">{dept} Clearance</h4>
                                                         <span className={`text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded border ${
                                                             isCompleted ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
                                                         }`}>
@@ -478,7 +478,7 @@ const ExitManagement = () => {
                                                                 <span className={item.done ? 'text-primary-500' : 'text-slate-600'}>
                                                                     {item.done ? <CheckSquare size={16} /> : <Square size={16} />}
                                                                 </span>
-                                                                <span className={item.done ? 'text-slate-500 dark:text-slate-400 line-through' : 'text-slate-600 dark:text-slate-300'}>{item.item}</span>
+                                                                <span className={item.done ? 'text-slate-500 line-through' : 'text-slate-600'}>{item.item}</span>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -487,7 +487,7 @@ const ExitManagement = () => {
                                                 {selectedExit.status === 'in_progress' && !isCompleted && (
                                                     <button
                                                         onClick={() => handleVerifyClearance(dept, 'completed')}
-                                                        className="w-full mt-2 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-800/50 transition-all flex items-center justify-center gap-1"
+                                                        className="w-full mt-2 py-2 rounded-xl border border-slate-200 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center justify-center gap-1"
                                                     >
                                                         <Check size={12} /> Force Clear
                                                     </button>
@@ -500,61 +500,61 @@ const ExitManagement = () => {
 
                             {detailTab === 'settlement' && (
                                 <div className="space-y-6">
-                                    <h3 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Calculations Breakdown</h3>
+                                    <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest">Calculations Breakdown</h3>
                                     
-                                    <form onSubmit={handleCalculateSettlement} className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 dark:bg-slate-950/40 p-5 rounded-2xl border border-slate-850">
+                                    <form onSubmit={handleCalculateSettlement} className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-5 rounded-2xl border border-slate-850">
                                         <div className="space-y-1.5">
-                                            <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Unused Leave Days</label>
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Unused Leave Days</label>
                                             <input
                                                 type="number"
-                                                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-900 dark:text-white"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-xs text-slate-900"
                                                 value={settlementForm.unused_leave_days}
                                                 onChange={e => setSettlementForm({ ...settlementForm, unused_leave_days: parseFloat(e.target.value) || 0 })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Remaining Working Days in Month</label>
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Remaining Working Days in Month</label>
                                             <input
                                                 type="number"
-                                                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-900 dark:text-white"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-xs text-slate-900"
                                                 value={settlementForm.remaining_days_in_month}
                                                 onChange={e => setSettlementForm({ ...settlementForm, remaining_days_in_month: parseFloat(e.target.value) || 0 })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Gratuity (₹)</label>
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Gratuity (₹)</label>
                                             <input
                                                 type="number"
-                                                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-900 dark:text-white"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-xs text-slate-900"
                                                 value={settlementForm.gratuity}
                                                 onChange={e => setSettlementForm({ ...settlementForm, gratuity: parseFloat(e.target.value) || 0 })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Other Earnings/Bonus (₹)</label>
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Other Earnings/Bonus (₹)</label>
                                             <input
                                                 type="number"
-                                                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-900 dark:text-white"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-xs text-slate-900"
                                                 value={settlementForm.bonus_due}
                                                 onChange={e => setSettlementForm({ ...settlementForm, bonus_due: parseFloat(e.target.value) || 0 })}
                                             />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Other Deductions (₹)</label>
+                                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Other Deductions (₹)</label>
                                             <input
                                                 type="number"
-                                                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-900 dark:text-white"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-xs text-slate-900"
                                                 value={settlementForm.other_deductions}
                                                 onChange={e => setSettlementForm({ ...settlementForm, other_deductions: parseFloat(e.target.value) || 0 })}
                                             />
                                         </div>
-                                        <div className="flex items-center justify-between p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 mt-5">
-                                            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">Mark Processed / Paid</span>
+                                        <div className="flex items-center justify-between p-3 bg-white rounded-xl border border-slate-200 mt-5">
+                                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider">Mark Processed / Paid</span>
                                             <button
                                                 type="button"
                                                 onClick={() => setSettlementForm({ ...settlementForm, processed: !settlementForm.processed })}
                                                 className={`w-9 h-5 rounded-full transition-all duration-300 relative ${
-                                                    settlementForm.processed ? 'bg-primary-600' : 'bg-slate-100 dark:bg-slate-800'
+                                                    settlementForm.processed ? 'bg-primary-600' : 'bg-slate-100'
                                                 }`}
                                             >
                                                 <span className={`w-3.5 h-3.5 rounded-full bg-white absolute top-0.5 transition-all duration-300 ${
@@ -566,7 +566,7 @@ const ExitManagement = () => {
                                             <button
                                                 type="submit"
                                                 disabled={actionLoading || selectedExit.status === 'completed'}
-                                                className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 dark:text-white font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all"
+                                                className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all"
                                             >
                                                 Calculate Settlement
                                             </button>
@@ -575,16 +575,16 @@ const ExitManagement = () => {
 
                                     {/* Result Breakdown */}
                                     {selectedExit.final_settlement?.calculated && (
-                                        <div className="bg-slate-50 dark:bg-slate-950 border border-slate-850 p-6 rounded-2xl space-y-4 text-xs">
-                                            <h4 className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border-b border-slate-850 pb-2">Calculated Results</h4>
+                                        <div className="bg-slate-50 border border-slate-850 p-6 rounded-2xl space-y-4 text-xs">
+                                            <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-850 pb-2">Calculated Results</h4>
                                             <div className="grid grid-cols-2 gap-y-2">
-                                                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">Notice Period Recovery:</span><span className="text-slate-800 dark:text-slate-200 font-bold">{formatCurrency(selectedExit.final_settlement.notice_period_recovery)}</span></div>
-                                                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">Unused Leave Encash:</span><span className="text-emerald-400 font-bold">+{formatCurrency(selectedExit.final_settlement.leave_encashment)}</span></div>
-                                                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">Remaining Salary Dues:</span><span className="text-emerald-400 font-bold">+{formatCurrency(selectedExit.final_settlement.salary_dues)}</span></div>
-                                                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">Service Gratuity:</span><span className="text-emerald-400 font-bold">+{formatCurrency(selectedExit.final_settlement.gratuity)}</span></div>
-                                                <div className="flex justify-between"><span className="text-slate-500 dark:text-slate-400">Other Deductions:</span><span className="text-rose-400 font-bold">-{formatCurrency(selectedExit.final_settlement.other_deductions)}</span></div>
+                                                <div className="flex justify-between"><span className="text-slate-500">Notice Period Recovery:</span><span className="text-slate-800 font-bold">{formatCurrency(selectedExit.final_settlement.notice_period_recovery)}</span></div>
+                                                <div className="flex justify-between"><span className="text-slate-500">Unused Leave Encash:</span><span className="text-emerald-400 font-bold">+{formatCurrency(selectedExit.final_settlement.leave_encashment)}</span></div>
+                                                <div className="flex justify-between"><span className="text-slate-500">Remaining Salary Dues:</span><span className="text-emerald-400 font-bold">+{formatCurrency(selectedExit.final_settlement.salary_dues)}</span></div>
+                                                <div className="flex justify-between"><span className="text-slate-500">Service Gratuity:</span><span className="text-emerald-400 font-bold">+{formatCurrency(selectedExit.final_settlement.gratuity)}</span></div>
+                                                <div className="flex justify-between"><span className="text-slate-500">Other Deductions:</span><span className="text-rose-400 font-bold">-{formatCurrency(selectedExit.final_settlement.other_deductions)}</span></div>
                                                 <div className="flex justify-between border-t border-slate-850 pt-2 font-bold text-sm col-span-2">
-                                                    <span className="text-slate-900 dark:text-white uppercase tracking-wider">Net Settlement Payout</span>
+                                                    <span className="text-slate-900 uppercase tracking-wider">Net Settlement Payout</span>
                                                     <span className={selectedExit.final_settlement.total_payable >= 0 ? 'text-emerald-400' : 'text-rose-400'}>
                                                         {formatCurrency(selectedExit.final_settlement.total_payable)}
                                                     </span>
@@ -597,30 +597,30 @@ const ExitManagement = () => {
 
                             {detailTab === 'interview' && (
                                 <form onSubmit={handleSaveInterview} className="space-y-4 max-h-[50vh] overflow-y-auto pr-1">
-                                    <h3 className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Exit Interview Questionnaire</h3>
+                                    <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest">Exit Interview Questionnaire</h3>
                                     
                                     <div className="space-y-3">
                                         <div className="space-y-1">
-                                            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold ml-1 uppercase">Reason for Leaving</span>
+                                            <span className="text-[9px] text-slate-500 font-bold ml-1 uppercase">Reason for Leaving</span>
                                             <input
-                                                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-900 dark:text-white focus:border-primary-500 outline-none"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-xs text-slate-900 focus:border-primary-500 outline-none"
                                                 value={interviewForm.reason_for_leaving}
                                                 onChange={e => setInterviewForm({ ...interviewForm, reason_for_leaving: e.target.value })}
                                             />
                                         </div>
                                         <div className="space-y-1">
-                                            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold ml-1 uppercase">Interviewer Feedback / Notes</span>
+                                            <span className="text-[9px] text-slate-500 font-bold ml-1 uppercase">Interviewer Feedback / Notes</span>
                                             <textarea
-                                                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-900 dark:text-white focus:border-primary-500 outline-none h-20 resize-none"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-900 focus:border-primary-500 outline-none h-20 resize-none"
                                                 value={interviewForm.feedback}
                                                 onChange={e => setInterviewForm({ ...interviewForm, feedback: e.target.value })}
                                             />
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="space-y-1">
-                                                <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold ml-1 uppercase">Would employee rejoin?</span>
+                                                <span className="text-[9px] text-slate-500 font-bold ml-1 uppercase">Would employee rejoin?</span>
                                                 <select
-                                                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white"
+                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900"
                                                     value={interviewForm.would_rejoin}
                                                     onChange={e => setInterviewForm({ ...interviewForm, would_rejoin: e.target.value })}
                                                 >
@@ -631,9 +631,9 @@ const ExitManagement = () => {
                                             </div>
                                         </div>
                                         <div className="space-y-1">
-                                            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold ml-1 uppercase">Improvement Suggestions</span>
+                                            <span className="text-[9px] text-slate-500 font-bold ml-1 uppercase">Improvement Suggestions</span>
                                             <textarea
-                                                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-900 dark:text-white focus:border-primary-500 outline-none h-20 resize-none"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs text-slate-900 focus:border-primary-500 outline-none h-20 resize-none"
                                                 value={interviewForm.improvement_suggestions}
                                                 onChange={e => setInterviewForm({ ...interviewForm, improvement_suggestions: e.target.value })}
                                             />
@@ -643,7 +643,7 @@ const ExitManagement = () => {
                                         <button
                                             type="submit"
                                             disabled={actionLoading || selectedExit.status === 'completed'}
-                                            className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 dark:text-white font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all"
+                                            className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all"
                                         >
                                             Log Interview Logs
                                         </button>
@@ -652,7 +652,7 @@ const ExitManagement = () => {
                             )}
                         </div>
                     ) : (
-                        <div className="h-full border border-dashed border-slate-200 dark:border-slate-800 rounded-[2.5rem] flex items-center justify-center p-12 text-center bg-white dark:bg-slate-900/10 text-slate-600">
+                        <div className="h-full border border-dashed border-slate-200 rounded-[2.5rem] flex items-center justify-center p-12 text-center bg-white text-slate-600">
                             <div>
                                 <UserMinus className="mx-auto mb-4 opacity-15" size={48} />
                                 <p className="text-sm font-medium">Select an employee from the separation directory to view clearance checklist.</p>
@@ -664,22 +664,22 @@ const ExitManagement = () => {
 
             {/* Initiate Exit Modal */}
             {showInitiateModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950/80 backdrop-blur-sm">
-                    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-lg rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50 backdrop-blur-sm">
+                    <div className="bg-white border border-slate-200 w-full max-w-lg rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
                         <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Initiate Employee Separation</h2>
-                            <button onClick={() => setShowInitiateModal(false)} className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white">
+                            <h2 className="text-xl font-bold text-slate-900">Initiate Employee Separation</h2>
+                            <button onClick={() => setShowInitiateModal(false)} className="text-slate-500 hover:text-slate-900">
                                 <X size={20} />
                             </button>
                         </div>
                         <form onSubmit={handleInitiateExit} className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1 relative">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Employee</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Employee</label>
                                     <div className="relative">
                                         <input
                                             type="text"
-                                            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white placeholder:text-slate-600"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 placeholder:text-slate-600"
                                             required
                                             placeholder="Search name or email..."
                                             value={searchQuery}
@@ -700,14 +700,14 @@ const ExitManagement = () => {
                                                     setSearchQuery('');
                                                     setNewExit(prev => ({ ...prev, employee_email: '' }));
                                                 }}
-                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white"
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-900"
                                             >
                                                 <X size={16} />
                                             </button>
                                         )}
                                     </div>
                                     {showDropdown && (
-                                        <div className="absolute z-50 w-full mt-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl max-h-60 overflow-y-auto divide-y divide-slate-900">
+                                        <div className="absolute z-50 w-full mt-1 bg-slate-50 border border-slate-200 rounded-xl shadow-xl max-h-60 overflow-y-auto divide-y divide-slate-900">
                                             {employees
                                                 .filter(emp => 
                                                     emp.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -724,8 +724,8 @@ const ExitManagement = () => {
                                                             setShowDropdown(false);
                                                         }}
                                                     >
-                                                        <span className="font-bold text-slate-900 dark:text-white">{emp.full_name}</span>
-                                                        <span className="text-[10px] text-slate-500 dark:text-slate-400">{emp.email} | {emp.department || 'General'}</span>
+                                                        <span className="font-bold text-slate-900">{emp.full_name}</span>
+                                                        <span className="text-[10px] text-slate-500">{emp.email} | {emp.department || 'General'}</span>
                                                     </button>
                                                 ))
                                             }
@@ -733,15 +733,15 @@ const ExitManagement = () => {
                                                 emp.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                                 emp.email?.toLowerCase().includes(searchQuery.toLowerCase())
                                             ).length === 0 && (
-                                                <div className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400">No employees found</div>
+                                                <div className="px-4 py-3 text-xs text-slate-500">No employees found</div>
                                             )}
                                         </div>
                                     )}
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Exit Reason</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Exit Reason</label>
                                     <select
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-3.5 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-3.5 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         value={newExit.exit_reason}
                                         onChange={e => setNewExit({ ...newExit, exit_reason: e.target.value })}
                                     >
@@ -755,30 +755,30 @@ const ExitManagement = () => {
 
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Notice Days</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Notice Days</label>
                                     <input
                                         type="number"
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         required
                                         value={newExit.notice_period_days}
                                         onChange={e => setNewExit({ ...newExit, notice_period_days: parseInt(e.target.value) || 0 })}
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Resign Date</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Resign Date</label>
                                     <input
                                         type="date"
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         required
                                         value={newExit.resignation_date}
                                         onChange={e => setNewExit({ ...newExit, resignation_date: e.target.value })}
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Last Day</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Last Day</label>
                                     <input
                                         type="date"
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         required
                                         value={newExit.last_working_day}
                                         onChange={e => setNewExit({ ...newExit, last_working_day: e.target.value })}
@@ -788,10 +788,10 @@ const ExitManagement = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Assigned HR Representative</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Assigned HR Representative</label>
                                     <input
                                         type="email"
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         required
                                         placeholder="hr@company.com"
                                         value={newExit.assigned_to}
@@ -799,10 +799,10 @@ const ExitManagement = () => {
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Exit Interviewer</label>
+                                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Exit Interviewer</label>
                                     <input
                                         type="email"
-                                        className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900"
                                         placeholder="interviewer@company.com"
                                         value={newExit.exit_interviewer}
                                         onChange={e => setNewExit({ ...newExit, exit_interviewer: e.target.value })}
@@ -811,9 +811,9 @@ const ExitManagement = () => {
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest ml-1">Internal Notes</label>
+                                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Internal Notes</label>
                                 <textarea
-                                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 dark:text-white h-20 resize-none"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-primary-500 outline-none text-slate-900 h-20 resize-none"
                                     placeholder="Add any specific instructions or separation notes..."
                                     value={newExit.notes}
                                     onChange={e => setNewExit({ ...newExit, notes: e.target.value })}
@@ -821,8 +821,8 @@ const ExitManagement = () => {
                             </div>
 
                             <div className="flex gap-4 pt-4">
-                                <button type="button" onClick={() => setShowInitiateModal(false)} className="flex-1 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold text-sm">Cancel</button>
-                                <button type="submit" disabled={actionLoading} className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 dark:text-white font-bold text-sm flex items-center justify-center gap-2">
+                                <button type="button" onClick={() => setShowInitiateModal(false)} className="flex-1 py-3 rounded-xl border border-slate-200 text-slate-500 font-bold text-sm">Cancel</button>
+                                <button type="submit" disabled={actionLoading} className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 font-bold text-sm flex items-center justify-center gap-2">
                                     {actionLoading && <Loader2 className="animate-spin" size={16} />}
                                     Initiate Process
                                 </button>

@@ -58,7 +58,7 @@ export default function WFHDevices() {
   if (loading) {
     return (
       <div className="h-[60vh] flex items-center justify-center">
-        <Loader2 className="animate-spin text-indigo-500" size={48} />
+        <Loader2 className="animate-spin text-[#004B87]" size={48} />
       </div>
     );
   }
@@ -68,17 +68,17 @@ export default function WFHDevices() {
       {/* Header sections */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Workstation Clearances</h1>
-          <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">Approve or revoke WFH hardware desktop fingerprints for employees.</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Workstation Clearances</h1>
+          <p className="text-slate-500 text-xs mt-1">Approve or revoke WFH hardware desktop fingerprints for employees.</p>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 dark:text-slate-400">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
               <Search size={16} />
             </span>
             <input 
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl py-2 pl-9 pr-4 text-xs text-slate-900 dark:text-white placeholder-slate-500 focus:border-indigo-500 outline-none w-56 transition-all"
+              className="bg-white border border-slate-200 rounded-xl py-2 pl-9 pr-4 text-xs text-slate-900 placeholder-slate-500 focus:border-[#004B87] outline-none w-56 transition-all"
               placeholder="Search employee or host..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -86,7 +86,7 @@ export default function WFHDevices() {
           </div>
           <button 
             onClick={() => loadDevices(true)}
-            className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-white dark:bg-slate-900/40 hover:bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-all"
+            className="p-2 border border-slate-200 rounded-xl bg-white hover:bg-white text-slate-500 hover:text-slate-900 transition-all"
           >
             <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} />
           </button>
@@ -94,11 +94,11 @@ export default function WFHDevices() {
       </div>
 
       {/* Card Table Container */}
-      <div className="bg-white dark:bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-[2rem] overflow-hidden shadow-xl shadow-slate-950/20">
+      <div className="bg-white border border-slate-200 rounded-[2rem] overflow-hidden shadow-xl shadow-slate-950/20">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-200 dark:border-slate-800 text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold bg-slate-50 dark:bg-slate-950/40">
+              <tr className="border-b border-slate-200 text-[10px] uppercase tracking-wider text-slate-500 font-bold bg-slate-50">
                 <th className="py-4 px-6">Workstation / Owner</th>
                 <th className="py-4 px-6">Platform / Host</th>
                 <th className="py-4 px-6">MAC Address / Device ID</th>
@@ -108,31 +108,31 @@ export default function WFHDevices() {
               </tr>
             </thead>
             
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-200/50 dark:divide-slate-800/50 text-xs">
+            <tbody className="divide-y divide-slate-200 text-xs">
               {filteredDevices.map((device) => (
-                <tr key={device._id} className="hover:bg-slate-50 dark:bg-slate-950/25 transition-colors group">
+                <tr key={device._id} className="hover:bg-slate-50 transition-colors group">
                   
                   {/* Owner */}
                   <td className="py-4 px-6">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:bg-indigo-500/10 group-hover:text-indigo-400 transition-colors rounded-xl border border-slate-300 dark:border-slate-700/50">
+                      <div className="p-2 bg-slate-100 text-slate-500 group-hover:bg-[#004B87]/10 group-hover:text-[#0062B1] transition-colors rounded-xl border border-slate-300">
                         <Laptop size={16} />
                       </div>
                       <div>
-                        <span className="font-bold text-slate-900 dark:text-white block">{device.employee_name}</span>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 block">{device.employee_email}</span>
+                        <span className="font-bold text-slate-900 block">{device.employee_name}</span>
+                        <span className="text-[10px] text-slate-500 block">{device.employee_email}</span>
                       </div>
                     </div>
                   </td>
 
                   {/* OS / Host */}
                   <td className="py-4 px-6">
-                    <span className="font-bold text-slate-600 dark:text-slate-300 block">{device.hostname}</span>
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400 block">{device.os_info}</span>
+                    <span className="font-bold text-slate-600 block">{device.hostname}</span>
+                    <span className="text-[10px] text-slate-500 block">{device.os_info}</span>
                   </td>
 
                   {/* Hardware details */}
-                  <td className="py-4 px-6 font-mono text-[10px] text-slate-500 dark:text-slate-400">
+                  <td className="py-4 px-6 font-mono text-[10px] text-slate-500">
                     <span className="block">{device.mac_address || "N/A"}</span>
                     <span className="text-[9px] text-slate-600 block truncate max-w-[150px]" title={device.device_id}>
                       ID: {device.device_id}
@@ -140,7 +140,7 @@ export default function WFHDevices() {
                   </td>
 
                   {/* Registration timestamp */}
-                  <td className="py-4 px-6 text-slate-500 dark:text-slate-400">
+                  <td className="py-4 px-6 text-slate-500">
                     {device.registered_at ? formatToIST(device.registered_at, { dateStyle: "short", timeStyle: "short" }) : "N/A"}
                   </td>
 
@@ -184,7 +184,7 @@ export default function WFHDevices() {
 
               {filteredDevices.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="py-12 text-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-950/10 border-t border-slate-200 dark:border-slate-800">
+                  <td colSpan="6" className="py-12 text-center text-slate-500 bg-slate-50 border-t border-slate-200">
                     <AlertCircle size={36} className="mx-auto mb-3 text-slate-700" />
                     <p className="text-sm">No workstation signatures match your query.</p>
                   </td>

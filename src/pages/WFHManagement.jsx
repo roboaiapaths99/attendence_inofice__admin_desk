@@ -47,10 +47,10 @@ const fmtDate  = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,
 
 const statusColor = (s) => {
   switch (s) {
-    case 'approved':  return 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20';
-    case 'rejected':  return 'bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-100 dark:border-rose-500/20';
-    case 'pending':   return 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-500/20';
-    default:          return 'bg-slate-50 dark:bg-slate-500/10 text-slate-650 dark:text-slate-400 border-slate-100 dark:border-slate-500/20';
+    case 'approved':  return 'bg-emerald-50 text-emerald-600 border-emerald-100';
+    case 'rejected':  return 'bg-rose-50 text-rose-600 border-rose-100';
+    case 'pending':   return 'bg-amber-50 text-amber-600 border-amber-100';
+    default:          return 'bg-slate-50 text-slate-650 border-slate-100';
   }
 };
 
@@ -66,7 +66,7 @@ const statusIcon = (s) => {
 const avatar = (name, size = 'w-9 h-9 text-sm') => {
   const initial = (name || '?')[0].toUpperCase();
   const colors = [
-    'from-indigo-500 to-purple-500',
+    'from-[#004B87] to-purple-500',
     'from-emerald-500 to-teal-500',
     'from-amber-500 to-orange-500',
     'from-rose-500 to-pink-500',
@@ -75,7 +75,7 @@ const avatar = (name, size = 'w-9 h-9 text-sm') => {
   ];
   const idx = (name || '').charCodeAt(0) % colors.length;
   return (
-    <div className={`${size} rounded-full bg-gradient-to-br ${colors[idx]} flex items-center justify-center font-bold text-white shrink-0 shadow-lg`}>
+    <div className={`${size} rounded-full bg-gradient-to-br ${colors[idx]} flex items-center justify-center font-bold text-slate-900 shrink-0 shadow-lg`}>
       {initial}
     </div>
   );
@@ -316,7 +316,7 @@ const WFHManagement = () => {
     return (
       <div className="flex items-center justify-center h-[70vh]">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
+          <Loader2 className="w-10 h-10 text-[#004B87] animate-spin" />
           <p className="text-slate-400 text-sm">Loading WFH Management…</p>
         </div>
       </div>
@@ -337,18 +337,18 @@ const WFHManagement = () => {
       {/* ── Header ── */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-            <Home className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#004B87] to-purple-600 flex items-center justify-center shadow-lg shadow-[#004B87]/20">
+            <Home className="w-5 h-5 text-slate-900" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">WFH Management</h1>
+            <h1 className="text-2xl font-bold text-slate-900">WFH Management</h1>
             <p className="text-slate-400 text-sm">Manage work-from-home requests, schedules &amp; policies</p>
           </div>
         </div>
       </div>
 
       {/* ── Tab bar ── */}
-      <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-900/60 backdrop-blur rounded-2xl border border-slate-200 dark:border-slate-800 mb-8 w-fit">
+      <div className="flex gap-1 p-1 bg-slate-100 backdrop-blur rounded-2xl border border-slate-200 mb-8 w-fit">
         {TABS.map(tab => {
           const Icon = tab.icon;
           const active = activeTab === tab.id;
@@ -358,8 +358,8 @@ const WFHManagement = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300
                 ${active
-                  ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/20'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/50'}`}
+                  ? 'bg-gradient-to-r from-[#004B87] to-purple-600 text-slate-900 shadow-lg shadow-[#004B87]/20'
+                  : 'text-slate-500 hover:text-slate-900:text-slate-900 hover:bg-slate-200/50:bg-slate-800/50'}`}
             >
               <Icon className="w-4 h-4" />
               {tab.label}
@@ -374,26 +374,26 @@ const WFHManagement = () => {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { label: "Today's WFH",      value: stats.today_wfh || 0,           icon: Laptop,     gradient: 'from-indigo-500 to-blue-600',   bg: 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400', ring: 'ring-indigo-100 dark:ring-indigo-500/20' },
-              { label: 'Pending Requests',  value: stats.pending_requests || 0,    icon: Clock,      gradient: 'from-amber-500 to-orange-600',  bg: 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400', ring: 'ring-amber-100 dark:ring-amber-500/20'  },
-              { label: 'Approved (Month)',  value: stats.approved_this_month || 0, icon: CheckCircle, gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400', ring: 'ring-emerald-100 dark:ring-emerald-500/20'},
-              { label: 'Permanent WFH',     value: stats.permanent_wfh || 0,       icon: Home,       gradient: 'from-purple-500 to-fuchsia-600',bg: 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400', ring: 'ring-purple-100 dark:ring-purple-500/20' },
+              { label: "Today's WFH",      value: stats.today_wfh || 0,           icon: Laptop,     gradient: 'from-[#004B87] to-blue-600',   bg: 'bg-[#E8F0FA] text-[#004B87]', ring: 'ring-indigo-100' },
+              { label: 'Pending Requests',  value: stats.pending_requests || 0,    icon: Clock,      gradient: 'from-amber-500 to-orange-600',  bg: 'bg-amber-50 text-amber-600', ring: 'ring-amber-100'  },
+              { label: 'Approved (Month)',  value: stats.approved_this_month || 0, icon: CheckCircle, gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50 text-emerald-600', ring: 'ring-emerald-100'},
+              { label: 'Permanent WFH',     value: stats.permanent_wfh || 0,       icon: Home,       gradient: 'from-purple-500 to-fuchsia-600',bg: 'bg-purple-50 text-purple-600', ring: 'ring-purple-100' },
             ].map((s, i) => {
               const Icon = s.icon;
               return (
-                <div key={i} className={`bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-300 group shadow-sm dark:shadow-none`}>
+                <div key={i} className={`bg-white border border-slate-200 rounded-2xl p-5 hover:border-slate-300:border-slate-700 transition-all duration-300 group shadow-sm`}>
                   <div className="flex items-center justify-between mb-4">
                     <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${s.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className="w-5 h-5 text-white" />
+                      <Icon className="w-5 h-5 text-slate-900" />
                     </div>
                     <span className={`text-xs font-medium px-2 py-1 rounded-full ${s.bg} ${s.ring} ring-1`}>
                       Live
                     </span>
                   </div>
-                  <p className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
+                  <p className="text-3xl font-bold text-slate-900 mb-1">
                     <AnimatedNumber value={s.value} />
                   </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{s.label}</p>
+                  <p className="text-sm text-slate-500">{s.label}</p>
                 </div>
               );
             })}
@@ -402,15 +402,15 @@ const WFHManagement = () => {
           {/* Two-column: Today's WFH + Pending Quick Actions */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Today's WFH Employees */}
-            <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
-              <div className="px-6 py-4 border-b border-slate-250 dark:border-slate-800 flex items-center justify-between">
+            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+              <div className="px-6 py-4 border-b border-slate-250 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <MonitorSmartphone className="w-4 h-4 text-indigo-400" />
-                  <h3 className="text-slate-900 dark:text-white font-semibold">Today's WFH Employees</h3>
+                  <MonitorSmartphone className="w-4 h-4 text-[#0062B1]" />
+                  <h3 className="text-slate-900 font-semibold">Today's WFH Employees</h3>
                 </div>
                 <span className="text-xs text-slate-500">{todayWfh.length} employees</span>
               </div>
-              <div className="divide-y divide-slate-200 dark:divide-slate-800/50 max-h-[400px] overflow-y-auto">
+              <div className="divide-y divide-slate-200 max-h-[400px] overflow-y-auto">
                 {todayWfh.length === 0 ? (
                   <div className="py-12 text-center text-slate-500">
                     <Building2 className="w-8 h-8 mx-auto mb-2 opacity-40" />
@@ -418,21 +418,21 @@ const WFHManagement = () => {
                   </div>
                 ) : (
                   todayWfh.map((emp, i) => (
-                    <div key={i} className="px-6 py-3.5 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                    <div key={i} className="px-6 py-3.5 flex items-center justify-between hover:bg-slate-50:bg-slate-800/30 transition-colors">
                       <div className="flex items-center gap-3">
                         {avatar(emp.name || emp.employee_name)}
                         <div>
-                          <p className="text-sm font-medium text-slate-850 dark:text-white">{emp.name || emp.employee_name}</p>
+                          <p className="text-sm font-medium text-slate-850">{emp.name || emp.employee_name}</p>
                           <p className="text-xs text-slate-500">{emp.email || emp.employee_email}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {emp.checked_in ? (
-                          <span className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-100 dark:border-emerald-500/20">
+                          <span className="flex items-center gap-1 text-xs text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
                             <Wifi className="w-3 h-3" /> Online
                           </span>
                         ) : (
-                          <span className="flex items-center gap-1 text-xs text-slate-550 dark:text-slate-500 bg-slate-100 dark:bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700">
+                          <span className="flex items-center gap-1 text-xs text-slate-550 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
                             <WifiOff className="w-3 h-3" /> Not checked in
                           </span>
                         )}
@@ -444,15 +444,15 @@ const WFHManagement = () => {
             </div>
 
             {/* Pending Requests Quick Actions */}
-            <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
-              <div className="px-6 py-4 border-b border-slate-250 dark:border-slate-800 flex items-center justify-between">
+            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+              <div className="px-6 py-4 border-b border-slate-250 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-amber-400" />
-                  <h3 className="text-slate-900 dark:text-white font-semibold">Pending Requests</h3>
+                  <h3 className="text-slate-900 font-semibold">Pending Requests</h3>
                 </div>
-                <span className="text-xs text-amber-600 dark:text-amber-450 bg-amber-50 dark:bg-amber-500/10 px-2 py-0.5 rounded-full">{pendingRequests.length} pending</span>
+                <span className="text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">{pendingRequests.length} pending</span>
               </div>
-              <div className="divide-y divide-slate-200 dark:divide-slate-800/50 max-h-[400px] overflow-y-auto">
+              <div className="divide-y divide-slate-200 max-h-[400px] overflow-y-auto">
                 {pendingRequests.length === 0 ? (
                   <div className="py-12 text-center text-slate-500">
                     <CheckCircle className="w-8 h-8 mx-auto mb-2 opacity-40" />
@@ -460,12 +460,12 @@ const WFHManagement = () => {
                   </div>
                 ) : (
                   pendingRequests.slice(0, 10).map((req) => (
-                    <div key={req._id || req.id} className="px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                    <div key={req._id || req.id} className="px-6 py-3.5 hover:bg-slate-50:bg-slate-800/30 transition-colors">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           {avatar(req.employee_name || req.name)}
                           <div>
-                            <p className="text-sm font-medium text-slate-850 dark:text-white">{req.employee_name || req.name}</p>
+                            <p className="text-sm font-medium text-slate-850">{req.employee_name || req.name}</p>
                             <p className="text-xs text-slate-500">
                               {req.date || req.requested_date} · {req.reason || 'No reason provided'}
                             </p>
@@ -475,7 +475,7 @@ const WFHManagement = () => {
                           <button
                             onClick={() => handleApprove(req._id || req.id)}
                             disabled={!!actionLoading[req._id || req.id]}
-                            className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 border border-emerald-100 dark:border-emerald-500/20 transition-all disabled:opacity-50"
+                            className="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100:bg-emerald-500/20 border border-emerald-100 transition-all disabled:opacity-50"
                             title="Approve"
                           >
                             {actionLoading[req._id || req.id] === 'approve'
@@ -486,7 +486,7 @@ const WFHManagement = () => {
                           <button
                             onClick={() => { setRejectModal(req._id || req.id); setRejectReason(''); }}
                             disabled={!!actionLoading[req._id || req.id]}
-                            className="p-2 rounded-lg bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-500/20 border border-rose-100 dark:border-rose-500/20 transition-all disabled:opacity-50"
+                            className="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100:bg-rose-500/20 border border-rose-100 transition-all disabled:opacity-50"
                             title="Reject"
                           >
                             <X className="w-4 h-4" />
@@ -508,15 +508,15 @@ const WFHManagement = () => {
           {/* Toolbar */}
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             {/* Status Filters */}
-            <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-900/60 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div className="flex gap-1 p-1 bg-slate-100 rounded-xl border border-slate-200">
               {['all','pending','approved','rejected'].map(f => (
                 <button
                   key={f}
                   onClick={() => setRequestFilter(f)}
                   className={`px-4 py-2 rounded-lg text-xs font-medium capitalize transition-all duration-200
                     ${requestFilter === f
-                      ? 'bg-indigo-50 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-150 dark:border-indigo-500/30'
-                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800/50 border border-transparent'}`}
+                      ? 'bg-[#E8F0FA] text-[#004B87] border border-indigo-150'
+                      : 'text-slate-500 hover:text-slate-900:text-slate-900 hover:bg-slate-200/50:bg-slate-800/50 border border-transparent'}`}
                 >
                   {f}
                 </button>
@@ -530,7 +530,7 @@ const WFHManagement = () => {
                 placeholder="Search by name or email…"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 dark:placeholder:text-slate-650 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/20 transition-all"
+                className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm placeholder:text-slate-400:text-slate-650 focus:outline-none focus:border-[#004B87]/50 focus:ring-1 focus:ring-[#004B87]/20 transition-all"
               />
             </div>
           </div>
@@ -538,7 +538,7 @@ const WFHManagement = () => {
           {/* Request Cards */}
           <div className="space-y-3">
             {filteredRequests.length === 0 ? (
-              <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl py-16 text-center shadow-sm dark:shadow-none">
+              <div className="bg-white border border-slate-200 rounded-2xl py-16 text-center shadow-sm">
                 <FileText className="w-10 h-10 mx-auto mb-3 text-slate-600" />
                 <p className="text-slate-400">No WFH requests found</p>
                 <p className="text-slate-600 text-sm mt-1">Try adjusting your filters</p>
@@ -549,14 +549,14 @@ const WFHManagement = () => {
                 return (
                   <div
                     key={id}
-                    className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-slate-350 dark:hover:border-slate-700 transition-all duration-200 group shadow-sm dark:shadow-none"
+                    className="bg-white border border-slate-200 rounded-2xl p-5 hover:border-slate-350:border-slate-700 transition-all duration-200 group shadow-sm"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div className="flex items-start gap-4">
                         {avatar(req.employee_name || req.name, 'w-11 h-11 text-base')}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <h4 className="text-slate-900 dark:text-white font-semibold text-sm">{req.employee_name || req.name}</h4>
+                            <h4 className="text-slate-900 font-semibold text-sm">{req.employee_name || req.name}</h4>
                             <span className={`inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full border capitalize ${statusColor(req.status)}`}>
                               {statusIcon(req.status)}
                               {req.status}
@@ -570,13 +570,13 @@ const WFHManagement = () => {
                               {req.end_date && req.end_date !== req.start_date && ` → ${req.end_date}`}
                             </span>
                             {(req.reason || req.wfh_reason) && (
-                              <span className="text-xs text-slate-600 dark:text-slate-500 bg-slate-100 dark:bg-slate-800/60 px-2 py-0.5 rounded-full">
+                              <span className="text-xs text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full">
                                 {req.reason || req.wfh_reason}
                               </span>
                             )}
                           </div>
                           {req.rejection_reason && (
-                            <p className="text-xs text-rose-600 dark:text-rose-400/80 mt-2 bg-rose-50 dark:bg-rose-500/5 px-3 py-1.5 rounded-lg border border-rose-100 dark:border-rose-500/10">
+                            <p className="text-xs text-rose-600 mt-2 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-100">
                               Rejected: {req.rejection_reason}
                             </p>
                           )}
@@ -589,7 +589,7 @@ const WFHManagement = () => {
                           <button
                             onClick={() => handleApprove(id)}
                             disabled={!!actionLoading[id]}
-                            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 border border-emerald-100 dark:border-emerald-500/20 text-xs font-medium transition-all disabled:opacity-50"
+                            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-100:bg-emerald-500/20 border border-emerald-100 text-xs font-medium transition-all disabled:opacity-50"
                           >
                             {actionLoading[id] === 'approve'
                               ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -600,7 +600,7 @@ const WFHManagement = () => {
                           <button
                             onClick={() => { setRejectModal(id); setRejectReason(''); }}
                             disabled={!!actionLoading[id]}
-                            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-500/20 border border-rose-100 dark:border-rose-500/20 text-xs font-medium transition-all disabled:opacity-50"
+                            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100:bg-rose-500/20 border border-rose-100 text-xs font-medium transition-all disabled:opacity-50"
                           >
                             <X className="w-3.5 h-3.5" />
                             Reject
@@ -621,21 +621,21 @@ const WFHManagement = () => {
         <div className="space-y-6 animate-fade-in">
           {/* Month nav */}
           <div className="flex items-center justify-between">
-            <button onClick={prevMonth} className="p-2 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white hover:border-slate-350 dark:hover:border-slate-700 transition-all">
+            <button onClick={prevMonth} className="p-2 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-slate-950:text-slate-900 hover:border-slate-350:border-slate-700 transition-all">
               <ChevronLeft className="w-5 h-5" />
             </button>
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white">
+            <h3 className="text-xl font-bold text-slate-800">
               {MONTHS[calMon]} {calYear}
             </h3>
-            <button onClick={nextMonth} className="p-2 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white hover:border-slate-350 dark:hover:border-slate-700 transition-all">
+            <button onClick={nextMonth} className="p-2 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-slate-950:text-slate-900 hover:border-slate-350:border-slate-700 transition-all">
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
 
           {/* Calendar Grid */}
-          <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
+          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
             {/* Day headers */}
-            <div className="grid grid-cols-7 border-b border-slate-200 dark:border-slate-800">
+            <div className="grid grid-cols-7 border-b border-slate-200">
               {DAYS_SHORT.map(d => (
                 <div key={d} className="py-3 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   {d}
@@ -652,15 +652,15 @@ const WFHManagement = () => {
                   <div
                     key={i}
                     onClick={() => day && setSelectedDay(day === selectedDay ? null : day)}
-                    className={`min-h-[90px] p-2 border-b border-r border-slate-200 dark:border-slate-800/50 transition-all cursor-pointer
-                      ${!day ? 'bg-slate-50 dark:bg-slate-950/30' : 'hover:bg-slate-100/50 dark:hover:bg-slate-800/20'}
-                      ${isToday ? 'bg-indigo-50 dark:bg-indigo-500/5 border-indigo-150 dark:border-indigo-500/20' : ''}
-                      ${isSelected ? 'bg-indigo-50 dark:bg-indigo-500/10 ring-1 ring-indigo-150 dark:ring-indigo-500/30' : ''}`}
+                    className={`min-h-[90px] p-2 border-b border-r border-slate-200 transition-all cursor-pointer
+                      ${!day ? 'bg-slate-50' : 'hover:bg-slate-100/50:bg-slate-800/20'}
+                      ${isToday ? 'bg-[#E8F0FA] border-indigo-150' : ''}
+                      ${isSelected ? 'bg-[#E8F0FA] ring-1 ring-indigo-150' : ''}`}
                   >
                     {day && (
                       <>
                         <span className={`text-xs font-medium inline-flex items-center justify-center w-6 h-6 rounded-full
-                          ${isToday ? 'bg-indigo-500 text-white' : 'text-slate-500 dark:text-slate-400'}`}>
+                          ${isToday ? 'bg-[#004B87] text-slate-900' : 'text-slate-500'}`}>
                           {day}
                         </span>
                         {emps.length > 0 && (
@@ -668,7 +668,7 @@ const WFHManagement = () => {
                             {emps.slice(0, 3).map((emp, j) => (
                               <div
                                 key={j}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold text-white
+                                className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold text-slate-900
                                   ${emp.status === 'approved' ? 'bg-emerald-500/80' : 'bg-amber-500/80'}`}
                                 title={`${emp.name || emp.employee_name} (${emp.status})`}
                               >
@@ -676,7 +676,7 @@ const WFHManagement = () => {
                               </div>
                             ))}
                             {emps.length > 3 && (
-                              <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[9px] font-medium text-slate-650 dark:text-slate-300">
+                              <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-[9px] font-medium text-slate-650">
                                 +{emps.length - 3}
                               </div>
                             )}
@@ -698,26 +698,26 @@ const WFHManagement = () => {
 
           {/* Selected day detail */}
           {selectedDay && (
-            <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm dark:shadow-none animate-fade-in">
-              <div className="px-6 py-4 border-b border-slate-250 dark:border-slate-800 flex items-center justify-between">
-                <h4 className="text-slate-900 dark:text-white font-semibold text-sm flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-indigo-400" />
+            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm animate-fade-in">
+              <div className="px-6 py-4 border-b border-slate-250 flex items-center justify-between">
+                <h4 className="text-slate-900 font-semibold text-sm flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-[#0062B1]" />
                   {MONTHS[calMon]} {selectedDay}, {calYear}
                 </h4>
-                <button onClick={() => setSelectedDay(null)} className="text-slate-500 hover:text-white transition-colors">
+                <button onClick={() => setSelectedDay(null)} className="text-slate-500 hover:text-slate-900 transition-colors">
                   <X className="w-4 h-4" />
                 </button>
               </div>
-              <div className="divide-y divide-slate-200 dark:divide-slate-800/50 max-h-[300px] overflow-y-auto">
+              <div className="divide-y divide-slate-200 max-h-[300px] overflow-y-auto">
                 {getDayEmployees(selectedDay).length === 0 ? (
                   <div className="py-10 text-center text-slate-500 text-sm">No WFH employees on this day</div>
                 ) : (
                   getDayEmployees(selectedDay).map((emp, i) => (
-                    <div key={i} className="px-6 py-3 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                    <div key={i} className="px-6 py-3 flex items-center justify-between hover:bg-slate-50:bg-slate-800/30 transition-colors">
                       <div className="flex items-center gap-3">
                         {avatar(emp.name || emp.employee_name)}
                         <div>
-                          <p className="text-sm font-medium text-slate-850 dark:text-white">{emp.name || emp.employee_name}</p>
+                          <p className="text-sm font-medium text-slate-850">{emp.name || emp.employee_name}</p>
                           <p className="text-xs text-slate-500">{emp.email || emp.employee_email}</p>
                         </div>
                       </div>
@@ -746,14 +746,14 @@ const WFHManagement = () => {
                 placeholder="Search employees…"
                 value={policySearch}
                 onChange={e => setPolicySearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 dark:placeholder:text-slate-650 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/20 transition-all"
+                className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm placeholder:text-slate-400:text-slate-650 focus:outline-none focus:border-[#004B87]/50 focus:ring-1 focus:ring-[#004B87]/20 transition-all"
               />
             </div>
             {Object.keys(policyChanges).length > 0 && (
               <button
                 onClick={savePolicies}
                 disabled={savingPolicy}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/30 transition-all disabled:opacity-50"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#004B87] to-purple-600 text-slate-900 text-sm font-medium shadow-lg shadow-[#004B87]/20 hover:shadow-[#004B87]/30 transition-all disabled:opacity-50"
               >
                 {savingPolicy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Save Changes ({Object.keys(policyChanges).length})
@@ -775,16 +775,16 @@ const WFHManagement = () => {
           </div>
 
           {/* Policy Table */}
-          <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
+          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
             {/* Header */}
-            <div className="hidden md:grid md:grid-cols-12 gap-4 px-6 py-3.5 border-b border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-550 dark:text-slate-500 uppercase tracking-wider">
+            <div className="hidden md:grid md:grid-cols-12 gap-4 px-6 py-3.5 border-b border-slate-200 text-xs font-semibold text-slate-550 uppercase tracking-wider">
               <div className="col-span-4">Employee</div>
               <div className="col-span-4">WFH Type</div>
               <div className="col-span-2">Days / Month</div>
               <div className="col-span-2 text-right">Status</div>
             </div>
 
-            <div className="divide-y divide-slate-200 dark:divide-slate-800/50 max-h-[550px] overflow-y-auto">
+            <div className="divide-y divide-slate-200 max-h-[550px] overflow-y-auto">
               {filteredPolicies.length === 0 ? (
                 <div className="py-16 text-center text-slate-500">
                   <Users className="w-10 h-10 mx-auto mb-3 opacity-30" />
@@ -800,22 +800,22 @@ const WFHManagement = () => {
                   return (
                     <div
                       key={emp.email}
-                      className={`grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-all\n                        ${hasChange ? 'bg-indigo-50 dark:bg-indigo-500/5 border-l-2 border-l-indigo-500' : ''}`}
+                      className={`grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-slate-50:bg-slate-800/20 transition-all\n                        ${hasChange ? 'bg-[#E8F0FA] border-l-2 border-l-[#004B87]' : ''}`}
                     >
                       {/* Employee */}
                       <div className="col-span-4 flex items-center gap-3">
                         {avatar(emp.name)}
                         <div>
-                          <p className="text-sm font-medium text-slate-850 dark:text-white">{emp.name}</p>
+                          <p className="text-sm font-medium text-slate-850">{emp.name}</p>
                           <p className="text-xs text-slate-500">{emp.email}</p>
                         </div>
                       </div>
 
                       {/* WFH Type Toggle */}
                       <div className="col-span-4">
-                        <div className="flex gap-1 p-0.5 bg-slate-100 dark:bg-slate-800/60 rounded-xl w-fit border border-slate-200/50 dark:border-transparent">
+                        <div className="flex gap-1 p-0.5 bg-slate-100 rounded-xl w-fit border border-slate-200/50">
                           {[
-                            { value: 'office', label: 'Office', icon: Building2, color: 'text-slate-700 dark:text-slate-300' },
+                            { value: 'office', label: 'Office', icon: Building2, color: 'text-slate-700' },
                             { value: 'hybrid', label: 'Hybrid', icon: RefreshCw, color: 'text-sky-400' },
                             { value: 'permanent_wfh', label: 'WFH', icon: Home, color: 'text-emerald-400' },
                           ].map(opt => {
@@ -827,8 +827,8 @@ const WFHManagement = () => {
                                 onClick={() => handlePolicyChange(emp.email, 'wfh_type', opt.value)}
                                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200
                                   ${active
-                                    ? `bg-white dark:bg-slate-700 ${opt.color} shadow-sm`
-                                    : 'text-slate-500 hover:text-slate-900 dark:hover:text-slate-300'}`}
+                                    ? `bg-white ${opt.color} shadow-sm`
+                                    : 'text-slate-500 hover:text-slate-900:text-slate-300'}`}
                               >
                                 <Icon className="w-3.5 h-3.5" />
                                 {opt.label}
@@ -848,7 +848,7 @@ const WFHManagement = () => {
                             value={currentDays}
                             onChange={e => handlePolicyChange(emp.email, 'allowed_days_per_month', parseInt(e.target.value) || 0)}
                             disabled={currentType === 'office' || currentType === 'permanent_wfh'}
-                            className="w-16 px-2 py-1.5 rounded-lg bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm text-center focus:outline-none focus:border-indigo-500/50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                            className="w-16 px-2 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-900 text-sm text-center focus:outline-none focus:border-[#004B87]/50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                           />
                           <span className="text-xs text-slate-500">days</span>
                         </div>
@@ -857,7 +857,7 @@ const WFHManagement = () => {
                       {/* Change indicator */}
                       <div className="col-span-2 text-right">
                         {hasChange ? (
-                          <span className="inline-flex items-center gap-1 text-[11px] text-indigo-650 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-150 dark:border-indigo-500/20">
+                          <span className="inline-flex items-center gap-1 text-[11px] text-indigo-650 bg-[#E8F0FA] px-2 py-0.5 rounded-full border border-indigo-150">
                             <AlertCircle className="w-3 h-3" />
                             Modified
                           </span>
@@ -878,13 +878,13 @@ const WFHManagement = () => {
       {rejectModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setRejectModal(null)} />
-          <div className="relative w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-6 animate-scale-in">
+          <div className="relative w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-2xl p-6 animate-scale-in">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center">
                 <XCircle className="w-5 h-5 text-rose-400" />
               </div>
               <div>
-                <h3 className="text-slate-900 dark:text-white font-semibold">Reject WFH Request</h3>
+                <h3 className="text-slate-900 font-semibold">Reject WFH Request</h3>
                 <p className="text-slate-500 text-xs">Provide a reason for rejection</p>
               </div>
             </div>
@@ -893,19 +893,19 @@ const WFHManagement = () => {
               onChange={e => setRejectReason(e.target.value)}
               placeholder="Enter rejection reason…"
               rows={3}
-              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 dark:placeholder:text-slate-650 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/20 resize-none transition-all"
+              className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm placeholder:text-slate-400:text-slate-650 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/20 resize-none transition-all"
             />
             <div className="flex justify-end gap-3 mt-4">
               <button
                 onClick={() => setRejectModal(null)}
-                className="px-4 py-2 rounded-xl text-sm text-slate-500 dark:text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-700 transition-all"
+                className="px-4 py-2 rounded-xl text-sm text-slate-500 hover:text-slate-900 hover:bg-slate-800 border border-slate-700 transition-all"
               >
                 Cancel
               </button>
               <button
                 onClick={handleReject}
                 disabled={!rejectReason.trim() || !!actionLoading[rejectModal]}
-                className="flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-white text-sm font-medium shadow-lg shadow-rose-500/20 transition-all disabled:opacity-50"
+                className="flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-slate-900 text-sm font-medium shadow-lg shadow-rose-500/20 transition-all disabled:opacity-50"
               >
                 {actionLoading[rejectModal] === 'reject'
                   ? <Loader2 className="w-4 h-4 animate-spin" />

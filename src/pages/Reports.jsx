@@ -189,25 +189,25 @@ const Reports = () => {
     };
 
     const StatCard = ({ icon: Icon, label, value, color, sub }) => (
-        <div className="bg-white dark:bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 hover:border-slate-300 dark:border-slate-700 transition-all">
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 hover:border-slate-300 transition-all">
             <div className="flex items-center gap-3 mb-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}>
                     <Icon size={20} />
                 </div>
-                <span className="text-sm text-slate-500 dark:text-slate-400">{label}</span>
+                <span className="text-sm text-slate-500">{label}</span>
             </div>
-            <p className="text-2xl font-bold text-slate-900 dark:text-white">{value}</p>
-            {sub && <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{sub}</p>}
+            <p className="text-2xl font-bold text-slate-900">{value}</p>
+            {sub && <p className="text-xs text-slate-500 mt-1">{sub}</p>}
         </div>
     );
 
     const ChartContainer = ({ title, children, icon: Icon }) => (
-        <div className="bg-white dark:bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+        <div className="bg-white border border-slate-200 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-8 rounded-lg bg-primary-500/10 flex items-center justify-center text-primary-400">
                     <Icon size={18} />
                 </div>
-                <h3 className="font-semibold text-slate-900 dark:text-white">{title}</h3>
+                <h3 className="font-semibold text-slate-900">{title}</h3>
             </div>
             <div className="h-[300px] w-full">
                 {children}
@@ -219,8 +219,8 @@ const Reports = () => {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Reports & Analytics</h1>
-                    <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Enterprise intelligence dashboard</p>
+                    <h1 className="text-2xl font-bold text-slate-900">Reports & Analytics</h1>
+                    <p className="text-slate-500 text-sm mt-1">Enterprise intelligence dashboard</p>
                 </div>
                 <div className="flex gap-3">
                     <button onClick={() => {
@@ -233,7 +233,7 @@ const Reports = () => {
                         } else if (activeTab === 'wfh') {
                             fetchWfhReport();
                         }
-                    }} className="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-300 dark:border-slate-700 font-medium">
+                    }} className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-600 rounded-xl hover:bg-slate-200:bg-slate-700 transition-all border border-slate-300 font-medium">
                         <Activity size={16} /> Refresh
                     </button>
                     <button onClick={activeTab === 'wfh' ? exportWfhCSV : exportCSV} className="flex items-center gap-2 px-4 py-2 bg-emerald-600/20 text-emerald-400 rounded-xl hover:bg-emerald-600/30 transition-all border border-emerald-500/20 font-medium">
@@ -242,14 +242,14 @@ const Reports = () => {
                 </div>
             </div>
 
-            <div className="flex gap-2 bg-white dark:bg-white dark:bg-slate-900/50 p-1 rounded-xl border border-slate-200 dark:border-slate-800 w-fit">
+            <div className="flex gap-2 bg-white p-1 rounded-xl border border-slate-200 w-fit">
                 {['analytics', 'attendance', 'leaves', 'expenses', 'wfh', 'individual'].map(tab => (
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`px-5 py-2 rounded-lg text-sm font-medium transition-all capitalize ${activeTab === tab
                             ? 'bg-primary-600/20 text-primary-400 border border-primary-500/30'
-                            : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white'
+                            : 'text-slate-500 hover:text-slate-900'
                             }`}
                     >
                         {tab === 'individual' ? 'Individual Report' : tab === 'wfh' ? 'WFH Report' : tab}
@@ -257,22 +257,22 @@ const Reports = () => {
                 ))}
             </div>
 
-            <div className="flex gap-4 items-end bg-white dark:bg-slate-900/30 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+            <div className="flex gap-4 items-end bg-white p-4 rounded-2xl border border-slate-200">
                 <div className="flex-1">
-                    <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block font-medium">Start Date</label>
+                    <label className="text-xs text-slate-500 mb-1 block font-medium">Start Date</label>
                     <input type="date" value={filters.startDate} onChange={e => setFilters({ ...filters, startDate: e.target.value })}
-                        className="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-primary-500 outline-none" />
+                        className="w-full bg-slate-100 text-slate-900 text-sm px-3 py-2 rounded-lg border border-slate-300 focus:border-primary-500 outline-none" />
                 </div>
                 <div className="flex-1">
-                    <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block font-medium">End Date</label>
+                    <label className="text-xs text-slate-500 mb-1 block font-medium">End Date</label>
                     <input type="date" value={filters.endDate} onChange={e => setFilters({ ...filters, endDate: e.target.value })}
-                        className="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-primary-500 outline-none" />
+                        className="w-full bg-slate-100 text-slate-900 text-sm px-3 py-2 rounded-lg border border-slate-300 focus:border-primary-500 outline-none" />
                 </div>
                 {activeTab === 'attendance' && (
                     <div className="flex-1">
-                        <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block font-medium">Employee Type</label>
+                        <label className="text-xs text-slate-500 mb-1 block font-medium">Employee Type</label>
                         <select value={filters.employeeType} onChange={e => setFilters({ ...filters, employeeType: e.target.value })}
-                            className="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-primary-500 outline-none">
+                            className="w-full bg-slate-100 text-slate-900 text-sm px-3 py-2 rounded-lg border border-slate-300 focus:border-primary-500 outline-none">
                             <option value="">All Types</option>
                             <option value="desk">Desk</option>
                             <option value="field">Field</option>
@@ -281,9 +281,9 @@ const Reports = () => {
                 )}
                 {activeTab === 'wfh' && (
                     <div className="flex-1">
-                        <label className="text-xs text-slate-500 dark:text-slate-400 mb-1 block font-medium">Employee Email</label>
+                        <label className="text-xs text-slate-500 mb-1 block font-medium">Employee Email</label>
                         <select value={selectedWfhEmployee} onChange={e => setSelectedWfhEmployee(e.target.value)}
-                            className="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-sm px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-primary-500 outline-none">
+                            className="w-full bg-slate-100 text-slate-900 text-sm px-3 py-2 rounded-lg border border-slate-300 focus:border-primary-500 outline-none">
                             <option value="">All WFH Employees</option>
                             {employees.filter(emp => emp.employee_type === 'wfh').map(emp => (
                                 <option key={emp._id} value={emp.email}>{emp.full_name} ({emp.email})</option>
@@ -296,7 +296,7 @@ const Reports = () => {
                     else if (activeTab === 'leaves') fetchLeaveReport();
                     else if (activeTab === 'wfh') fetchWfhReport();
                     else fetchPerformanceReport();
-                }} className="px-5 py-2 bg-primary-600 text-slate-900 dark:text-white rounded-lg hover:bg-primary-500 transition-all text-sm font-medium font-outfit">
+                }} className="px-5 py-2 bg-primary-600 text-slate-900 rounded-lg hover:bg-primary-500 transition-all text-sm font-medium font-outfit">
                     Apply Filter
                 </button>
             </div>
@@ -333,15 +333,15 @@ const Reports = () => {
                                 <AreaChart data={trendData}>
                                     <defs>
                                         <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} />
-                                            <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
+                                            <stop offset="5%" stopColor="#004B87" stopOpacity={0.3} />
+                                            <stop offset="95%" stopColor="#004B87" stopOpacity={0} />
                                         </linearGradient>
                                     </defs>
                                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
                                     <XAxis dataKey="date" stroke="#64748b" fontSize={10} tickFormatter={(str) => str.split('-').slice(1).join('/')} />
                                     <YAxis stroke="#64748b" fontSize={12} />
                                     <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', borderRadius: '8px' }} />
-                                    <Area type="monotone" dataKey="visits" stroke="#8b5cf6" fillOpacity={1} fill="url(#colorVisits)" />
+                                    <Area type="monotone" dataKey="visits" stroke="#004B87" fillOpacity={1} fill="url(#colorVisits)" />
                                 </AreaChart>
                             </ResponsiveContainer>
                         </ChartContainer>
@@ -356,10 +356,10 @@ const Reports = () => {
                                     ].map((item, i) => (
                                         <div key={i} className="space-y-2">
                                             <div className="flex justify-between text-sm">
-                                                <span className="text-slate-500 dark:text-slate-400">{item.label}</span>
-                                                <span className="text-slate-900 dark:text-white font-medium">{item.value}</span>
+                                                <span className="text-slate-500">{item.label}</span>
+                                                <span className="text-slate-900 font-medium">{item.value}</span>
                                             </div>
-                                            <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                                            <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                                                 <div className={`${item.color} h-full transition-all duration-1000`} style={{ width: `${item.percent}%` }} />
                                             </div>
                                         </div>
@@ -401,27 +401,27 @@ const Reports = () => {
                         <StatCard icon={Users} label="Unique Employees" value={attendanceData.summary?.unique_employees || 0} color="bg-purple-500/20 text-purple-400" />
                     </div>
 
-                    <div className="bg-white dark:bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
+                    <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm">
                                 <thead>
-                                    <tr className="border-b border-slate-200 dark:border-slate-800">
-                                        <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium">Employee</th>
-                                        <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium">Type</th>
-                                        <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium">Action</th>
-                                        <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium">Timestamp</th>
-                                        <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium">Method</th>
+                                    <tr className="border-b border-slate-200">
+                                        <th className="text-left p-4 text-slate-500 font-medium">Employee</th>
+                                        <th className="text-left p-4 text-slate-500 font-medium">Type</th>
+                                        <th className="text-left p-4 text-slate-500 font-medium">Action</th>
+                                        <th className="text-left p-4 text-slate-500 font-medium">Timestamp</th>
+                                        <th className="text-left p-4 text-slate-500 font-medium">Method</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {loading ? (
-                                        <tr><td colSpan={5} className="p-8 text-center text-slate-500 dark:text-slate-400">Loading...</td></tr>
+                                        <tr><td colSpan={5} className="p-8 text-center text-slate-500">Loading...</td></tr>
                                     ) : attendanceData.records?.length === 0 ? (
-                                        <tr><td colSpan={5} className="p-8 text-center text-slate-500 dark:text-slate-400">No records found for selected filters</td></tr>
+                                        <tr><td colSpan={5} className="p-8 text-center text-slate-500">No records found for selected filters</td></tr>
                                     ) : (
                                         attendanceData.records?.slice(0, 50).map((log, i) => (
-                                            <tr key={i} className="border-b border-slate-200 dark:border-slate-200 dark:border-slate-800/50 hover:bg-slate-100 dark:bg-slate-800/30 transition-colors">
-                                                <td className="p-4 text-slate-900 dark:text-white font-medium">{log.full_name}</td>
+                                            <tr key={i} className="border-b border-slate-200 hover:bg-slate-100 transition-colors">
+                                                <td className="p-4 text-slate-900 font-medium">{log.full_name}</td>
                                                 <td className="p-4">
                                                     <span className={`px-2 py-1 rounded-lg text-xs font-medium ${log.employee_type === 'field' ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/20 text-blue-400'}`}>
                                                         {log.employee_type || 'desk'}
@@ -432,8 +432,8 @@ const Reports = () => {
                                                         {log.type}
                                                     </span>
                                                 </td>
-                                                <td className="p-4 text-slate-600 dark:text-slate-300">{new Date(log.timestamp).toLocaleString()}</td>
-                                                <td className="p-4 text-slate-500 dark:text-slate-400">{log.check_in_method || '—'}</td>
+                                                <td className="p-4 text-slate-600">{new Date(log.timestamp).toLocaleString()}</td>
+                                                <td className="p-4 text-slate-500">{log.check_in_method || '—'}</td>
                                             </tr>
                                         ))
                                     )}
@@ -462,7 +462,7 @@ const Reports = () => {
                                         cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value"
                                     >
                                         {leaveData.distribution.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'][index % 5]} />
+                                            <Cell key={`cell-${index}`} fill={['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#004B87'][index % 5]} />
                                         ))}
                                     </Pie>
                                     <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', borderRadius: '8px' }} />
@@ -500,17 +500,17 @@ const Reports = () => {
                         <StatCard icon={Clock} label="Pending" value={expenseData.by_status?.pending || 0} color="bg-amber-500/20 text-amber-400" sub={`₹${(expenseData.pending_amount || 0).toLocaleString()}`} />
                         <StatCard icon={XCircle} label="Rejected" value={expenseData.by_status?.rejected || 0} color="bg-rose-500/20 text-rose-400" sub={`₹${(expenseData.rejected_amount || 0).toLocaleString()}`} />
                     </div>
-                    <div className="bg-white dark:bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 text-center">
+                    <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center">
                         <TrendingUp size={48} className="mx-auto text-slate-600 mb-4" />
-                        <p className="text-slate-500 dark:text-slate-400 font-medium">Detailed expense analytics coming soon</p>
-                        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Visit logs and expense trends are being integrated for deep insights.</p>
+                        <p className="text-slate-500 font-medium">Detailed expense analytics coming soon</p>
+                        <p className="text-slate-500 text-sm mt-1">Visit logs and expense trends are being integrated for deep insights.</p>
                     </div>
                 </div>
             )}
             {activeTab === 'wfh' && (
                 <div className="space-y-6">
                     {/* WFH Subtab selectors */}
-                    <div className="flex gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+                    <div className="flex gap-2 border-b border-slate-200 pb-3">
                         {[
                             { id: 'productivity', label: 'Productivity Report' },
                             { id: 'app-usage', label: 'App Usage Analytics' },
@@ -521,8 +521,8 @@ const Reports = () => {
                                 key={sub.id}
                                 onClick={() => setWfhReportType(sub.id)}
                                 className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wide uppercase transition-all ${wfhReportType === sub.id
-                                    ? 'bg-primary-500 text-slate-900 dark:text-white shadow-lg shadow-primary-500/20'
-                                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700'
+                                    ? 'bg-primary-500 text-slate-900 shadow-lg shadow-primary-500/20'
+                                    : 'text-slate-500 hover:text-slate-900 bg-white border border-slate-200 hover:border-slate-300'
                                 }`}
                             >
                                 {sub.label}
@@ -530,39 +530,39 @@ const Reports = () => {
                         ))}
                     </div>
 
-                    <div className="bg-white dark:bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden backdrop-blur-xl">
+                    <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden backdrop-blur-xl">
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm">
                                 {wfhReportType === 'productivity' && (
                                     <>
                                         <thead>
-                                            <tr className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/30">
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Date</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Employee</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Check-in</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Check-out</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Active Time</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Score (Client)</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Score (Verified)</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Face Checks</th>
+                                            <tr className="border-b border-slate-200 bg-white">
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Date</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Employee</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Check-in</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Check-out</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Active Time</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Score (Client)</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Score (Verified)</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Face Checks</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {loading ? (
-                                                <tr><td colSpan={8} className="p-8 text-center text-slate-500 dark:text-slate-400 font-outfit">Loading...</td></tr>
+                                                <tr><td colSpan={8} className="p-8 text-center text-slate-500 font-outfit">Loading...</td></tr>
                                             ) : wfhData.length === 0 ? (
-                                                <tr><td colSpan={8} className="p-8 text-center text-slate-500 dark:text-slate-400 font-outfit">No productivity records found for selected filters</td></tr>
+                                                <tr><td colSpan={8} className="p-8 text-center text-slate-500 font-outfit">No productivity records found for selected filters</td></tr>
                                             ) : (
                                                 wfhData.map((row, i) => (
-                                                    <tr key={i} className="border-b border-slate-200 dark:border-slate-200 dark:border-slate-800/50 hover:bg-slate-100 dark:bg-slate-800/20 transition-all">
-                                                        <td className="p-4 text-slate-600 dark:text-slate-300 font-medium font-outfit">{row.date}</td>
+                                                    <tr key={i} className="border-b border-slate-200 hover:bg-slate-100 transition-all">
+                                                        <td className="p-4 text-slate-600 font-medium font-outfit">{row.date}</td>
                                                         <td className="p-4">
-                                                            <p className="text-slate-900 dark:text-white font-medium font-outfit">{row.employee_name}</p>
-                                                            <p className="text-xs text-slate-500 dark:text-slate-400">{row.employee_email}</p>
+                                                            <p className="text-slate-900 font-medium font-outfit">{row.employee_name}</p>
+                                                            <p className="text-xs text-slate-500">{row.employee_email}</p>
                                                         </td>
-                                                        <td className="p-4 text-slate-500 dark:text-slate-400 font-outfit">{row.check_in_time ? new Date(row.check_in_time).toLocaleTimeString() : '—'}</td>
-                                                        <td className="p-4 text-slate-500 dark:text-slate-400 font-outfit">{row.check_out_time ? new Date(row.check_out_time).toLocaleTimeString() : '—'}</td>
-                                                        <td className="p-4 text-slate-600 dark:text-slate-300 font-outfit">{row.duration_hours} hrs</td>
+                                                        <td className="p-4 text-slate-500 font-outfit">{row.check_in_time ? new Date(row.check_in_time).toLocaleTimeString() : '—'}</td>
+                                                        <td className="p-4 text-slate-500 font-outfit">{row.check_out_time ? new Date(row.check_out_time).toLocaleTimeString() : '—'}</td>
+                                                        <td className="p-4 text-slate-600 font-outfit">{row.duration_hours} hrs</td>
                                                         <td className="p-4">
                                                             <span className={`px-2.5 py-1 rounded-lg text-xs font-bold font-outfit ${
                                                                 row.productivity_score >= 70 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
@@ -581,7 +581,7 @@ const Reports = () => {
                                                                 {row.verified_productivity_score}%
                                                             </span>
                                                         </td>
-                                                        <td className="p-4 text-slate-600 dark:text-slate-300 font-outfit">
+                                                        <td className="p-4 text-slate-600 font-outfit">
                                                             {row.face_check_passed} / {row.face_check_count}
                                                         </td>
                                                     </tr>
@@ -594,36 +594,36 @@ const Reports = () => {
                                 {wfhReportType === 'app-usage' && (
                                     <>
                                         <thead>
-                                            <tr className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/30">
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Employee</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Application</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Classification</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Total Usage</th>
+                                            <tr className="border-b border-slate-200 bg-white">
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Employee</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Application</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Classification</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Total Usage</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {loading ? (
-                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 dark:text-slate-400 font-outfit">Loading...</td></tr>
+                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 font-outfit">Loading...</td></tr>
                                             ) : wfhData.length === 0 ? (
-                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 dark:text-slate-400 font-outfit">No app usage logs found for selected filters</td></tr>
+                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 font-outfit">No app usage logs found for selected filters</td></tr>
                                             ) : (
                                                 wfhData.map((row, i) => (
-                                                    <tr key={i} className="border-b border-slate-200 dark:border-slate-200 dark:border-slate-800/50 hover:bg-slate-100 dark:bg-slate-800/20 transition-all">
+                                                    <tr key={i} className="border-b border-slate-200 hover:bg-slate-100 transition-all">
                                                         <td className="p-4">
-                                                            <p className="text-slate-900 dark:text-white font-medium font-outfit">{row.employee_name}</p>
-                                                            <p className="text-xs text-slate-500 dark:text-slate-400">{row.employee_email}</p>
+                                                            <p className="text-slate-900 font-medium font-outfit">{row.employee_name}</p>
+                                                            <p className="text-xs text-slate-500">{row.employee_email}</p>
                                                         </td>
-                                                        <td className="p-4 text-slate-900 dark:text-white font-semibold font-outfit">{row.app_name}</td>
+                                                        <td className="p-4 text-slate-900 font-semibold font-outfit">{row.app_name}</td>
                                                         <td className="p-4">
                                                             <span className={`px-2 py-1 rounded-lg text-xs font-semibold font-outfit ${
                                                                 row.category?.toLowerCase() === 'productive' ? 'bg-emerald-500/20 text-emerald-400' :
-                                                                row.category?.toLowerCase() === 'neutral' ? 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' :
+                                                                row.category?.toLowerCase() === 'neutral' ? 'bg-slate-100 text-slate-500' :
                                                                 'bg-rose-500/20 text-rose-400'
                                                             }`}>
                                                                 {row.category}
                                                             </span>
                                                         </td>
-                                                        <td className="p-4 text-slate-600 dark:text-slate-300 font-bold font-outfit">{row.total_minutes} mins</td>
+                                                        <td className="p-4 text-slate-600 font-bold font-outfit">{row.total_minutes} mins</td>
                                                     </tr>
                                                 ))
                                             )}
@@ -634,27 +634,27 @@ const Reports = () => {
                                 {wfhReportType === 'attendance' && (
                                     <>
                                         <thead>
-                                            <tr className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/30">
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Employee</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Total WFH Sessions</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Cumulative Hours</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Average Productivity</th>
+                                            <tr className="border-b border-slate-200 bg-white">
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Employee</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Total WFH Sessions</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Cumulative Hours</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Average Productivity</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {loading ? (
-                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 dark:text-slate-400 font-outfit">Loading...</td></tr>
+                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 font-outfit">Loading...</td></tr>
                                             ) : wfhData.length === 0 ? (
-                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 dark:text-slate-400 font-outfit">No attendance summaries found for selected filters</td></tr>
+                                                <tr><td colSpan={4} className="p-8 text-center text-slate-500 font-outfit">No attendance summaries found for selected filters</td></tr>
                                             ) : (
                                                 wfhData.map((row, i) => (
-                                                    <tr key={i} className="border-b border-slate-200 dark:border-slate-200 dark:border-slate-800/50 hover:bg-slate-100 dark:bg-slate-800/20 transition-all">
+                                                    <tr key={i} className="border-b border-slate-200 hover:bg-slate-100 transition-all">
                                                         <td className="p-4">
-                                                            <p className="text-slate-900 dark:text-white font-medium font-outfit">{row.employee_name}</p>
-                                                            <p className="text-xs text-slate-500 dark:text-slate-400">{row.employee_email}</p>
+                                                            <p className="text-slate-900 font-medium font-outfit">{row.employee_name}</p>
+                                                            <p className="text-xs text-slate-500">{row.employee_email}</p>
                                                         </td>
-                                                        <td className="p-4 text-slate-600 dark:text-slate-300 font-medium font-outfit">{row.total_sessions} sessions</td>
-                                                        <td className="p-4 text-slate-600 dark:text-slate-300 font-bold font-outfit">{row.total_duration_hours} hrs</td>
+                                                        <td className="p-4 text-slate-600 font-medium font-outfit">{row.total_sessions} sessions</td>
+                                                        <td className="p-4 text-slate-600 font-bold font-outfit">{row.total_duration_hours} hrs</td>
                                                         <td className="p-4 font-outfit">
                                                             <span className={`px-2.5 py-1 rounded-lg text-xs font-bold font-outfit ${
                                                                 row.average_productivity_score >= 70 ? 'bg-emerald-500/10 text-emerald-400' :
@@ -674,29 +674,29 @@ const Reports = () => {
                                 {wfhReportType === 'screenshots' && (
                                     <>
                                         <thead>
-                                            <tr className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/30">
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Timestamp</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Employee</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Active Application</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Active Window</th>
-                                                <th className="text-left p-4 text-slate-500 dark:text-slate-400 font-medium font-outfit">Status</th>
+                                            <tr className="border-b border-slate-200 bg-white">
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Timestamp</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Employee</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Active Application</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Active Window</th>
+                                                <th className="text-left p-4 text-slate-500 font-medium font-outfit">Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {loading ? (
-                                                <tr><td colSpan={5} className="p-8 text-center text-slate-500 dark:text-slate-400 font-outfit">Loading...</td></tr>
+                                                <tr><td colSpan={5} className="p-8 text-center text-slate-500 font-outfit">Loading...</td></tr>
                                             ) : wfhData.length === 0 ? (
-                                                <tr><td colSpan={5} className="p-8 text-center text-slate-500 dark:text-slate-400 font-outfit">No screenshots log found for selected filters</td></tr>
+                                                <tr><td colSpan={5} className="p-8 text-center text-slate-500 font-outfit">No screenshots log found for selected filters</td></tr>
                                             ) : (
                                                 wfhData.map((row, i) => (
-                                                    <tr key={i} className="border-b border-slate-200 dark:border-slate-200 dark:border-slate-800/50 hover:bg-slate-100 dark:bg-slate-800/20 transition-all">
-                                                        <td className="p-4 text-slate-500 dark:text-slate-400 font-outfit">{new Date(row.timestamp).toLocaleString()}</td>
+                                                    <tr key={i} className="border-b border-slate-200 hover:bg-slate-100 transition-all">
+                                                        <td className="p-4 text-slate-500 font-outfit">{new Date(row.timestamp).toLocaleString()}</td>
                                                         <td className="p-4">
-                                                            <p className="text-slate-900 dark:text-white font-medium font-outfit">{row.employee_name}</p>
-                                                            <p className="text-xs text-slate-500 dark:text-slate-400">{row.employee_email}</p>
+                                                            <p className="text-slate-900 font-medium font-outfit">{row.employee_name}</p>
+                                                            <p className="text-xs text-slate-500">{row.employee_email}</p>
                                                         </td>
-                                                        <td className="p-4 text-slate-900 dark:text-white font-semibold font-outfit">{row.active_app}</td>
-                                                        <td className="p-4 text-slate-500 dark:text-slate-400 font-outfit truncate max-w-[200px]" title={row.active_window}>{row.active_window}</td>
+                                                        <td className="p-4 text-slate-900 font-semibold font-outfit">{row.active_app}</td>
+                                                        <td className="p-4 text-slate-500 font-outfit truncate max-w-[200px]" title={row.active_window}>{row.active_window}</td>
                                                         <td className="p-4 font-outfit">
                                                             {row.flagged ? (
                                                                 <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-xs font-bold" title={row.flag_reason}>
@@ -726,12 +726,12 @@ const Reports = () => {
                         <div className="w-16 h-16 bg-primary-500/10 rounded-2xl flex items-center justify-center text-primary-400 mx-auto">
                             <Users size={32} />
                         </div>
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Find Employee Report</h2>
-                        <p className="text-slate-500 dark:text-slate-400">Search by name or email to view detailed monthly activity</p>
+                        <h2 className="text-xl font-bold text-slate-900">Find Employee Report</h2>
+                        <p className="text-slate-500">Search by name or email to view detailed monthly activity</p>
                     </div>
 
                     <div className="relative group">
-                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 dark:text-slate-400 group-focus-within:text-primary-400 transition-colors">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-primary-400 transition-colors">
                             <Search size={20} />
                         </div>
                         <input
@@ -739,7 +739,7 @@ const Reports = () => {
                             placeholder="Type employee name or email..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-2xl py-4 pl-12 pr-4 text-slate-900 dark:text-white focus:border-primary-500 outline-none transition-all shadow-xl group-hover:border-slate-600"
+                            className="w-full bg-white border border-slate-300 rounded-2xl py-4 pl-12 pr-4 text-slate-900 focus:border-primary-500 outline-none transition-all shadow-xl group-hover:border-slate-600"
                         />
                     </div>
 
@@ -752,36 +752,36 @@ const Reports = () => {
                                         setSelectedEmployee(emp);
                                         setIsReportModalOpen(true);
                                     }}
-                                    className="w-full flex items-center justify-between p-4 bg-white dark:bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-100 dark:bg-slate-800/50 hover:border-slate-300 dark:border-slate-700 transition-all group"
+                                    className="w-full flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:border-slate-300 transition-all group"
                                 >
                                     <div className="flex items-center gap-4 text-left">
-                                        <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 font-bold">
+                                        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold">
                                             {emp.full_name?.[0]}
                                         </div>
                                         <div>
-                                            <p className="font-semibold text-slate-900 dark:text-white group-hover:text-primary-400 transition-colors">{emp.full_name}</p>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400">{emp.email}</p>
+                                            <p className="font-semibold text-slate-900 group-hover:text-primary-400 transition-colors">{emp.full_name}</p>
+                                            <p className="text-xs text-slate-500">{emp.email}</p>
                                         </div>
                                     </div>
                                     <ChevronRight size={20} className="text-slate-600 group-hover:text-primary-400 group-hover:translate-x-1 transition-all" />
                                 </button>
                             ))
                         ) : searchQuery ? (
-                            <div className="text-center py-10 bg-white dark:bg-slate-900/30 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800">
-                                <p className="text-slate-500 dark:text-slate-400">No employees found matching "{searchQuery}"</p>
+                            <div className="text-center py-10 bg-white rounded-2xl border border-dashed border-slate-200">
+                                <p className="text-slate-500">No employees found matching "{searchQuery}"</p>
                             </div>
                         ) : null}
                     </div>
 
                     {!searchQuery && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12 opacity-50">
-                            <div className="p-4 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900/20">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-2">Tip</p>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">Works for both Field and Desk staff automatically.</p>
+                            <div className="p-4 border border-slate-200 rounded-xl bg-white">
+                                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">Tip</p>
+                                <p className="text-sm text-slate-500">Works for both Field and Desk staff automatically.</p>
                             </div>
-                            <div className="p-4 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900/20">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-2">Real-time</p>
-                                <p className="text-sm text-slate-500 dark:text-slate-400">Data reflects instant check-ins and check-outs.</p>
+                            <div className="p-4 border border-slate-200 rounded-xl bg-white">
+                                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">Real-time</p>
+                                <p className="text-sm text-slate-500">Data reflects instant check-ins and check-outs.</p>
                             </div>
                         </div>
                     )}

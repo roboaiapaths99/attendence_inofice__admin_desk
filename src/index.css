@@ -1,4 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --color-logday-blue: #004B87;
+  --color-logday-blue-light: #E8F0FA;
+  --color-logday-blue-hover: #003A6B;
+  --color-logday-blue-muted: #0062B1;
+  --color-logday-red: #D91424;
+  --color-logday-red-light: #FEF2F2;
+
+  --color-primary-50: #E8F0FA;
+  --color-primary-100: #C5D9F0;
+  --color-primary-200: #9BBDE3;
+  --color-primary-300: #6E9FD4;
+  --color-primary-400: #0062B1;
+  --color-primary-500: #004B87;
+  --color-primary-600: #003A6B;
+  --color-primary-700: #002D54;
+  --color-primary-800: #001F3D;
+  --color-primary-900: #001226;
+  --color-primary-950: #000A16;
+}
 
 :root {
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -15,22 +37,74 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #F8FAFC;
+  color: #0F172A;
 }
 
 #root {
   width: 100%;
 }
 
-/* Custom Scrollbar */
+/* Page Transition Animation */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-in {
+  animation: fadeSlideIn 0.35s ease-out;
+}
+
+/* Skeleton Shimmer Loader */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Slide-in for toast notifications */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* Custom Scrollbar — Light Mode */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-200 dark:bg-slate-700 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors;
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
 }

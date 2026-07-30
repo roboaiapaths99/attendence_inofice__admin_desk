@@ -55,7 +55,7 @@ const DOC_TYPE_META = {
     passport:             { icon: Plane,       label: 'Passport', color: 'text-rose-400' },
     class_10_marksheet:   { icon: BookOpen,    label: 'Class 10 Marksheet', color: 'text-amber-400' },
     class_12_marksheet:   { icon: BookOpen,    label: 'Class 12 Marksheet', color: 'text-amber-400' },
-    degree_certificate:   { icon: GraduationCap, label: 'Degree Certificate', color: 'text-indigo-400' },
+    degree_certificate:   { icon: GraduationCap, label: 'Degree Certificate', color: 'text-[#0062B1]' },
     bank_passbook:        { icon: Landmark,    label: 'Bank Passbook', color: 'text-teal-400' },
     salary_slip:          { icon: Receipt,     label: 'Salary Slip', color: 'text-green-400' },
     experience_letter:    { icon: Briefcase,   label: 'Experience Letter', color: 'text-cyan-400' },
@@ -72,19 +72,19 @@ const SOURCE_BADGES = {
     digilocker: {
         label: 'DigiLocker Verified',
         icon: Shield,
-        classes: 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/30 shadow-sm dark:shadow-none',
+        classes: 'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-sm',
         dot: 'bg-emerald-400',
     },
     ocr: {
         label: 'OCR Extracted',
         icon: ScanText,
-        classes: 'bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-500/30 shadow-sm dark:shadow-none',
+        classes: 'bg-amber-50 text-amber-600 border-amber-100 shadow-sm',
         dot: 'bg-amber-400',
     },
     manual: {
         label: 'Manual Upload',
         icon: Upload,
-        classes: 'bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-500/30 shadow-sm dark:shadow-none',
+        classes: 'bg-blue-50 text-blue-600 border-blue-100 shadow-sm',
         dot: 'bg-blue-400',
     },
 };
@@ -93,10 +93,10 @@ const getSourceBadge = (source) => SOURCE_BADGES[source] || SOURCE_BADGES.manual
 
 // ─── Status badges ─────────────────────────────────────────────────────────────
 const STATUS_STYLES = {
-    verified:  'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/25',
-    pending:   'bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-500/25',
-    rejected:  'bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-100 dark:border-rose-500/25',
-    review:    'bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-500/25',
+    verified:  'bg-emerald-50 text-emerald-600 border-emerald-100',
+    pending:   'bg-amber-50 text-amber-600 border-amber-100',
+    rejected:  'bg-rose-50 text-rose-600 border-rose-100',
+    review:    'bg-blue-50 text-blue-600 border-blue-100',
 };
 
 const STATUS_ICONS = {
@@ -120,7 +120,7 @@ const FILTER_TABS = [
 const StatCard = ({ icon: Icon, label, value, color, borderColor, shadowColor, loading }) => {
     const { isDarkMode } = useTheme();
     return (
-        <div className={`relative group bg-white dark:bg-slate-900/50 border ${isDarkMode ? borderColor : 'border-slate-200'} rounded-2xl p-5 shadow-sm dark:shadow-none transition-all duration-300 hover:scale-[1.02] hover:${shadowColor} overflow-hidden`}>
+        <div className={`relative group bg-white border ${isDarkMode ? borderColor : 'border-slate-200'} rounded-2xl p-5 shadow-sm transition-all duration-300 hover:scale-[1.02] hover:${shadowColor} overflow-hidden`}>
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
             <div className="flex items-center justify-between relative">
                 <div>
@@ -128,7 +128,7 @@ const StatCard = ({ icon: Icon, label, value, color, borderColor, shadowColor, l
                     {loading ? (
                         <div className="h-8 w-16 bg-slate-800 rounded-lg animate-pulse" />
                     ) : (
-                        <p className="text-3xl font-black text-white tracking-tight">{value}</p>
+                        <p className="text-3xl font-black text-slate-900 tracking-tight">{value}</p>
                     )}
                 </div>
                 <div className={`p-3 ${color} rounded-2xl`}>
@@ -169,7 +169,7 @@ const EmptyState = ({ title, description, icon: Icon = FileText }) => (
     <div className="flex flex-col items-center justify-center py-20 px-6">
         <div className="relative mb-6">
             <div className="absolute inset-0 bg-primary-500/10 rounded-full blur-2xl scale-150" />
-            <div className="relative p-6 bg-white dark:bg-slate-900/80 rounded-3xl border border-slate-200 dark:border-slate-800/50">
+            <div className="relative p-6 bg-white rounded-3xl border border-slate-200">
                 <Icon size={48} className="text-slate-600" />
             </div>
         </div>
@@ -180,12 +180,12 @@ const EmptyState = ({ title, description, icon: Icon = FileText }) => (
 
 // ─── OCR Data Field ────────────────────────────────────────────────────────────
 const OCRField = ({ label, value, icon: Icon }) => (
-    <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3 border border-slate-200 dark:border-slate-700/50">
+    <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
         <div className="flex items-center gap-2 mb-1">
-            {Icon && <Icon size={12} className="text-amber-600 dark:text-amber-400/70" />}
-            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-450 uppercase tracking-widest">{label}</span>
+            {Icon && <Icon size={12} className="text-amber-600" />}
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{label}</span>
         </div>
-        <p className="text-sm font-semibold text-slate-850 dark:text-white truncate">{value || '—'}</p>
+        <p className="text-sm font-semibold text-slate-850 truncate">{value || '—'}</p>
     </div>
 );
 
@@ -208,16 +208,16 @@ const RejectionModal = ({ isOpen, onClose, onSubmit, loading }) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
-            <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-lg 
-                shadow-2xl shadow-slate-200/50 dark:shadow-black/50 animate-in fade-in zoom-in-95 duration-200">
+            <div className="relative bg-white border border-slate-200 rounded-2xl w-full max-w-lg 
+                shadow-2xl shadow-slate-200/50 animate-in fade-in zoom-in-95 duration-200">
                 {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-800/50">
+                <div className="flex items-center justify-between p-6 border-b border-slate-200">
                     <div className="flex items-center gap-3">
                         <div className="p-2.5 bg-rose-500/15 rounded-xl border border-rose-500/25">
                             <FileX2 size={20} className="text-rose-400" />
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold text-white">Reject Document</h3>
+                            <h3 className="text-lg font-bold text-slate-900">Reject Document</h3>
                             <p className="text-xs text-slate-500">Provide a reason for rejection</p>
                         </div>
                     </div>
@@ -239,8 +239,8 @@ const RejectionModal = ({ isOpen, onClose, onSubmit, loading }) => {
                                     onClick={() => { setSelectedPreset(preset); setReason(preset); }}
                                     className={`text-xs px-3 py-1.5 rounded-lg border transition-all duration-200
                                         ${selectedPreset === preset 
-                                            ? 'bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-500/30' 
-                                            : 'bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-450 border-slate-200 dark:border-slate-700/50 hover:border-slate-350 dark:hover:border-slate-600'}`}
+                                            ? 'bg-rose-50 text-rose-600 border-rose-200' 
+                                            : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-350:border-slate-600'}`}
                                 >
                                     {preset}
                                 </button>
@@ -257,27 +257,27 @@ const RejectionModal = ({ isOpen, onClose, onSubmit, loading }) => {
                             onChange={(e) => { setReason(e.target.value); setSelectedPreset(''); }}
                             placeholder="Enter detailed rejection reason..."
                             rows={3}
-                            className="w-full bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-3 text-sm text-slate-900 dark:text-white
-                                placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-rose-500/30 focus:border-rose-500/50
+                            className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900
+                                placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-500/30 focus:border-rose-500/50
                                 transition-all resize-none"
                         />
                     </div>
                 </div>
 
                 {/* Footer */}
-                <div className="flex items-center justify-end gap-3 p-6 border-t border-slate-200 dark:border-slate-800/50">
+                <div className="flex items-center justify-end gap-3 p-6 border-t border-slate-200">
                     <button
                         onClick={onClose}
-                        className="px-5 py-2.5 text-sm font-bold text-slate-500 hover:text-slate-900 dark:text-slate-450 dark:hover:text-white 
-                            bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700/50 transition-all"
+                        className="px-5 py-2.5 text-sm font-bold text-slate-500 hover:text-slate-900:text-slate-900 
+                            bg-slate-50 hover:bg-slate-100:bg-slate-800 rounded-xl border border-slate-200 transition-all"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={() => onSubmit(reason)}
                         disabled={!reason.trim() || loading}
-                        className="px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-rose-600 to-rose-500 
-                            rounded-xl shadow-lg shadow-rose-500/20 dark:shadow-rose-900/30 hover:shadow-rose-500/30 dark:hover:shadow-rose-900/50 transition-all
+                        className="px-5 py-2.5 text-sm font-bold text-slate-900 bg-gradient-to-r from-rose-600 to-rose-500 
+                            rounded-xl shadow-lg shadow-rose-500/20 hover:shadow-rose-500/30:shadow-rose-900/50 transition-all
                             disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
                     >
                         {loading ? <Loader2 size={16} className="animate-spin" /> : <XCircle size={16} />}
@@ -299,7 +299,7 @@ const ImagePreviewModal = ({ url, onClose }) => {
                 <button onClick={onClose}
                     className="absolute -top-3 -right-3 p-2 bg-slate-800 border border-slate-700 rounded-xl 
                         hover:bg-slate-700 transition-colors z-10 shadow-xl">
-                    <X size={18} className="text-white" />
+                    <X size={18} className="text-slate-900" />
                 </button>
                 <img src={url} alt="Document preview" 
                     className="max-w-full max-h-[85vh] object-contain rounded-2xl border border-slate-700/50 shadow-2xl" />
@@ -318,18 +318,18 @@ const DocumentCard = ({ doc, onVerify, onReject, actionLoading }) => {
 
     return (
         <>
-            <div className={`bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl overflow-hidden
-                transition-all duration-300 hover:border-slate-350 dark:hover:border-slate-700/60 group shadow-sm dark:shadow-none
+            <div className={`bg-white border border-slate-200 rounded-2xl overflow-hidden
+                transition-all duration-300 hover:border-slate-350:border-slate-700/60 group shadow-sm
                 ${isPending ? 'ring-1 ring-amber-500/10' : ''}`}>
                 
                 {/* Card Header */}
-                <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-800/40">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
                     <div className="flex items-center gap-3">
-                        <div className={`p-2.5 bg-slate-100 dark:bg-slate-800/60 rounded-xl ${meta.color}`}>
+                        <div className={`p-2.5 bg-slate-100 rounded-xl ${meta.color}`}>
                             <DocIcon size={18} />
                         </div>
                         <div>
-                            <h4 className="text-sm font-bold text-white">{meta.label}</h4>
+                            <h4 className="text-sm font-bold text-slate-900">{meta.label}</h4>
                             <p className="text-[11px] text-slate-500 mt-0.5">
                                 {doc.file_name || doc.document_type}
                             </p>
@@ -343,7 +343,7 @@ const DocumentCard = ({ doc, onVerify, onReject, actionLoading }) => {
 
                 {/* OCR Side-by-Side View */}
                 {isOCR && doc.ocr_data ? (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800/40">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
                         {/* Document Image */}
                         <div className="p-4">
                             <div className="flex items-center gap-2 mb-3">
@@ -360,12 +360,12 @@ const DocumentCard = ({ doc, onVerify, onReject, actionLoading }) => {
                                     <div className="absolute inset-0 flex items-center justify-center opacity-0 
                                         group-hover/img:opacity-100 transition-opacity">
                                         <div className="p-2.5 bg-black/60 rounded-xl backdrop-blur-sm">
-                                            <ZoomIn size={20} className="text-white" />
+                                            <ZoomIn size={20} className="text-slate-900" />
                                         </div>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="w-full h-48 bg-slate-105 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700/30 
+                                <div className="w-full h-48 bg-slate-105 rounded-xl border border-slate-200 
                                     flex items-center justify-center">
                                     <FileText size={32} className="text-slate-700" />
                                 </div>
@@ -444,12 +444,12 @@ const DocumentCard = ({ doc, onVerify, onReject, actionLoading }) => {
 
                 {/* Action Buttons for pending docs */}
                 {isPending && (
-                    <div className="flex items-center gap-3 px-5 py-4 border-t border-slate-200 dark:border-slate-800/40 bg-slate-50 dark:bg-slate-950/30">
+                    <div className="flex items-center gap-3 px-5 py-4 border-t border-slate-200 bg-slate-50">
                         <button
                             onClick={() => onVerify(doc)}
                             disabled={actionLoading}
-                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-white 
-                                bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-xl shadow-md shadow-emerald-600/10 dark:shadow-emerald-900/25 
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-slate-900 
+                                bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-xl shadow-md shadow-emerald-600/10 
                                 hover:shadow-emerald-900/40 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                             {actionLoading ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />}
@@ -459,8 +459,8 @@ const DocumentCard = ({ doc, onVerify, onReject, actionLoading }) => {
                             onClick={() => onReject(doc)}
                             disabled={actionLoading}
                             className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold 
-                                text-rose-400 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-xl 
-                                hover:bg-rose-100 dark:hover:bg-rose-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                                text-rose-400 bg-rose-50 border border-rose-200 rounded-xl 
+                                hover:bg-rose-100:bg-rose-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                             <XCircle size={16} />
                             Reject
@@ -485,8 +485,8 @@ const EmployeeRow = ({ employee, isExpanded, onToggle, onVerifyDoc, onRejectDoc,
     return (
         <div className={`border rounded-2xl transition-all duration-300 overflow-hidden
             ${isExpanded 
-                ? 'border-primary-500/30 bg-indigo-50/20 dark:bg-slate-900/70 shadow-md dark:shadow-lg dark:shadow-primary-500/5' 
-                : 'border-slate-200 dark:border-slate-800/50 bg-white dark:bg-slate-900/30 hover:border-slate-350 dark:hover:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-900/50 shadow-sm dark:shadow-none'}`}>
+                ? 'border-primary-500/30 bg-[#E8F0FA]/20 shadow-md' 
+                : 'border-slate-200 bg-white hover:border-slate-350:border-slate-700/50 hover:bg-slate-50:bg-slate-900/50 shadow-sm'}`}>
             
             {/* Employee Header */}
             <button onClick={onToggle}
@@ -495,19 +495,19 @@ const EmployeeRow = ({ employee, isExpanded, onToggle, onVerifyDoc, onRejectDoc,
                     {/* Avatar */}
                     <div className="relative">
                         <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary-600 to-primary-500 
-                            flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-primary-900/20">
+                            flex items-center justify-center text-slate-900 font-bold text-sm shadow-lg shadow-primary-900/20">
                             {(employee.employee_name || employee.name || 'U').charAt(0).toUpperCase()}
                         </div>
                         {pendingCount > 0 && (
                             <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 rounded-full text-[10px] 
-                                font-bold text-white flex items-center justify-center shadow-lg shadow-amber-900/30 
+                                font-bold text-slate-900 flex items-center justify-center shadow-lg shadow-amber-900/30 
                                 animate-pulse">
                                 {pendingCount}
                             </span>
                         )}
                     </div>
                     <div>
-                        <h3 className="text-sm font-bold text-slate-850 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-300 transition-colors">
+                        <h3 className="text-sm font-bold text-slate-850 group-hover:text-primary-600:text-primary-300 transition-colors">
                             {employee.employee_name || employee.name || 'Unknown Employee'}
                         </h3>
                         <p className="text-xs text-slate-500 mt-0.5">
@@ -520,21 +520,21 @@ const EmployeeRow = ({ employee, isExpanded, onToggle, onVerifyDoc, onRejectDoc,
                 <div className="flex items-center gap-3">
                     {/* Doc count pills */}
                     <div className="hidden sm:flex items-center gap-2">
-                        <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800/60 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700/40">
+                        <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 border border-slate-200">
                             {docs.length} docs
                         </span>
                         {verifiedCount > 0 && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/20">
+                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100">
                                 {verifiedCount} ✓
                             </span>
                         )}
                         {digilockerCount > 0 && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/20 flex items-center gap-1">
+                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center gap-1">
                                 <Shield size={10} /> {digilockerCount}
                             </span>
                         )}
                         {rejectedCount > 0 && (
-                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-500/20">
+                            <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-rose-50 text-rose-600 border border-rose-100">
                                 {rejectedCount} ✗
                             </span>
                         )}
@@ -550,7 +550,7 @@ const EmployeeRow = ({ employee, isExpanded, onToggle, onVerifyDoc, onRejectDoc,
             {/* Expanded Document List */}
             {isExpanded && (
                 <div className="px-5 pb-5 space-y-3 animate-in slide-in-from-top-2 fade-in duration-300">
-                    <div className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700/50 to-transparent" />
+                    <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
                     {docs.length > 0 ? (
                         docs.map((doc) => (
                             <DocumentCard
@@ -780,7 +780,7 @@ const DocumentVerification = () => {
             {/* ─── Page Header ────────────────────────────────────────────── */}
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div>
-                    <h1 className="text-3xl font-black text-white flex items-center gap-4 tracking-tight">
+                    <h1 className="text-3xl font-black text-slate-900 flex items-center gap-4 tracking-tight">
                         <div className="p-3 bg-primary-500/20 rounded-2xl border border-primary-500/30 shadow-lg shadow-primary-500/10">
                             <ShieldCheck className="text-primary-400" size={28} />
                         </div>
@@ -881,7 +881,7 @@ const DocumentVerification = () => {
                             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold 
                                 transition-all duration-200 whitespace-nowrap
                                 ${activeFilter === key
-                                    ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/40'
+                                    ? 'bg-primary-600 text-slate-900 shadow-lg shadow-primary-900/40'
                                     : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/40'}`}
                         >
                             <TabIcon size={14} />
@@ -899,7 +899,7 @@ const DocumentVerification = () => {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search by employee name or email..."
                         className="w-full bg-slate-900/40 border border-slate-800/50 rounded-xl pl-11 pr-4 py-2.5 
-                            text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 
+                            text-sm text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 
                             focus:ring-primary-500/30 focus:border-primary-500/40 transition-all"
                     />
                     {searchQuery && (

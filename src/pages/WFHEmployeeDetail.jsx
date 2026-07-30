@@ -229,7 +229,7 @@ export default function WFHEmployeeDetail() {
   if (loading) {
     return (
       <div className="h-[60vh] flex items-center justify-center">
-        <Loader2 className="animate-spin text-indigo-500" size={48} />
+        <Loader2 className="animate-spin text-[#004B87]" size={48} />
       </div>
     );
   }
@@ -249,24 +249,24 @@ export default function WFHEmployeeDetail() {
         <div className="flex items-center gap-4">
           <button 
             onClick={() => navigate("/dashboard/wfh-live")}
-            className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-white dark:bg-slate-900/40 hover:bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-all active:scale-95"
+            className="p-2 border border-slate-200 rounded-xl bg-white hover:bg-white text-slate-500 hover:text-slate-900 transition-all active:scale-95"
           >
             <ArrowLeft size={16} />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Timeline Auditor</h1>
-            <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">Deep-dive productivity tracking and screen vault audit for {email}</p>
+            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Timeline Auditor</h1>
+            <p className="text-slate-500 text-xs mt-1">Deep-dive productivity tracking and screen vault audit for {email}</p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="relative">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 dark:text-slate-400">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
               <Calendar size={16} />
             </span>
             <input 
               type="date"
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl py-2 pl-9 pr-4 text-xs text-slate-900 dark:text-white focus:border-indigo-500 outline-none w-44 transition-all"
+              className="bg-white border border-slate-200 rounded-xl py-2 pl-9 pr-4 text-xs text-slate-900 focus:border-[#004B87] outline-none w-44 transition-all"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
             />
@@ -274,7 +274,7 @@ export default function WFHEmployeeDetail() {
           <button 
             onClick={handleTriggerScreenshot}
             disabled={triggeringScreenshot}
-            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 disabled:opacity-50 text-slate-900 dark:text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-indigo-500/10 flex items-center gap-2"
+            className="px-4 py-2 bg-gradient-to-r from-[#004B87] to-violet-600 hover:from-[#004B87] hover:to-violet-500 disabled:opacity-50 text-slate-900 rounded-xl text-xs font-bold transition-all shadow-lg shadow-[#004B87]/10 flex items-center gap-2"
             title="Trigger Live Workstation Screenshot"
           >
             {triggeringScreenshot ? (
@@ -287,7 +287,7 @@ export default function WFHEmployeeDetail() {
           <button 
             onClick={handleDownloadScreenshots}
             disabled={downloadingScreenshots}
-            className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-50 text-slate-900 dark:text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-emerald-500/10 flex items-center gap-2"
+            className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-50 text-slate-900 rounded-xl text-xs font-bold transition-all shadow-lg shadow-emerald-500/10 flex items-center gap-2"
             title="Download All Screenshots as ZIP"
           >
             {downloadingScreenshots ? (
@@ -299,7 +299,7 @@ export default function WFHEmployeeDetail() {
           </button>
           <button 
             onClick={() => setShowForceEndModal(true)}
-            className="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-slate-900 dark:text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-rose-500/10 flex items-center gap-2"
+            className="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-slate-900 rounded-xl text-xs font-bold transition-all shadow-lg shadow-rose-500/10 flex items-center gap-2"
             title="Force-End Active WFH Session"
           >
             <Power size={14} />
@@ -307,7 +307,7 @@ export default function WFHEmployeeDetail() {
           </button>
           <button 
             onClick={() => setShowForceLogoutModal(true)}
-            className="px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-slate-900 dark:text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-amber-500/10 flex items-center gap-2"
+            className="px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-slate-900 rounded-xl text-xs font-bold transition-all shadow-lg shadow-amber-500/10 flex items-center gap-2"
             title="Force-Logout Employee Workspace"
           >
             <Power size={14} />
@@ -315,7 +315,7 @@ export default function WFHEmployeeDetail() {
           </button>
           <button 
             onClick={() => fetchDetailData(true)}
-            className="p-2 border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-white dark:bg-slate-900/40 hover:bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-all"
+            className="p-2 border border-slate-200 rounded-xl bg-white hover:bg-white text-slate-500 hover:text-slate-900 transition-all"
           >
             <RefreshCw size={16} className={refreshing ? "animate-spin" : ""} />
           </button>
@@ -326,8 +326,8 @@ export default function WFHEmployeeDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Productivity Score Trend Area Chart */}
-        <div className="lg:col-span-2 bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">Productivity Performance Loop</h2>
+        <div className="lg:col-span-2 bg-white backdrop-blur-md border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight mb-6">Productivity Performance Loop</h2>
           <div className="h-[250px] w-full">
             {productivity.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
@@ -354,8 +354,8 @@ export default function WFHEmployeeDetail() {
         </div>
 
         {/* Top Productive Apps Bar Chart */}
-        <div className="bg-white dark:bg-white dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">Top Applications</h2>
+        <div className="bg-white backdrop-blur-md border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20">
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight mb-6">Top Applications</h2>
           <div className="h-[250px] w-full">
             {apps.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
@@ -384,43 +384,43 @@ export default function WFHEmployeeDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Tasks List */}
-        <div className="lg:col-span-2 bg-white dark:bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20">
+        <div className="lg:col-span-2 bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Assigned Tasks & Time Tracking</h2>
-            <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Assigned Tasks & Time Tracking</h2>
+            <span className="text-[10px] font-bold text-[#0062B1] uppercase tracking-widest bg-[#004B87]/10 px-3 py-1 rounded-full border border-[#004B87]/20">
               {tasks.length} Active Tasks
             </span>
           </div>
           
           <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-800">
             {tasks.map((task) => (
-              <div key={task._id} className="bg-slate-50 dark:bg-slate-950/40 border border-slate-900/80 p-4.5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all hover:border-slate-200 dark:border-slate-800">
+              <div key={task._id} className="bg-slate-50 border border-slate-900/80 p-4.5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all hover:border-slate-200">
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <span className={`text-[8px] font-extrabold uppercase px-2 py-0.5 rounded-full border ${
                       task.priority === "high" ? "bg-rose-500/10 text-rose-400 border-rose-500/25" :
-                      task.priority === "medium" ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/25" :
-                      "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-700/60"
+                      task.priority === "medium" ? "bg-[#004B87]/10 text-[#0062B1] border-[#004B87]/25" :
+                      "bg-slate-100 text-slate-500 border-slate-300"
                     }`}>
                       {task.priority} Priority
                     </span>
                     <span className={`text-[8px] font-bold uppercase px-2 py-0.5 rounded-full border ${
                       task.status === "completed" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" :
-                      task.status === "in_progress" ? "bg-indigo-500/10 text-indigo-400 border-indigo-500/20 animate-pulse" :
-                      "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400"
+                      task.status === "in_progress" ? "bg-[#004B87]/10 text-[#0062B1] border-[#004B87]/20 animate-pulse" :
+                      "bg-white border-slate-200 text-slate-500"
                     }`}>
                       {task.status?.replace("_", " ")}
                     </span>
                   </div>
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate">{task.title}</h4>
+                  <h4 className="text-xs font-bold text-slate-900 truncate">{task.title}</h4>
                   {task.description && (
-                    <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">{task.description}</p>
+                    <p className="text-[10px] text-slate-500 mt-1 line-clamp-1">{task.description}</p>
                   )}
                 </div>
                 <div className="flex items-center gap-4 shrink-0 text-right">
                   <div>
-                    <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block">Time Spent</span>
-                    <span className="text-xs font-mono font-extrabold text-indigo-400 block mt-0.5">
+                    <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider block">Time Spent</span>
+                    <span className="text-xs font-mono font-extrabold text-[#0062B1] block mt-0.5">
                       {task.worked_minutes || 0} minutes
                     </span>
                   </div>
@@ -437,26 +437,26 @@ export default function WFHEmployeeDetail() {
         </div>
 
         {/* Task Assigner Form */}
-        <div className="bg-white dark:bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20 flex flex-col justify-between">
+        <div className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20 flex flex-col justify-between">
           <div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">Assign New Task</h2>
-            <form onSubmit={handleAssignTask} className="space-y-4 text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight mb-6">Assign New Task</h2>
+            <form onSubmit={handleAssignTask} className="space-y-4 text-xs font-semibold text-slate-500">
               <div className="space-y-1.5">
-                <label className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider">Task Title</label>
+                <label className="text-[10px] text-slate-500 uppercase tracking-wider">Task Title</label>
                 <input 
                   type="text"
                   required
                   placeholder="E.g. Code auth route tests"
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-slate-900 dark:text-white focus:border-indigo-500 outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:border-[#004B87] outline-none"
                   value={newTaskTitle}
                   onChange={(e) => setNewTaskTitle(e.target.value)}
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider">Priority Weight</label>
+                <label className="text-[10px] text-slate-500 uppercase tracking-wider">Priority Weight</label>
                 <select
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-slate-900 dark:text-white focus:border-indigo-500 outline-none cursor-pointer"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:border-[#004B87] outline-none cursor-pointer"
                   value={newTaskPriority}
                   onChange={(e) => setNewTaskPriority(e.target.value)}
                 >
@@ -467,11 +467,11 @@ export default function WFHEmployeeDetail() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider">Description (Optional)</label>
+                <label className="text-[10px] text-slate-500 uppercase tracking-wider">Description (Optional)</label>
                 <textarea 
                   rows={2}
                   placeholder="Task specifications..."
-                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-slate-900 dark:text-white focus:border-indigo-500 outline-none resize-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:border-[#004B87] outline-none resize-none"
                   value={newTaskDesc}
                   onChange={(e) => setNewTaskDesc(e.target.value)}
                 />
@@ -480,7 +480,7 @@ export default function WFHEmployeeDetail() {
               <button 
                 type="submit"
                 disabled={assigningTask || !newTaskTitle.trim()}
-                className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-slate-900 dark:text-white rounded-2xl font-bold uppercase tracking-wider transition-all active:scale-[0.97]"
+                className="w-full py-3.5 bg-[#004B87] hover:bg-[#004B87] disabled:opacity-40 text-slate-900 rounded-2xl font-bold uppercase tracking-wider transition-all active:scale-[0.97]"
               >
                 {assigningTask ? "Assigning Task..." : "Assign Task Card"}
               </button>
@@ -490,22 +490,22 @@ export default function WFHEmployeeDetail() {
       </div>
 
       {/* Screen vault gallery */}
-      <div className="bg-white dark:bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20">
-        <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">Screen Vault (Screenshots)</h2>
+      <div className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20">
+        <h2 className="text-xl font-bold text-slate-900 tracking-tight mb-6">Screen Vault (Screenshots)</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {screenshots.map((shot) => (
             <div 
               key={shot._id} 
-              className="relative group rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-950 cursor-zoom-in aspect-video shadow-md hover:border-slate-600 transition-all"
+              className="relative group rounded-2xl border border-slate-200 overflow-hidden bg-slate-50 cursor-zoom-in aspect-video shadow-md hover:border-slate-600 transition-all"
               onClick={() => setLightboxImage(shot.image_url?.startsWith('http') ? shot.image_url : `${api.defaults.baseURL || "http://localhost:8000"}${shot.image_url}`)}
             >
               <img src={shot.image_url?.startsWith('http') ? shot.image_url : `${api.defaults.baseURL || "http://localhost:8000"}${shot.image_url}`} alt="" className="w-full h-full object-cover transition-transform group-hover:scale-105" />
-              <div className="absolute inset-0 bg-slate-50 dark:bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                <span className="text-[10px] text-slate-900 dark:text-white font-bold tracking-widest uppercase bg-slate-50 dark:bg-slate-950/90 px-3 py-1 rounded-full border border-slate-300 dark:border-slate-700">Audit</span>
+              <div className="absolute inset-0 bg-slate-50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                <span className="text-[10px] text-slate-900 font-bold tracking-widest uppercase bg-slate-50 px-3 py-1 rounded-full border border-slate-300">Audit</span>
               </div>
               <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/90 p-2 flex justify-between items-center gap-1">
-                <span className="text-[9px] text-slate-600 dark:text-slate-300 font-bold truncate max-w-[60%]">{shot.active_app || "Unknown app"}</span>
-                <span className="text-[9px] text-indigo-400 font-mono font-bold shrink-0">{formatToIST(shot.timestamp, { hour: '2-digit', minute: '2-digit' })}</span>
+                <span className="text-[9px] text-slate-600 font-bold truncate max-w-[60%]">{shot.active_app || "Unknown app"}</span>
+                <span className="text-[9px] text-[#0062B1] font-mono font-bold shrink-0">{formatToIST(shot.timestamp, { hour: '2-digit', minute: '2-digit' })}</span>
               </div>
             </div>
           ))}
@@ -519,30 +519,30 @@ export default function WFHEmployeeDetail() {
       </div>
 
       {/* Interactive Activity timeline */}
-      <div className="bg-white dark:bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20">
-        <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">Workday Activity Feed</h2>
+      <div className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-xl shadow-slate-950/20">
+        <h2 className="text-xl font-bold text-slate-900 tracking-tight mb-6">Workday Activity Feed</h2>
         <div className="space-y-6 max-h-[400px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-slate-800">
           {timeline.map((event, i) => (
             <div key={event.data._id || i} className="flex gap-4 items-start group">
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-bold w-24 shrink-0 pt-0.5 font-mono">
+              <div className="text-xs text-slate-500 font-bold w-24 shrink-0 pt-0.5 font-mono">
                 {event.timestamp ? formatToIST(event.timestamp, { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "N/A"}
               </div>
               
               <div className="flex-1 space-y-1">
                 {event.type === "screenshot" && (
-                  <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                    Screenshot trigger: <span className="text-indigo-400">{event.data.active_app}</span> - {event.data.active_window}
+                  <p className="text-xs font-bold text-slate-800">
+                    Screenshot trigger: <span className="text-[#0062B1]">{event.data.active_app}</span> - {event.data.active_window}
                   </p>
                 )}
                 {event.type === "activity" && (
-                  <p className="text-xs font-bold text-slate-600 dark:text-slate-300">
+                  <p className="text-xs font-bold text-slate-600">
                     Hardware Activity Check: <span className="text-emerald-400">{event.data.keystrokes} keystrokes</span> • {event.data.mouse_clicks} clicks
                   </p>
                 )}
                 {event.type === "alert" && (
                   <div className="bg-rose-500/10 border border-rose-500/20 px-3 py-1.5 rounded-xl max-w-fit">
                     <span className="text-[10px] font-bold text-rose-400 block uppercase tracking-wider mb-0.5">Critical: {event.data.alert_type}</span>
-                    <p className="text-xs font-bold text-slate-600 dark:text-slate-300">{event.data.details}</p>
+                    <p className="text-xs font-bold text-slate-600">{event.data.details}</p>
                   </div>
                 )}
               </div>
@@ -569,12 +569,12 @@ export default function WFHEmployeeDetail() {
             onClick={() => setLightboxImage(null)}
           >
             {activeShot && (
-              <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 px-5 py-2.5 rounded-full text-xs font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-3 backdrop-blur-md shadow-lg">
-                <span className="text-indigo-400">{activeShot.active_app || "Unknown App"}</span>
+              <div className="bg-white border border-slate-200 px-5 py-2.5 rounded-full text-xs font-bold text-slate-800 mb-3 flex items-center gap-3 backdrop-blur-md shadow-lg">
+                <span className="text-[#0062B1]">{activeShot.active_app || "Unknown App"}</span>
                 <span className="text-slate-600">•</span>
-                <span className="text-slate-600 dark:text-slate-300 truncate max-w-xs">{activeShot.active_window || "Active window"}</span>
+                <span className="text-slate-600 truncate max-w-xs">{activeShot.active_window || "Active window"}</span>
                 <span className="text-slate-600">•</span>
-                <span className="text-indigo-400 font-mono">{formatToIST(activeShot.timestamp, { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+                <span className="text-[#0062B1] font-mono">{formatToIST(activeShot.timestamp, { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
               </div>
             )}
             <img src={lightboxImage} alt="" className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border border-slate-850" />
@@ -583,19 +583,19 @@ export default function WFHEmployeeDetail() {
       })()}
       {/* Force End Confirmation Modal */}
       {showForceEndModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-50 dark:bg-slate-950/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in-95 duration-200">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2rem] max-w-md w-full p-6 space-y-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-50 backdrop-blur-sm p-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-white border border-slate-200 rounded-[2rem] max-w-md w-full p-6 space-y-6 shadow-2xl">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">Force End Session</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">
-                Are you sure you want to remotely terminate the WFH monitoring session for <strong className="text-slate-900 dark:text-white">{email}</strong>? This will immediately log them out of monitoring.
+              <h3 className="text-lg font-bold text-slate-900">Force End Session</h3>
+              <p className="text-slate-500 text-xs mt-1">
+                Are you sure you want to remotely terminate the WFH monitoring session for <strong className="text-slate-900">{email}</strong>? This will immediately log them out of monitoring.
               </p>
             </div>
             
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold">Reason for termination</label>
+              <label className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Reason for termination</label>
               <textarea 
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:border-rose-500 outline-none h-20 transition-all resize-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-900 placeholder-slate-600 focus:border-rose-500 outline-none h-20 transition-all resize-none"
                 placeholder="e.g. Inactivity detected, policy violation, etc."
                 value={forceEndReason}
                 onChange={(e) => setForceEndReason(e.target.value)}
@@ -608,14 +608,14 @@ export default function WFHEmployeeDetail() {
                   setShowForceEndModal(false);
                   setForceEndReason("");
                 }}
-                className="flex-1 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 transition-all"
+                className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200:bg-slate-700 text-xs font-semibold text-slate-600 transition-all"
               >
                 Cancel
               </button>
               <button 
                 onClick={handleForceEndSession}
                 disabled={endingSession}
-                className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-50 text-xs font-semibold text-slate-900 dark:text-white transition-all"
+                className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-50 text-xs font-semibold text-slate-900 transition-all"
               >
                 {endingSession ? "Ending..." : "Confirm & End"}
               </button>
@@ -626,12 +626,12 @@ export default function WFHEmployeeDetail() {
 
       {/* Force Logout Confirmation Modal */}
       {showForceLogoutModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-50 dark:bg-slate-950/80 backdrop-blur-sm p-4 animate-in fade-in zoom-in-95 duration-200">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2rem] max-w-md w-full p-6 space-y-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-50 backdrop-blur-sm p-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-white border border-slate-200 rounded-[2rem] max-w-md w-full p-6 space-y-6 shadow-2xl">
             <div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">Force Logout Employee</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-xs mt-1">
-                Are you sure you want to force-logout <strong className="text-slate-900 dark:text-white">{email}</strong>? 
+              <h3 className="text-lg font-bold text-slate-900">Force Logout Employee</h3>
+              <p className="text-slate-500 text-xs mt-1">
+                Are you sure you want to force-logout <strong className="text-slate-900">{email}</strong>? 
                 This will immediately log them out of the desktop tracking app and end their monitoring session.
               </p>
             </div>
@@ -639,14 +639,14 @@ export default function WFHEmployeeDetail() {
             <div className="flex gap-3">
               <button 
                 onClick={() => setShowForceLogoutModal(false)}
-                className="flex-1 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 transition-all"
+                className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200:bg-slate-700 text-xs font-semibold text-slate-600 transition-all"
               >
                 Cancel
               </button>
               <button 
                 onClick={handleForceLogoutEmployee}
                 disabled={loggingOutEmployee}
-                className="flex-1 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 disabled:opacity-50 text-xs font-semibold text-slate-900 dark:text-white transition-all"
+                className="flex-1 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 disabled:opacity-50 text-xs font-semibold text-slate-900 transition-all"
               >
                 {loggingOutEmployee ? "Logging out..." : "Confirm & Logout"}
               </button>
@@ -661,7 +661,7 @@ export default function WFHEmployeeDetail() {
           toast.type === "error" 
             ? "bg-rose-950/80 border-rose-500/30 text-rose-200 shadow-rose-950/20" 
             : toast.type === "info"
-            ? "bg-indigo-950/80 border-indigo-500/30 text-indigo-200 shadow-indigo-950/20"
+            ? "bg-indigo-950/80 border-[#004B87]/30 text-indigo-200 shadow-indigo-950/20"
             : "bg-emerald-950/80 border-emerald-500/30 text-emerald-200 shadow-emerald-950/20"
         }`}>
           {toast.type === "error" ? (
@@ -669,7 +669,7 @@ export default function WFHEmployeeDetail() {
               <span className="font-bold text-xs">!</span>
             </div>
           ) : toast.type === "info" ? (
-            <div className="w-5 h-5 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
+            <div className="w-5 h-5 rounded-full bg-[#004B87]/20 flex items-center justify-center text-[#0062B1] shrink-0">
               <span className="font-bold text-xs">i</span>
             </div>
           ) : (
@@ -678,7 +678,7 @@ export default function WFHEmployeeDetail() {
             </div>
           )}
           <div className="text-xs font-bold leading-normal">{toast.text}</div>
-          <button onClick={() => setToast(null)} className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-white ml-2 text-xs font-semibold shrink-0">
+          <button onClick={() => setToast(null)} className="text-slate-500 hover:text-slate-900 ml-2 text-xs font-semibold shrink-0">
             ✕
           </button>
         </div>
