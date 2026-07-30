@@ -47,13 +47,49 @@ body {
   -webkit-backdrop-filter: none !important;
 }
 
-/* Primary Dark Buttons — White Text & Icons */
-button.bg-[#004B87],
-button.bg-[#003A6B] {
+/* Universal White Text & White Icons Rule for ALL Dark Primary Buttons, Tabs & Containers */
+.bg-[#004B87],
+.bg-[#003A6B],
+.bg-primary-500,
+.bg-primary-600,
+.bg-primary-700,
+.bg-primary-800,
+.bg-primary-900,
+[class*="bg-[#004B87]"],
+[class*="bg-[#003A6B]"],
+[class*="bg-primary-500"],
+[class*="bg-primary-600"],
+[class*="bg-primary-700"] {
   color: #ffffff !important;
 }
-button.bg-[#004B87] svg,
-button.bg-[#003A6B] svg {
+
+.bg-[#004B87] *,
+.bg-[#003A6B] *,
+.bg-primary-500 *,
+.bg-primary-600 *,
+.bg-primary-700 *,
+.bg-primary-800 *,
+.bg-primary-900 *,
+[class*="bg-[#004B87]"] *,
+[class*="bg-[#003A6B]"] *,
+[class*="bg-primary-500"] *,
+[class*="bg-primary-600"] *,
+[class*="bg-primary-700"] * {
+  color: #ffffff !important;
+}
+
+.bg-[#004B87] svg,
+.bg-[#003A6B] svg,
+.bg-primary-500 svg,
+.bg-primary-600 svg,
+.bg-primary-700 svg,
+.bg-primary-800 svg,
+.bg-primary-900 svg,
+[class*="bg-[#004B87]"] svg,
+[class*="bg-[#003A6B]"] svg,
+[class*="bg-primary-500"] svg,
+[class*="bg-primary-600"] svg,
+[class*="bg-primary-700"] svg {
   color: #ffffff !important;
   stroke: #ffffff !important;
 }
