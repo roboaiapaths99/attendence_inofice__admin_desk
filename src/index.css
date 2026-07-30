@@ -41,6 +41,12 @@ body {
   color: #0F172A;
 }
 
+/* Remove all translucent blur effects globally */
+*, ::before, ::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
 #root {
   width: 100%;
 }
