@@ -301,7 +301,7 @@ const Payroll = () => {
                     </button>
                     <button
                         onClick={() => setShowRunModal(true)}
-                        className="bg-primary-600 hover:bg-primary-500 text-slate-900 px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
+                        className="bg-primary-600 hover:bg-primary-500 text-white px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
                     >
                         <Plus size={18} /> Run Monthly Payroll
                     </button>
@@ -554,7 +554,7 @@ const Payroll = () => {
                                 <button
                                     type="submit"
                                     disabled={actionLoading}
-                                    className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 font-bold text-sm flex items-center justify-center gap-2"
+                                    className="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold text-sm flex items-center justify-center gap-2"
                                 >
                                     {actionLoading && <Loader2 className="animate-spin" size={16} />}
                                     Run Calculation
@@ -647,7 +647,7 @@ const Payroll = () => {
 
                             <div className="flex gap-4">
                                 <button type="button" onClick={() => setEditingPayroll(null)} className="flex-1 py-3 rounded-xl border border-slate-200 text-slate-500 font-bold text-sm">Cancel</button>
-                                <button type="submit" disabled={actionLoading} className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 font-bold text-sm flex items-center justify-center gap-2">
+                                <button type="submit" disabled={actionLoading} className="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold text-sm flex items-center justify-center gap-2">
                                     {actionLoading && <Loader2 className="animate-spin" size={16} />}
                                     Save Adjustments
                                 </button>
@@ -960,7 +960,7 @@ const Payroll = () => {
                                     <button
                                         onClick={handleSaveDaysOff}
                                         disabled={daysOffLoading}
-                                        className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 font-bold text-sm flex items-center justify-center gap-2"
+                                        className="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold text-sm flex items-center justify-center gap-2"
                                     >
                                         {daysOffLoading && <Loader2 className="animate-spin" size={16} />}
                                         Save Days Off

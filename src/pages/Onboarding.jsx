@@ -212,7 +212,7 @@ const Onboarding = () => {
                 </div>
                 <button
                     onClick={() => setShowCreateModal(true)}
-                    className="bg-primary-600 hover:bg-primary-500 text-slate-900 px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
+                    className="bg-primary-600 hover:bg-primary-500 text-white px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
                 >
                     <Plus size={18} /> Initiate Onboarding
                 </button>
@@ -409,7 +409,7 @@ const Onboarding = () => {
                                             </div>
                                             <div className="flex justify-end gap-3 pt-2">
                                                 <button type="button" onClick={() => setShowAddTask(false)} className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-500">Cancel</button>
-                                                <button type="submit" className="px-4 py-2 bg-primary-600 rounded-xl text-xs font-bold text-slate-900">Save Task</button>
+                                                <button type="submit" className="px-4 py-2 bg-primary-600 rounded-xl text-xs font-bold text-white">Save Task</button>
                                             </div>
                                         </form>
                                     )}
@@ -649,7 +649,7 @@ const Onboarding = () => {
 
                             <div className="flex gap-4 pt-4">
                                 <button type="button" onClick={() => setShowCreateModal(false)} className="flex-1 py-3 rounded-xl border border-slate-200 text-slate-500 font-bold text-sm">Cancel</button>
-                                <button type="submit" disabled={actionLoading} className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 font-bold text-sm flex items-center justify-center gap-2">
+                                <button type="submit" disabled={actionLoading} className="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold text-sm flex items-center justify-center gap-2">
                                     {actionLoading && <Loader2 className="animate-spin" size={16} />}
                                     Start Process
                                 </button>

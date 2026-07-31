@@ -456,7 +456,7 @@ const AdminMgmt = () => {
                                                             <span className={`font-semibold flex items-center gap-2 ${isSelected ? 'text-primary-300' : 'text-slate-500'}`}>
                                                                 <span className="text-lg">{feature.icon}</span> {feature.name}
                                                             </span>
-                                                            <div className={`w-5 h-5 rounded flex items-center justify-center ${isSelected ? 'bg-primary-500 text-slate-900' : 'border border-slate-600'}`}>
+                                                            <div className={`w-5 h-5 rounded flex items-center justify-center ${isSelected ? 'bg-primary-500 text-white' : 'border border-slate-600'}`}>
                                                                 {isSelected && <CheckCircle2 size={14} />}
                                                             </div>
                                                         </button>

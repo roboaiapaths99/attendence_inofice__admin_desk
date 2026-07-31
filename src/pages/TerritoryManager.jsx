@@ -236,7 +236,7 @@ const TerritoryManager = () => {
                                 <button
                                     onClick={handleUpdateTerritory}
                                     disabled={saving}
-                                    className="bg-primary-500 hover:bg-primary-600 text-slate-900 px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-all disabled:opacity-50 text-sm ml-auto"
+                                    className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2 transition-all disabled:opacity-50 text-sm ml-auto"
                                 >
                                     <Save size={16} /> {saving ? 'Saving...' : 'Save'}
                                 </button>

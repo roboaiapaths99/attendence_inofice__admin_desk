@@ -101,7 +101,7 @@ const ExpenseApproval = () => {
                     <button
                         onClick={() => setActiveTab('standard')}
                         className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'standard'
-                            ? 'bg-primary-600 text-slate-900 shadow-lg shadow-primary-900/40'
+                            ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/40'
                             : 'text-slate-500 hover:text-slate-600'}`}
                     >
                         <Receipt size={18} /> Standard Expenses
@@ -109,7 +109,7 @@ const ExpenseApproval = () => {
                     <button
                         onClick={() => setActiveTab('km')}
                         className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'km'
-                            ? 'bg-primary-600 text-slate-900 shadow-lg shadow-primary-900/40'
+                            ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/40'
                             : 'text-slate-500 hover:text-slate-600'}`}
                     >
                         <Navigation2 size={18} /> Mobility (KM)
@@ -319,7 +319,7 @@ const ExpenseApproval = () => {
                                             <button
                                                 onClick={() => setSelectedClaim(claim._id === selectedClaim ? null : claim._id)}
                                                 className={`w-12 h-12 flex items-center justify-center rounded-xl border transition-all ${selectedClaim === claim._id
-                                                    ? 'bg-primary-500 text-slate-900 border-primary-500'
+                                                    ? 'bg-primary-500 text-white border-primary-500'
                                                     : 'bg-slate-100 text-slate-500 border-slate-300 hover:text-slate-600'}`}
                                             >
                                                 <MessageSquare size={16} />
@@ -340,7 +340,7 @@ const ExpenseApproval = () => {
                                                 <button
                                                     onClick={() => handleAction(claim._id, 'query')}
                                                     disabled={!queryText.trim()}
-                                                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary-600 text-slate-900 rounded-lg hover:bg-primary-500 transition-all disabled:opacity-50"
+                                                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-500 transition-all disabled:opacity-50"
                                                 >
                                                     <ChevronRight size={16} />
                                                 </button>

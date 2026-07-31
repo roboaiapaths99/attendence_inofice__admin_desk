@@ -477,7 +477,7 @@ const EmployeeMgmt = () => {
                             </div>
                             <div className="flex gap-4">
                                 <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 rounded-xl border border-slate-200 text-slate-500 font-bold text-sm">Cancel</button>
-                                <button type="submit" className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 font-bold text-sm">Register</button>
+                                <button type="submit" className="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold text-sm">Register</button>
                             </div>
                         </form>
                     </div>
@@ -514,7 +514,7 @@ const EmployeeMgmt = () => {
                     </button>
                     <button
                         onClick={() => setShowAddModal(true)}
-                        className="bg-primary-600 hover:bg-primary-500 text-slate-900 px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
+                        className="bg-primary-600 hover:bg-primary-500 text-white px-6 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
                     >
                         <Plus size={20} />
                         Register Member
@@ -561,7 +561,7 @@ const EmployeeMgmt = () => {
                                     className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-white backdrop-blur-2xl border border-slate-300 shadow-2xl rounded-[2.5rem] px-8 py-4 flex items-center gap-6 shadow-primary-900/20"
                                 >
                                     <div className="flex items-center gap-3 pr-6 border-r border-slate-200">
-                                        <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-slate-900 font-bold text-lg shadow-lg shadow-primary-900/40">
+                                        <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary-900/40">
                                             {selectedIds.length}
                                         </div>
                                         <div className="flex flex-col">
@@ -622,7 +622,7 @@ const EmployeeMgmt = () => {
                                             <button
                                                 onClick={handleBulkAssign}
                                                 disabled={isBulkAssigning || !selectedManager}
-                                                className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary-900/40"
+                                                className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary-900/40"
                                             >
                                                 {isBulkAssigning ? <Loader2 className="animate-spin" size={18} /> : 'Confirm Assignment'}
                                             </button>
@@ -1143,7 +1143,7 @@ const EmployeeMgmt = () => {
                                 <button
                                     type="submit"
                                     disabled={isUpdating}
-                                    className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 font-bold text-sm hover:bg-primary-500 transition-all shadow-lg shadow-primary-900/40 flex items-center justify-center gap-2"
+                                    className="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold text-sm hover:bg-primary-500 transition-all shadow-lg shadow-primary-900/40 flex items-center justify-center gap-2"
                                 >
                                     {isUpdating ? <Loader2 size={18} className="animate-spin" /> : 'Save Changes'}
                                 </button>
@@ -1191,7 +1191,7 @@ const ImportResultModal = ({ result, onClose }) => {
                         ))}
                     </div>
                 )}
-                <button onClick={onClose} className="w-full py-3 rounded-xl bg-primary-600 text-slate-900 font-bold text-sm hover:bg-primary-500 transition-all">
+                <button onClick={onClose} className="w-full py-3 rounded-xl bg-primary-600 text-white font-bold text-sm hover:bg-primary-500 transition-all">
                     Done
                 </button>
             </div>

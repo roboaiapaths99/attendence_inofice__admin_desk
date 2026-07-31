@@ -192,11 +192,11 @@ const FraudDashboard = () => {
     return (
         <div className="flex flex-col h-full gap-6">
             {/* Header */}
-            <header className="bg-gradient-to-r from-rose-900/30 to-slate-900/40 p-6 rounded-3xl border border-rose-500/20 backdrop-blur-sm">
+            <header className="bg-white p-6 rounded-3xl border border-rose-200 shadow-sm">
                 <div className="flex justify-between items-start">
                     <div>
                         <h1 className="text-2xl font-black text-slate-900 flex items-center gap-3">
-                            <AlertOctagon className="text-rose-400" size={26} />
+                            <AlertOctagon className="text-rose-600" size={26} />
                             Fraud Intelligence Dashboard
                         </h1>
                         <p className="text-slate-500 text-sm mt-1.5">

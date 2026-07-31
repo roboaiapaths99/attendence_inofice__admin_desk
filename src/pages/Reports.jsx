@@ -296,7 +296,7 @@ const Reports = () => {
                     else if (activeTab === 'leaves') fetchLeaveReport();
                     else if (activeTab === 'wfh') fetchWfhReport();
                     else fetchPerformanceReport();
-                }} className="px-5 py-2 bg-primary-600 text-slate-900 rounded-lg hover:bg-primary-500 transition-all text-sm font-medium font-outfit">
+                }} className="px-5 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-500 transition-all text-sm font-medium font-outfit">
                     Apply Filter
                 </button>
             </div>
@@ -521,7 +521,7 @@ const Reports = () => {
                                 key={sub.id}
                                 onClick={() => setWfhReportType(sub.id)}
                                 className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wide uppercase transition-all ${wfhReportType === sub.id
-                                    ? 'bg-primary-500 text-slate-900 shadow-lg shadow-primary-500/20'
+                                    ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/20'
                                     : 'text-slate-500 hover:text-slate-900 bg-white border border-slate-200 hover:border-slate-300'
                                 }`}
                             >

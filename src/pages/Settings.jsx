@@ -145,7 +145,7 @@ const Settings = () => {
                 <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="bg-primary-600 hover:bg-primary-500 disabled:bg-slate-100 disabled:text-slate-600 text-slate-900 px-8 py-3 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
+                    className="bg-primary-600 hover:bg-primary-500 disabled:bg-slate-100 disabled:text-slate-600 text-white px-8 py-3 rounded-2xl font-bold text-sm transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-primary-900/40"
                 >
                     {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
                     {saving ? 'Saving...' : 'Save Changes'}

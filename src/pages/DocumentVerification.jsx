@@ -843,27 +843,27 @@ const DocumentVerification = () => {
             </div>
 
             {/* ─── Verification Tier Legend ────────────────────────────────── */}
-            <div className="bg-slate-900/30 border border-slate-800/40 rounded-2xl p-4">
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
                 <div className="flex flex-wrap items-center gap-6">
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                         Verification Tiers
                     </span>
                     <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-lg shadow-emerald-400/30" />
-                        <span className="text-xs text-slate-400">
-                            <span className="font-bold text-emerald-400">DigiLocker</span> — Government verified, highest trust
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-sm" />
+                        <span className="text-xs text-slate-600">
+                            <span className="font-bold text-emerald-600">DigiLocker</span> — Government verified, highest trust
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-amber-400 shadow-lg shadow-amber-400/30" />
-                        <span className="text-xs text-slate-400">
-                            <span className="font-bold text-amber-400">OCR Extracted</span> — Auto-extracted, needs admin review
+                        <div className="w-2 h-2 rounded-full bg-amber-500 shadow-sm" />
+                        <span className="text-xs text-slate-600">
+                            <span className="font-bold text-amber-600">OCR Extracted</span> — Auto-extracted, needs admin review
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-blue-400 shadow-lg shadow-blue-400/30" />
-                        <span className="text-xs text-slate-400">
-                            <span className="font-bold text-blue-400">Manual Upload</span> — Employee uploaded, admin verified
+                        <div className="w-2 h-2 rounded-full bg-blue-500 shadow-sm" />
+                        <span className="text-xs text-slate-600">
+                            <span className="font-bold text-blue-600">Manual Upload</span> — Employee uploaded, admin verified
                         </span>
                     </div>
                 </div>
@@ -872,8 +872,7 @@ const DocumentVerification = () => {
             {/* ─── Filter Tabs + Search ───────────────────────────────────── */}
             <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
                 {/* Filter Tabs */}
-                <div className="flex items-center gap-1 bg-slate-900/40 p-1.5 rounded-2xl border border-slate-800/50 
-                    backdrop-blur-md overflow-x-auto max-w-full scrollbar-hide">
+                <div className="flex items-center gap-1 bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm overflow-x-auto max-w-full scrollbar-hide">
                     {FILTER_TABS.map(({ key, label, icon: TabIcon }) => (
                         <button
                             key={key}
@@ -881,8 +880,8 @@ const DocumentVerification = () => {
                             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold 
                                 transition-all duration-200 whitespace-nowrap
                                 ${activeFilter === key
-                                    ? 'bg-primary-600 text-slate-900 shadow-lg shadow-primary-900/40'
-                                    : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/40'}`}
+                                    ? 'bg-primary-600 text-white shadow-md shadow-primary-900/20'
+                                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
                         >
                             <TabIcon size={14} />
                             {label}
@@ -892,20 +891,20 @@ const DocumentVerification = () => {
 
                 {/* Search Bar */}
                 <div className="relative flex-1 min-w-[280px]">
-                    <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
+                    <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                     <input
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search by employee name or email..."
-                        className="w-full bg-slate-900/40 border border-slate-800/50 rounded-xl pl-11 pr-4 py-2.5 
-                            text-sm text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 
-                            focus:ring-primary-500/30 focus:border-primary-500/40 transition-all"
+                        className="w-full bg-white border border-slate-200 rounded-2xl pl-11 pr-4 py-2.5 
+                            text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 
+                            focus:ring-primary-500/30 focus:border-primary-500 shadow-sm transition-all"
                     />
                     {searchQuery && (
                         <button onClick={() => setSearchQuery('')}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-800 rounded-lg transition-colors">
-                            <X size={14} className="text-slate-500" />
+                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-100 rounded-lg transition-colors">
+                            <X size={14} className="text-slate-400" />
                         </button>
                     )}
                 </div>

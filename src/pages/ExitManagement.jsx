@@ -566,7 +566,7 @@ const ExitManagement = () => {
                                             <button
                                                 type="submit"
                                                 disabled={actionLoading || selectedExit.status === 'completed'}
-                                                className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all"
+                                                className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all"
                                             >
                                                 Calculate Settlement
                                             </button>
@@ -643,7 +643,7 @@ const ExitManagement = () => {
                                         <button
                                             type="submit"
                                             disabled={actionLoading || selectedExit.status === 'completed'}
-                                            className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-slate-900 font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all"
+                                            className="bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-white font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all"
                                         >
                                             Log Interview Logs
                                         </button>
@@ -822,7 +822,7 @@ const ExitManagement = () => {
 
                             <div className="flex gap-4 pt-4">
                                 <button type="button" onClick={() => setShowInitiateModal(false)} className="flex-1 py-3 rounded-xl border border-slate-200 text-slate-500 font-bold text-sm">Cancel</button>
-                                <button type="submit" disabled={actionLoading} className="flex-1 py-3 rounded-xl bg-primary-600 text-slate-900 font-bold text-sm flex items-center justify-center gap-2">
+                                <button type="submit" disabled={actionLoading} className="flex-1 py-3 rounded-xl bg-primary-600 text-white font-bold text-sm flex items-center justify-center gap-2">
                                     {actionLoading && <Loader2 className="animate-spin" size={16} />}
                                     Initiate Process
                                 </button>

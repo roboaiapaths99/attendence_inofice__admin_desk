@@ -166,9 +166,9 @@ const AlertsCenter = () => {
                         </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-rose-500/10 to-[#004B87]/10 rounded-3xl border border-rose-500/20 p-5">
+                    <div className="bg-white rounded-3xl border border-rose-200 p-5 shadow-sm">
                         <div className="flex items-center gap-3 mb-3">
-                            <ShieldAlert className="text-rose-400" size={24} />
+                            <ShieldAlert className="text-rose-600" size={24} />
                             <h4 className="font-bold text-slate-900 text-sm">Automated Guards</h4>
                         </div>
                         <p className="text-[10px] text-slate-500 leading-relaxed">System is actively monitoring Face ID mismatches, GPS Spoofing/Virtual Location usage, and Geofence deviations.</p>
