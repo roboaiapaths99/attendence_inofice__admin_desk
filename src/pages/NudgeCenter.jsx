@@ -136,10 +136,10 @@ export default function NudgeCenter() {
                                             key={t.key}
                                             onClick={() => { setNudgeType(t.key); setMessage(''); }}
                                             className={`flex items-center gap-2 p-3 rounded-xl border transition-all text-sm font-semibold ${nudgeType === t.key
-                                                ? 'border-white/20 bg-white/5'
-                                                : 'border-slate-200 hover:border-slate-300'
+                                                ? 'border-[#004B87] bg-[#004B87]/10 font-bold'
+                                                : 'border-slate-200 text-slate-500 hover:border-slate-300'
                                                 }`}
-                                            style={nudgeType === t.key ? { color: t.color } : { color: '#94a3b8' }}
+                                            style={nudgeType === t.key ? { color: t.color } : {}}
                                         >
                                             <TIcon size={16} />
                                             {t.label}
@@ -158,8 +158,8 @@ export default function NudgeCenter() {
                                         key={i}
                                         onClick={() => setMessage(msg)}
                                         className={`text-xs px-3 py-2 rounded-lg border transition-all ${message === msg
-                                            ? 'border-[#004B87]/40 bg-[#004B87]/10 text-[#0062B1]'
-                                            : 'border-slate-200 text-slate-500 hover:border-slate-300'
+                                            ? 'border-[#004B87] bg-[#004B87]/10 text-[#004B87] font-bold'
+                                            : 'border-slate-200 text-slate-600 hover:border-slate-300'
                                             }`}
                                     >
                                         {msg}
@@ -167,29 +167,34 @@ export default function NudgeCenter() {
                                 ))}
                             </div>
                             <textarea
-                                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-900 text-sm resize-none focus:border-[#004B87]/50 focus:outline-none transition-colors"
+                                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-900 text-sm resize-none focus:border-[#004B87] focus:outline-none transition-colors"
                                 rows={3}
                                 placeholder="Or type a custom message..."
                                 value={message}
                                 onChange={e => setMessage(e.target.value)}
                                 maxLength={280}
                             />
-                            <p className="text-right text-xs text-slate-600 mt-1">{message.length} / 280</p>
+                            <p className="text-right text-xs text-slate-500 mt-1">{message.length} / 280</p>
                         </div>
 
                         {/* Send Button */}
                         <button
                             onClick={handleSend}
                             disabled={sending || !message || selectedEmails.length === 0}
-                            className="w-full py-4 rounded-xl font-bold text-slate-900 flex items-center justify-center gap-3 transition-all disabled:opacity-40"
-                            style={{ backgroundColor: primaryColor }}
+                            className={`w-full py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all ${
+                                sending || !message || selectedEmails.length === 0
+                                    ? 'bg-slate-200 text-slate-400 border border-slate-300 cursor-not-allowed'
+                                    : 'bg-primary-600 hover:bg-primary-500 text-white shadow-lg shadow-primary-900/30 active:scale-98'
+                            }`}
                         >
                             {sending ? (
-                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                <div className="w-5 h-5 border-2 border-slate-400 border-t-slate-600 rounded-full animate-spin" />
                             ) : (
                                 <>
-                                    <Send size={18} />
-                                    Send to {selectedEmails.length > 0 ? `${selectedEmails.length} member${selectedEmails.length > 1 ? 's' : ''}` : 'team'}
+                                    <Send size={18} className={sending || !message || selectedEmails.length === 0 ? 'text-slate-400' : 'text-white'} />
+                                    <span>
+                                        Send to {selectedEmails.length > 0 ? `${selectedEmails.length} member${selectedEmails.length > 1 ? 's' : ''}` : 'team'}
+                                    </span>
                                 </>
                             )}
                         </button>
