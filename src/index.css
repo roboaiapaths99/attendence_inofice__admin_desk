@@ -48,6 +48,13 @@ body {
 }
 
 /* Universal White Text & White Icons Rule for ALL Dark Primary Buttons, Tabs & Containers */
+button.bg-primary-500,
+button.bg-primary-600,
+button.bg-primary-700,
+button.bg-primary-800,
+button[class*="bg-primary-"],
+button[class*="bg-[#004B87]"],
+button[class*="bg-[#003A6B]"],
 .bg-[#004B87],
 .bg-[#003A6B],
 .bg-primary-500,
@@ -55,14 +62,19 @@ body {
 .bg-primary-700,
 .bg-primary-800,
 .bg-primary-900,
-[class*="bg-[#004B87]"],
-[class*="bg-[#003A6B]"],
 [class*="bg-primary-500"],
 [class*="bg-primary-600"],
 [class*="bg-primary-700"] {
   color: #ffffff !important;
 }
 
+button.bg-primary-500 *,
+button.bg-primary-600 *,
+button.bg-primary-700 *,
+button.bg-primary-800 *,
+button[class*="bg-primary-"] *,
+button[class*="bg-[#004B87]"] *,
+button[class*="bg-[#003A6B]"] *,
 .bg-[#004B87] *,
 .bg-[#003A6B] *,
 .bg-primary-500 *,
@@ -70,14 +82,19 @@ body {
 .bg-primary-700 *,
 .bg-primary-800 *,
 .bg-primary-900 *,
-[class*="bg-[#004B87]"] *,
-[class*="bg-[#003A6B]"] *,
 [class*="bg-primary-500"] *,
 [class*="bg-primary-600"] *,
 [class*="bg-primary-700"] * {
   color: #ffffff !important;
 }
 
+button.bg-primary-500 svg,
+button.bg-primary-600 svg,
+button.bg-primary-700 svg,
+button.bg-primary-800 svg,
+button[class*="bg-primary-"] svg,
+button[class*="bg-[#004B87]"] svg,
+button[class*="bg-[#003A6B]"] svg,
 .bg-[#004B87] svg,
 .bg-[#003A6B] svg,
 .bg-primary-500 svg,
@@ -85,8 +102,6 @@ body {
 .bg-primary-700 svg,
 .bg-primary-800 svg,
 .bg-primary-900 svg,
-[class*="bg-[#004B87]"] svg,
-[class*="bg-[#003A6B]"] svg,
 [class*="bg-primary-500"] svg,
 [class*="bg-primary-600"] svg,
 [class*="bg-primary-700"] svg {
